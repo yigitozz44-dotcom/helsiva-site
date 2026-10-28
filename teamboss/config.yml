@@ -1,0 +1,33 @@
+backend:
+  name: github
+  repo: yigitozz44-dotcom/helsiva-site
+  branch: main
+  base_url: https://REPLACE-WITH-YOUR-WORKER.workers.dev
+  auth_endpoint: auth
+publish_mode: simple
+site_url: https://helsiva.com
+display_url: https://helsiva.com
+media_folder: uploads
+public_folder: /uploads
+collections:
+  - name: shop
+    label: Shop
+    files:
+      - name: products
+        label: Products
+        file: products.json
+        format: json
+        fields:
+          - label: Products
+            name: products
+            widget: list
+            summary: "{{fields.name}} · {{fields.gender}} · €{{fields.price}}"
+            fields:
+              - { label: "ID (do not change)", name: id, widget: string, hint: "Technical name. Do not edit." }
+              - { label: Name, name: name, widget: string }
+              - { label: Gender, name: gender, widget: string, hint: "Do not edit." }
+              - { label: Category, name: category, widget: string, hint: "Do not edit." }
+              - { label: "Price (EUR)", name: price, widget: number, value_type: int, min: 1 }
+              - { label: "Visible in shop", name: visible, widget: boolean, default: true }
+              - { label: "Description (optional, English)", name: description, widget: text, required: false }
+              - { label: "Photo (optional)", name: image, widget: image, required: false }
