@@ -756,6 +756,37 @@
    "contents": "",
    "image": "uploads/custom-men-mvsk50jm-mvsk6zsl.jpg",
    "custom": true
+  },
+  {
+   "id": "custom-kids-mvso5zgl",
+   "name": "Little bear",
+   "gender": "Kids",
+   "category": "c-kids-special-mvso5xed",
+   "subgroup": "",
+   "price": 50,
+   "visible": true,
+   "description": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "image": "",
+   "custom": true
+  }
+ ],
+ "categories": [
+  {
+   "gender": "Men",
+   "key": "Oils",
+   "label": "Oils",
+   "custom": false
+  },
+  {
+   "gender": "Kids",
+   "key": "c-kids-special-mvso5xed",
+   "label": "Kids Special",
+   "custom": true
   }
  ]
 }
