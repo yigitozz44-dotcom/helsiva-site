@@ -2,7 +2,7 @@ backend:
   name: github
   repo: yigitozz44-dotcom/helsiva-site
   branch: main
-  base_url: https://REPLACE-WITH-YOUR-WORKER.workers.dev
+  base_url: https://helsiva-auth.yigitozz44.workers.dev
   auth_endpoint: auth
 publish_mode: simple
 site_url: https://helsiva.com
