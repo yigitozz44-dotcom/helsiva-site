@@ -772,7 +772,45 @@
    "care": "",
    "contents": "",
    "image": "",
-   "custom": true
+   "custom": true,
+   "tr": {
+    "tr": {
+     "name": "Küçük ayı"
+    },
+    "de": {
+     "name": "Kleiner Bär:"
+    },
+    "fr": {
+     "name": "Petit ours"
+    },
+    "es": {
+     "name": "Pequeño oso"
+    },
+    "it": {
+     "name": "Piccolo orso"
+    },
+    "nl": {
+     "name": "Kleine beer"
+    },
+    "pt": {
+     "name": "Ursinho"
+    },
+    "ru": {
+     "name": "Маленький медведь"
+    },
+    "ar": {
+     "name": "بَنَاتُ نَعْشٍ الصّغْرَى"
+    },
+    "zh": {
+     "name": "小熊"
+    },
+    "ja": {
+     "name": "リトル・ベア？"
+    },
+    "ko": {
+     "name": "작은 곰"
+    }
+   }
   }
  ],
  "categories": [
@@ -800,7 +838,7 @@
   {
    "gender": "Kids",
    "key": "c-kids-special-mvso5xed",
-   "label": "Kids Special",
+   "label": "Kids Specials",
    "custom": true,
    "tr": {
     "tr": "Çocuklara Özel",
