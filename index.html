@@ -342,7 +342,9 @@ function subs(g){var o=[];Object.keys(SUBL).forEach(function(k){if(PL.some(funct
 function mk(o){PL.push(o);PM[o.id]=o}
 K.forEach(function(k){mk({id:"kit-"+k[0],g:k[0],cat:"Kits",n:k[2],p:k[3],kit:1,list:k[5],note:k[6]})});
 ["men","women","kids"].forEach(function(g){Object.keys(C[g]).forEach(function(h){items(g,h).forEach(function(n,i){var id=g+"-"+slug(n);if(PM[id])id+="-"+slug(h);mk({id:id,g:g,cat:h,n:n,p:pf(g,h,n),sub:subOf(n,h)});PX[g+"|"+h+"|"+i]=id})})});
-PL.slice().forEach(function(p){var o=OV[p.id];if(!o)return;if(o.name)p.n=o.name;if(+o.price>0)p.p=+o.price;if(o.description)p.desc=o.description;if(o.image)p.img=o.image;if(o.visible===false)PL.splice(PL.indexOf(p),1)});
+function ovl(t){return String(t||'').split(/\n+/).map(function(x){return x.replace(/^\s*[-•]\s*/,'').trim()}).filter(Boolean)}
+Object.keys(OV).forEach(function(id){var o=OV[id];if(o.custom&&!PM[id]&&o.name&&o.gender&&o.category){var g=String(o.gender).toLowerCase();if(C[g]&&+o.price>0)mk({id:id,g:g,cat:o.category,n:o.name,p:+o.price,sub:o.subgroup||""})}});
+PL.slice().forEach(function(p){var o=OV[p.id];if(!o)return;if(o.name)p.n=o.name;if(+o.price>0)p.p=+o.price;if(o.description)p.desc=o.description;if(o.image)p.img=o.image;if(o.bullets&&ovl(o.bullets).length)p.bul=ovl(o.bullets);if(o.materials)p.mat=o.materials;if(o.usage)p.use=o.usage;if(o.care)p.care=o.care;if(p.kit&&o.contents&&ovl(o.contents).length)p.list=ovl(o.contents);if(p.cat=="Wraps"&&o.subgroup&&SUBL[o.subgroup])p.sub=o.subgroup;if(o.visible===false)PL.splice(PL.indexOf(p),1)});
 function cl(p){return p.kit?"Complete ritual":L(p.cat)}
 /* media: own photo or a quiet tile */
 var TC={Masks:["#d8d0c3","#242524"],Wraps:["#e6e0d4","#242524"],Soaps:["#c9c2b4","#242524"],Combs:["#a69d90","#111211"],Hats:["#475249","#F4F1EB"],"Intimate Protection":["#242524","#F4F1EB"],Cooling:["#b9c4c7","#242524"]};
@@ -360,7 +362,8 @@ Combs:{b:["A wooden comb for after the shower","Sanded smooth"],m:"Natural wood,
 Hats:{b:["Keeps the head comfortable in the heat","Soft on the forehead, easy to pack"],m:"Natural fibres: wool or linen, depending on the model. The exact composition is printed on the product label.",u:"Wear it dry in the sauna and take it off if you feel too warm.",c:"Wash gently by hand or on a wool cycle, dry flat."},
 "Intimate Protection":{b:["A discreet accessory for comfort in the heat and the cool-down","Reusable"],m:"Soft natural fibres. The exact composition is printed on the product label.",u:"A comfort accessory. It is not a medical device and is not intended to treat or prevent any condition. Keep sessions short, stay hydrated and leave the sauna if you feel unwell.",c:"Wash gently at 30°C, dry flat."},
 Cooling:{b:["A cooling accessory for after the heat","Soft and lightweight"],m:"Natural fibres. The exact composition is printed on the product label.",u:"Chill before use if you wish. For use with adult supervision.",c:"Wash gently at 30°C, dry flat."}};
-function body(p){var c=CT[p.cat]||CT.Wraps,m;
+function body(p){var r=body0(p);if(p.desc)r.d=p.desc;if(p.bul)r.b=p.bul;if(p.mat)r.m=p.mat;if(p.use)r.u=p.use;if(p.care)r.c=p.care;return r}
+function body0(p){var c=CT[p.cat]||CT.Wraps,m;
  if(p.kit)return{d:p.n+": everything for one quiet hour, composed as a single ritual. Heat, cleanse, cool and rest.",b:null,m:"Each piece carries its own label with composition and care. Textiles are natural fibres.",u:p.note||"Sauna oils are diluted in sauna water, never poured undiluted on hot stones. See Usage & Safety.",c:"Care instructions are printed on each piece."};
  var d=DS[p.cat]||"";
  if(p.cat=="Oils"){if(m=p.n.match(/^(\w+) Sauna Oil/))d="A sauna oil with "+AR[m[1]]+". Diluted in sauna water before use; never pour it undiluted onto hot stones.";else{d="A finishing oil for after the sauna, applied to clean, damp skin.";c={b:["A finishing oil for after the sauna","Apply a small amount to clean, damp skin"],m:c.m,u:"Apply a small amount to clean, damp skin after the sauna. Patch-test before first use, avoid eyes, keep out of reach of children. Not for ingestion.",c:c.c}}}
