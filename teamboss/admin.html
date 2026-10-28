@@ -340,7 +340,7 @@ function drawer(id,keep){var p=byId(id);if(!p){closeDr();return}OPEN=id;OPENR=nu
  +(isK?'<div class="fl"><label>In this ritual (one item per line)</label><textarea data-f="contents" style="min-height:140px">'+esc(p.contents)+'</textarea><small>Leave empty to keep the standard contents.</small></div>':'')
  +'<div class="fl"><label>Materials</label><textarea data-f="materials">'+esc(p.materials)+'</textarea></div>'
  +'<div class="fl"><label>Usage</label><textarea data-f="usage">'+esc(p.usage)+'</textarea></div>'
- +'<div class="fl"><label>Care</label><textarea data-f="care">'+esc(p.care)+'</textarea></div>'+trHtml(p)+'</div>'
+ +'<div class="fl"><label>Care</label><textarea data-f="care">'+esc(p.care)+'</textarea></div>'+'</div>'
  +'<div class="df"><div style="display:flex;gap:8px">'+(p.custom?'<button class="btn" data-std>Fill standard texts</button>':'<button class="btn" data-rev>Revert</button>')+'<button class="btn l" data-delone>Delete</button></div><button class="btn dark" data-x>Done</button></div>';
  if(keep&&$('dr').dataset.id==id)return;
  $('dr').innerHTML=h;$('dr').dataset.id=id;$('dr').className='on';$('sh').className='on'}
@@ -384,11 +384,10 @@ document.addEventListener('input',function(e){var t=e.target,id,p;
  if(id=t.dataset.gl){var a=id.split('|'),e2=catEntry(a[0],a[1]);var v=t.value;if(e2)e2.label=v;else CATS.push({g:a[0],key:a[1],label:v,custom:false,tr:{}});markTop();return}
  if(id=t.dataset.n){p=byId(id);p.name=t.value;markRow(p);return}
  if(id=t.dataset.p){p=byId(id);p.price=Math.max(0,Math.round(+t.value||0));markRow(p);return}
- if(t.dataset.tr&&t.closest('#dr')){p=byId(OPEN);var l=V.trl||'tr';p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l][t.dataset.tr]=t.value;markTop();return}
+ if(t.dataset.ptx){p=byId(PTR);var l=t.dataset.ptx,f=V.ptf||'name';p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l][f]=t.value;markTop();return}
  if(t.dataset.gt){GTR.tr[t.dataset.gt]=t.value;return}
  if(t.dataset.f&&t.closest('#dr')){p=byId(OPEN);var k=t.dataset.f,v=t.value;if(k=='price')v=Math.max(0,Math.round(+v||0));if(k=='visible')v=v=='1';p[k]=v;markTop()}});
 document.addEventListener('change',function(e){var t=e.target;if(t.id=='fi'&&t.files[0])pick(t.files[0]);
- if(t.id=='trl'){V.trl=t.value;$('dr').dataset.id='';drawer(OPEN);return}
  if(t.dataset.f&&t.closest('#dr'))render();
  if(t.dataset.gl){var a=t.dataset.gl.split('|'),e2=catEntry(a[0],a[1]);if(e2&&!e2.custom&&!e2.label.trim()){CATS=CATS.filter(function(x){return x!==e2})}render()}
 });
@@ -698,19 +697,21 @@ function mt1(text,l){return fetch('https://api.mymemory.translated.net/get?q='+e
 function mtLine(t,l){var parts=[],cur='';(t.match(/[^.!?]+[.!?]*\s*/g)||[t]).forEach(function(s){if(cur&&(cur+s).length>420){parts.push(cur.trim());cur=s}else cur+=s});if(cur.trim())parts.push(cur.trim());
  return parts.reduce(function(pr,pt){return pr.then(function(a){return mt1(pt,l).then(function(x){return a.concat(x)})})},Promise.resolve([])).then(function(a){return a.join(' ')})}
 function mtText(t,l){return String(t).split(/\n/).reduce(function(pr,ln){return pr.then(function(a){if(!ln.trim())return a;return mtLine(ln.trim(),l).then(function(x){return a.concat(x)})})},Promise.resolve([])).then(function(a){return a.join('\n')})}
-function autoRec(p,langs,btn){var jobs=[];langs.forEach(function(l){TRF.forEach(function(f){var src=p[f[0]];if(String(src||'').trim()&&!String(((p.tr||{})[l]||{})[f[0]]||'').trim())jobs.push([l,f[0],src])})});
+function autoRec(p,langs,btn,only){var jobs=[];langs.forEach(function(l){TRF.forEach(function(f){if(only&&only.indexOf(f[0])<0)return;var src=p[f[0]];if(String(src||'').trim()&&!String(((p.tr||{})[l]||{})[f[0]]||'').trim())jobs.push([l,f[0],src])})});
  if(!jobs.length){toast('Nothing to translate: fill the English text first, or these languages are done.');return}
  var n=0,orig=btn.textContent,same={};btn.disabled=true;
  jobs.reduce(function(pr,jb){return pr.then(function(){btn.textContent=(++n)+' / '+jobs.length;return mtText(jb[2],jb[0]).then(function(x){if(x.trim().toLowerCase()==String(jb[2]).trim().toLowerCase()){same[jb[0]]=1;return}p.tr=p.tr||{};p.tr[jb[0]]=p.tr[jb[0]]||{};p.tr[jb[0]][jb[1]]=x;markTop()})})},Promise.resolve())
- .then(function(){var s=Object.keys(same);toast('Translated. Please read them, then publish.'+(s.length?' Not translated by the service (type them yourself): '+s.join(', ')+'.':''),s.length?1:0)}).catch(function(e){toast('Automatic translation stopped ('+e.message+'). What was done is kept.',1)}).then(function(){$('dr').dataset.id='';if(OPEN)drawer(OPEN)})}
+ .then(function(){var s=Object.keys(same);toast('Translated. Please read them, then publish.'+(s.length?' Not translated by the service (type them yourself): '+s.join(', ')+'.':''),s.length?1:0)}).catch(function(e){toast('Automatic translation stopped ('+e.message+'). What was done is kept.',1)}).then(function(){if(PTR&&$('md').className.indexOf('on')>-1)openPtr(PTR);else if(OPEN){$('dr').dataset.id='';drawer(OPEN)}})}
 function openGtr(gid){var a=gid.split('|'),e=catEntry(a[0],a[1]);GTR={g:a[0],key:a[1],label:LAB(a[0],a[1]),tr:Object.assign({},e&&e.tr||{})};
  $('md').innerHTML='<div class="mdb" style="width:min(520px,100%);max-height:90vh;overflow:auto"><h3>Translate: '+esc(GTR.label)+'</h3><small style="display:block;color:var(--taupe);margin:-10px 0 16px">Group name in each language. Empty stays English.</small><div class="fg">'+TL.map(function(x){return '<div class="fl" style="margin-bottom:12px"><label>'+x[1]+'</label><input data-gt="'+x[0]+'" value="'+esc(GTR.tr[x[0]]||'')+'"'+(x[0]=='ar'?' dir="rtl"':'')+'></div>'}).join('')+'</div><div class="df2"><button class="btn" data-mclose>Cancel</button><button class="btn" data-gtauto>Auto-translate</button><button class="btn dark" data-gtok>Save</button></div></div>';$('md').className='mdl on'}
 function gtrAuto(btn){var jobs=TL.filter(function(x){return !String(GTR.tr[x[0]]||'').trim()}),n=0,same=[];if(!jobs.length)return;btn.disabled=true;
  jobs.reduce(function(pr,x){return pr.then(function(){btn.textContent=(++n)+' / '+jobs.length;return mt1(GTR.label,x[0]).then(function(t){if(t.trim().toLowerCase()==GTR.label.trim().toLowerCase()){same.push(x[1]);return}GTR.tr[x[0]]=t;var i=document.querySelector('[data-gt="'+x[0]+'"]');if(i)i.value=t})})},Promise.resolve()).catch(function(e){toast('Automatic translation stopped ('+e.message+').',1)}).then(function(){btn.disabled=false;btn.textContent='Auto-translate';if(same.length)toast('The service could not translate: '+same.join(', ')+'. Please type those yourself.',1)})}
 document.addEventListener('click',function(e){var t=e.target,b;
- if(b=t.closest('[data-trauto]')){autoRec(byId(OPEN),[V.trl||'tr'],b);e.stopPropagation();return}
- if(b=t.closest('[data-trall]')){autoRec(byId(OPEN),TL.map(function(x){return x[0]}),b);e.stopPropagation();return}
- if(b=t.closest('[data-trp]')){drawer(b.dataset.trp);var x=$('trs');if(x)x.scrollIntoView();e.stopPropagation();return}
+ if(b=t.closest('[data-trauto]')){autoRec(byId(PTR||OPEN),[V.trl||'tr'],b);e.stopPropagation();return}
+ if(b=t.closest('[data-trall]')){autoRec(byId(PTR||OPEN),TL.map(function(x){return x[0]}),b);e.stopPropagation();return}
+ if(b=t.closest('[data-trp]')){V.ptf='name';openPtr(b.dataset.trp);e.stopPropagation();return}
+ if(b=t.closest('[data-ptab]')){V.ptf=b.dataset.ptab;openPtr(PTR);e.stopPropagation();return}
+ if(b=t.closest('[data-trtab]')){autoRec(byId(PTR),TL.map(function(x){return x[0]}),b,[V.ptf||'name']);e.stopPropagation();return}
  if(b=t.closest('[data-gtr]')){openGtr(b.dataset.gtr);e.stopPropagation();return}
  if(b=t.closest('[data-gtauto]')){gtrAuto(b);e.stopPropagation();return}
  if(t.closest('[data-gtok]')){var en=catEntry(GTR.g,GTR.key);if(!en){en={g:GTR.g,key:GTR.key,label:GTR.label,custom:false,tr:{}};CATS.push(en)}en.tr=cleanTr(GTR.tr,1);closeModal();render();e.stopPropagation();return}
@@ -728,6 +729,13 @@ document.addEventListener('change',function(e){var t=e.target;if(t.value===t.def
  if(t.dataset.gl){var a=t.dataset.gl.split('|');if(String(t.value).trim())setTimeout(function(){retransCat(a[0],a[1])},0);return}
  if(t.dataset.n){var p=byId(t.dataset.n);setTimeout(function(){retransProd(p)},0);return}
  if(t.dataset.f=='name'&&t.closest('#dr')){var p2=byId(OPEN);setTimeout(function(){retransProd(p2)},0)}},true);
+
+var PTR=null;
+function openPtr(id){var p=byId(id);if(!p)return;PTR=id;var f=V.ptf||'name',lab=TRF.filter(function(x){return x[0]==f})[0][1],src=String(p[f]||'');
+ var h='<div class="mdb" style="width:min(680px,100%);max-height:90vh;overflow:auto"><h3>Translate: '+esc(p.name)+'</h3><div class="chips" style="flex-wrap:wrap;margin-bottom:14px">'+TRF.map(function(x){var n=TL.filter(function(l){return String((((p.tr||{})[l[0]])||{})[x[0]]||'').trim()}).length;return '<button data-ptab="'+x[0]+'" class="'+(x[0]==f?'on':'')+'">'+x[1]+(n?' · '+n:'')+'</button>'}).join('')+'</div>'
+ +'<small style="display:block;color:var(--taupe);margin-bottom:14px">'+(src.trim()?'English: <span style="color:var(--ink)">'+esc(src.length>140?src.slice(0,140)+'…':src).replace(/\n/g,' · ')+'</span>':'The English '+lab.toLowerCase()+' is empty. Fill it in first, then translate.')+' Empty stays English.</small><div class="fg">';
+ TL.forEach(function(x){var v=((((p.tr||{})[x[0]])||{})[f])||'',d=x[0]=='ar'?' dir="rtl"':'';h+='<div class="fl" style="margin-bottom:12px;'+(f=='name'?'':'grid-column:1/-1')+'"><label>'+x[1]+'</label>'+(f=='name'?'<input data-ptx="'+x[0]+'"'+d+' value="'+esc(v)+'">':'<textarea data-ptx="'+x[0]+'"'+d+' style="min-height:64px">'+esc(v)+'</textarea>')+'</div>'});
+ h+='</div><div class="df2"><button class="btn" data-mclose>Done</button><button class="btn" data-trtab>Auto-translate '+lab.toLowerCase()+'</button><button class="btn dark" data-trall>Auto-translate all</button></div></div>';$('md').innerHTML=h;$('md').className='mdl on'}
 
 boot();
 
