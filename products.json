@@ -780,13 +780,43 @@
    "gender": "Men",
    "key": "Oils",
    "label": "Oils",
-   "custom": false
+   "custom": false,
+   "tr": {
+    "tr": "Yağlar",
+    "de": "Öle",
+    "fr": "Huiles",
+    "es": "Aceites",
+    "it": "Olii",
+    "nl": "Oliën",
+    "pt": "Óleos",
+    "el": "Έλαια",
+    "ru": "Масла",
+    "ar": "الزيوت",
+    "zh": "油类",
+    "ja": "油",
+    "ko": "기름"
+   }
   },
   {
    "gender": "Kids",
    "key": "c-kids-special-mvso5xed",
    "label": "Kids Special",
-   "custom": true
+   "custom": true,
+   "tr": {
+    "tr": "Çocuklara Özel",
+    "de": "KIDS SPECIAL",
+    "fr": "Spécial kids !",
+    "es": "Especial infantil",
+    "it": "Speciale bambini",
+    "nl": "Kids Special",
+    "pt": "Especial para crianças",
+    "el": "Ειδικά για παιδιά",
+    "ru": "Специально для детей!",
+    "ar": "عرض خاص للأطفال",
+    "zh": "儿童特惠",
+    "ja": "キッズスペシャル",
+    "ko": "키즈 스페셜"
+   }
   }
  ]
 }
