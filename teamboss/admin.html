@@ -63,6 +63,12 @@ nav button.on:after{content:"";position:absolute;left:20px;right:20px;bottom:18p
 .bc.on small{color:var(--red)}
 .bc.none{opacity:.25;pointer-events:none}
 .bs{border-top:1px solid rgba(244,241,235,.1)}
+.bl .ar{margin-left:8px;opacity:.7;font-size:14px;letter-spacing:0}
+.bc.none2{opacity:.35}
+.ot{margin:22px auto 0;max-width:1380px;border-top:1px solid rgba(244,241,235,.18);padding-top:16px}
+.oh{font:500 10px var(--sans);letter-spacing:.22em;text-transform:uppercase;opacity:.75;margin-bottom:4px}
+.oh i{font-style:normal;border:1px solid rgba(244,241,235,.35);padding:2px 7px;margin-left:10px;letter-spacing:.14em;font-size:9px}
+.bg+.ot .bg{min-width:760px}
 /* main */
 main{max-width:1380px;margin:0 auto;padding:36px 24px 120px}
 .top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
@@ -145,13 +151,13 @@ tr:hover td{background:#F7F4EE}
 var REPO='yigitozz44-dotcom/helsiva-site',BRANCH='main',AUTH='https://helsiva-auth.yigitozz44.workers.dev',API='https://api.github.com/repos/'+REPO+'/contents/';
 var SUB={"men-head": "head", "men-body": "body", "men-foot": "foot", "men-set": "set", "men-traditional-pestemal": "pestemal", "men-pre-and-post-sauna-robe": "robe", "women-head": "head", "women-body": "body", "women-foot": "foot", "women-set": "set", "women-traditional-pestemal": "pestemal", "women-pre-and-post-sauna-robe": "robe", "kids-head": "head", "kids-body": "body", "kids-traditional-pestemal": "pestemal", "kids-pre-and-post-sauna-robe": "robe"};
 var SUBL={head:'Head',body:'Body',foot:'Foot',set:'Set',pestemal:'Traditional Pestemal',robe:'Pre- & Post-Sauna Robe'};
-var GN={men:'Men',women:'Women',kids:'Kids'},GO=['men','women','kids'];
+var GIFTS=['For Him','For Her','For Couples','Housewarming','Wedding','Yacht','Chalet','Corporate Gifts'];var GN={men:'Men',women:'Women',kids:'Kids'},GO=['men','women','kids'];
 var CN={Kits:'Complete rituals',Oils:'Oils','Intimate Protection':'Intimate Protection',Wraps:'Towels & Wraps',Masks:'Masks',Soaps:'Soaps',Combs:'Combs',Hats:'Hats',Cooling:'Cooling'};
 var CO=['Kits','Oils','Wraps','Masks','Hats','Soaps','Combs','Intimate Protection','Cooling'];
 var DEF={oil:'/h-8bd668aea4.webp',men:'/h-2f2e0670e0.webp',women:'/h-59ddf62221.webp',kids:'/h-8f000b60dc.webp'};
 var F=['name','price','visible','description','bullets','materials','usage','care','contents','image','subgroup'];
 var TXT=['description','bullets','materials','usage','care','contents'];
-var TOK=null,P=[],ORIG={},DEL={},V={g:'all',cat:null,q:'',f:'all'},PEND={},OPEN=null;
+var TOK=null,P=[],ORIG={},DEL={},V={g:'all',cat:null,q:'',f:'all',open:false,gs:null},PEND={},OPEN=null;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function toast(m,bad){var t=$('toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){t.className=''},bad?7000:4200)}
@@ -177,22 +183,31 @@ function boot(){TOK=TOK||sessionStorage.getItem('hsv_t');if(!TOK)return showLogi
 /* views */
 function cats(g){var s={};P.forEach(function(p){if(g=='all'||p.g==g){(s[p.cat]=s[p.cat]||0);s[p.cat]++}});return CO.filter(function(c){return s[c]}).map(function(c){return[c,s[c]]})}
 function bandData(){var cs=CO.filter(function(c){return P.some(function(p){return p.cat==c})});return cs}
-function renderNav(){var cs=bandData(),one=V.g!='all'&&V.g!='gifts';
- var rows=[['all','All products'],['men','Men'],['women','Women'],['kids','Kids'],['gifts','Gifts']];
+function renderNav(){var cs=bandData(),gsel=V.g=='men'||V.g=='women'||V.g=='kids',showRows=V.open||gsel;
  var h='<div class="bg" style="grid-template-columns:150px repeat('+cs.length+',minmax(88px,1fr))"><span></span>';
  cs.forEach(function(c){h+='<button class="bh '+(V.cat==c?'on':'')+'" data-bc="'+c+'">'+esc(CN[c])+'</button>'});
- rows.forEach(function(r){var g=r[0];
-  h+='<button class="bl '+(g=='all'?'all ':'')+(V.g==g?'on':'')+'" data-bl="'+g+'">'+r[1]+'</button>';
+ h+='<button class="bl all '+(V.g=='all'?'on':'')+'" data-bl="all">All products <span class="ar">'+(showRows&&V.g=='all'?'−':'+')+'</span></button>';
+ cs.forEach(function(c){var l=P.filter(function(p){return p.cat==c}),off=l.filter(function(p){return !p.visible}).length;
+  h+='<button class="bc '+(l.length?'':'none ')+'" data-bc="'+c+'">'+(l.length||'·')+'<small>'+(off?off+' offline':'')+'</small></button>'});
+ if(showRows)['men','women','kids'].forEach(function(g){
+  h+='<button class="bl '+(V.g==g?'on':'')+'" data-bl="'+g+'">'+GN[g]+'</button>';
   cs.forEach(function(c){
-   if(g=='gifts'||(g=='all'&&V.g!='all')||(g!='all'&&((one&&V.g!=g)||V.g=='gifts'))){h+='<span class="bs"></span>';return}
-   var l=P.filter(function(p){return (g=='all'||p.g==g)&&p.cat==c}),off=l.filter(function(p){return !p.visible}).length;
-   h+='<button class="bc '+(l.length?'':'none ')+(V.g==g&&V.cat==c&&g!='all'?'on':'')+'" data-bg="'+g+'" data-bk="'+c+'">'+(l.length||'·')+'<small>'+(off?off+' offline':'')+'</small></button>'});
+   if(gsel&&V.g!=g){h+='<span class="bs"></span>';return}
+   var l=P.filter(function(p){return p.g==g&&p.cat==c}),off=l.filter(function(p){return !p.visible}).length;
+   h+='<button class="bc '+(l.length?'':'none ')+(V.g==g&&V.cat==c?'on':'')+'" data-bg="'+g+'" data-bk="'+c+'">'+(l.length||'·')+'<small>'+(off?off+' offline':'')+'</small></button>'});
  });
- $('band').innerHTML=h+'</div>'}
+ h+='</div>';
+ if(!showRows||V.g=='gifts'){
+  h+='<div class="ot"><div class="oh">Other products <i>Admin only</i></div><div class="bg" style="grid-template-columns:150px repeat('+GIFTS.length+',minmax(88px,1fr))"><span></span>';
+  GIFTS.forEach(function(x){h+='<button class="bh '+(V.g=='gifts'&&V.gs==x?'on':'')+'" data-gs="'+esc(x)+'">'+esc(x)+'</button>'});
+  h+='<button class="bl '+(V.g=='gifts'?'on':'')+'" data-bl="gifts">Gifts</button>';
+  GIFTS.forEach(function(x){h+='<button class="bc none2 '+(V.g=='gifts'&&V.gs==x?'on':'')+'" data-gs="'+esc(x)+'">·<small></small></button>'});
+  h+='</div></div>'}
+ $('band').innerHTML=h}
 function match(p){if(V.g!='all'&&p.g!=V.g)return false;if(V.cat&&p.cat!=V.cat)return false;if(V.f=='on'&&!p.visible)return false;if(V.f=='off'&&p.visible)return false;if(V.q){var q=V.q.toLowerCase();if((p.name+' '+p.id+' '+p.description).toLowerCase().indexOf(q)<0)return false}return true}
 function thumb(p){if(p._prev)return p._prev;if(p.image)return '/'+p.image.replace(/^\//,'');if(p.cat=='Kits')return DEF[p.g];if(p.cat=='Oils')return DEF.oil;return null}
 function render(){renderNav();var list=P.filter(match),h='';
- if(V.g=='gifts'){$('main').innerHTML='<div class="top"><div><small>Catalogue</small><h1>Gifts</h1></div></div><div class="empty" style="text-align:left;max-width:560px;padding:0">The Gifts page is assembled automatically from the Men, Women and Kids products. To change what appears there, edit those products: price, photo, name, or switch them online or offline.</div>';var n0=nDirty();$('pub').disabled=!n0;$('dis').hidden=!n0;return}
+ if(V.g=='gifts'){var secs=V.gs?[V.gs]:GIFTS;$('main').innerHTML='<div class="top"><div><small>Other products · admin only</small><h1>Gifts'+(V.gs?' · '+esc(V.gs):'')+'</h1></div></div>'+secs.map(function(x){return '<section class="grp"><div class="gh"><h2>'+esc(x)+'<em>0 products</em></h2></div><div class="tw"><div class="empty">Nothing here yet. Gift products for this section will be added soon.</div></div></section>'}).join('');var n0=nDirty();$('pub').disabled=!n0;$('dis').hidden=!n0;return}
  var title=(V.g=='all'?'All products':GN[V.g])+(V.cat?' · '+CN[V.cat]:'');
  var tot=P.filter(function(p){return V.g=='all'||p.g==V.g}),on=tot.filter(function(p){return p.visible}).length;
  h+='<div class="top"><div><small>Catalogue · '+on+' of '+tot.length+' online</small><h1>'+esc(title)+'</h1></div><div class="tools"><input id="q" type="search" placeholder="Search products" value="'+esc(V.q)+'"><div class="chips">'+[['all','All'],['on','Online'],['off','Offline']].map(function(c){return '<button data-f="'+c[0]+'" class="'+(V.f==c[0]?'on':'')+'">'+c[1]+'</button>'}).join('')+'</div></div></div>';
@@ -235,7 +250,8 @@ function drawer(id,keep){var p=byId(id);if(!p){closeDr();return}OPEN=id;
 function closeDr(){OPEN=null;$('dr').className='';$('dr').dataset.id='';$('sh').className=''}
 /* events */
 document.addEventListener('click',function(e){var t=e.target,b;
- if(b=t.closest('[data-bl]')){V.g=b.dataset.bl;V.cat=null;render();return}
+ if(b=t.closest('[data-gs]')){V.g='gifts';V.gs=b.dataset.gs==V.gs?null:b.dataset.gs;V.cat=null;render();return}
+ if(b=t.closest('[data-bl]')){var g=b.dataset.bl;if(g=='all'){if(V.g=='all'){V.open=!V.open}else{V.g='all';V.open=true}}else{V.g=g;if(g=='gifts'){V.open=false;V.gs=null}else V.open=true}V.cat=null;render();return}
  if(b=t.closest('[data-bc]')){if(V.g=='gifts')V.g='all';V.cat=V.cat==b.dataset.bc?null:b.dataset.bc;render();return}
  if(b=t.closest('[data-bg]')){V.g=b.dataset.bg;V.cat=b.dataset.bk;render();return}
  if(b=t.closest('h2[data-c]')){V.g=b.dataset.g;V.cat=b.dataset.c;render();return}
