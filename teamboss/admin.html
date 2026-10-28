@@ -716,6 +716,19 @@ document.addEventListener('click',function(e){var t=e.target,b;
  if(t.closest('[data-gtok]')){var en=catEntry(GTR.g,GTR.key);if(!en){en={g:GTR.g,key:GTR.key,label:GTR.label,custom:false,tr:{}};CATS.push(en)}en.tr=cleanTr(GTR.tr,1);closeModal();render();e.stopPropagation();return}
 },true);
 
+/* ===== renaming: refresh stale translations automatically ===== */
+function bgTr(text,set,what){if(!String(text).trim())return;toast('Translating the new '+what+'…');var same=[];
+ TL.reduce(function(pr,x){return pr.then(function(){return mt1(text,x[0]).then(function(t){if(t.trim().toLowerCase()==String(text).trim().toLowerCase())same.push(x[1]);else set(x[0],t)})})},Promise.resolve())
+ .then(function(){toast('The new '+what+' was translated into the other languages. Please check them with the 🌐 button.'+(same.length?' The service left these unchanged: '+same.join(', ')+'.':''),same.length?1:0)})
+ .catch(function(e){toast('Automatic translation stopped ('+e.message+'). Open 🌐 to finish by hand.',1)})
+ .then(function(){if(OPEN){$('dr').dataset.id='';drawer(OPEN)}else render()})}
+function retransCat(g,k){var e=catEntry(g,k);if(!e)return;e.tr={};markTop();bgTr(LAB(g,k),function(l,x){e.tr[l]=x},'group name')}
+function retransProd(p){if(!p)return;Object.keys(p.tr||{}).forEach(function(l){if(p.tr[l])delete p.tr[l].name});markTop();bgTr(p.name,function(l,x){p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l].name=x},'product name')}
+document.addEventListener('change',function(e){var t=e.target;if(t.value===t.defaultValue)return;
+ if(t.dataset.gl){var a=t.dataset.gl.split('|');if(String(t.value).trim())setTimeout(function(){retransCat(a[0],a[1])},0);return}
+ if(t.dataset.n){var p=byId(t.dataset.n);setTimeout(function(){retransProd(p)},0);return}
+ if(t.dataset.f=='name'&&t.closest('#dr')){var p2=byId(OPEN);setTimeout(function(){retransProd(p2)},0)}},true);
+
 boot();
 
 </script></body></html>
