@@ -1,0 +1,744 @@
+{
+ "products": [
+  {
+   "id": "kit-men",
+   "name": "The Men’s Nordic Ritual",
+   "gender": "Men",
+   "category": "Complete rituals",
+   "price": 420,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kit-women",
+   "name": "The Women’s Nordic Ritual",
+   "gender": "Women",
+   "category": "Complete rituals",
+   "price": 460,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kit-kids",
+   "name": "The Little Nordic Ritual",
+   "gender": "Kids",
+   "category": "Complete rituals",
+   "price": 210,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-eucalyptus-sauna-oil",
+   "name": "Eucalyptus Sauna Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-peppermint-sauna-oil",
+   "name": "Peppermint Sauna Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-pine-sauna-oil",
+   "name": "Pine Sauna Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-birch-sauna-oil",
+   "name": "Birch Sauna Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-cedar-sauna-oil",
+   "name": "Cedar Sauna Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-post-sauna-body-oil",
+   "name": "Post-Sauna Body Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-hair-and-scalp-oil",
+   "name": "Hair & Scalp Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-beard-oil",
+   "name": "Beard Oil",
+   "gender": "Men",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-cooling-eye-mask",
+   "name": "Cooling Eye Mask",
+   "gender": "Men",
+   "category": "Masks",
+   "price": 54,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-cooling-face-mask",
+   "name": "Cooling Face Mask",
+   "gender": "Men",
+   "category": "Masks",
+   "price": 42,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-cooling-neck-mask",
+   "name": "Cooling Neck Mask",
+   "gender": "Men",
+   "category": "Masks",
+   "price": 42,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-head",
+   "name": "Head",
+   "gender": "Men",
+   "category": "Wraps",
+   "price": 46,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-body",
+   "name": "Body",
+   "gender": "Men",
+   "category": "Wraps",
+   "price": 78,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-foot",
+   "name": "Foot",
+   "gender": "Men",
+   "category": "Wraps",
+   "price": 32,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-set",
+   "name": "Set",
+   "gender": "Men",
+   "category": "Wraps",
+   "price": 148,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-traditional-pestemal",
+   "name": "Traditional Pestemal",
+   "gender": "Men",
+   "category": "Wraps",
+   "price": 95,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-pre-and-post-sauna-robe",
+   "name": "Pre- & Post-Sauna Robe",
+   "gender": "Men",
+   "category": "Wraps",
+   "price": 165,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-nordic-birch-soap",
+   "name": "Nordic Birch Soap",
+   "gender": "Men",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-pine-and-cedar-soap",
+   "name": "Pine & Cedar Soap",
+   "gender": "Men",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-charcoal-body-soap",
+   "name": "Charcoal Body Soap",
+   "gender": "Men",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-exfoliating-soap",
+   "name": "Exfoliating Soap",
+   "gender": "Men",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-wooden-hair-comb",
+   "name": "Wooden Hair Comb",
+   "gender": "Men",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-beard-comb",
+   "name": "Beard Comb",
+   "gender": "Men",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-scalp-comb",
+   "name": "Scalp Comb",
+   "gender": "Men",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-premium-wool-sauna-hat",
+   "name": "Premium Wool Sauna Hat",
+   "gender": "Men",
+   "category": "Hats",
+   "price": 72,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-linen-sauna-hat",
+   "name": "Linen Sauna Hat",
+   "gender": "Men",
+   "category": "Hats",
+   "price": 62,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-classic-nordic-sauna-hat",
+   "name": "Classic Nordic Sauna Hat",
+   "gender": "Men",
+   "category": "Hats",
+   "price": 62,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-testicular-heat-shield",
+   "name": "Testicular Heat Shield",
+   "gender": "Men",
+   "category": "Intimate Protection",
+   "price": 68,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-thermal-protection-pouch",
+   "name": "Thermal Protection Pouch",
+   "gender": "Men",
+   "category": "Intimate Protection",
+   "price": 68,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-testicular-cooling-pad",
+   "name": "Testicular Cooling Pad",
+   "gender": "Men",
+   "category": "Intimate Protection",
+   "price": 54,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "men-mens-thermal-recovery-pack",
+   "name": "Men’s Thermal Recovery Pack",
+   "gender": "Men",
+   "category": "Intimate Protection",
+   "price": 76,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-eucalyptus-sauna-oil",
+   "name": "Eucalyptus Sauna Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-peppermint-sauna-oil",
+   "name": "Peppermint Sauna Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-lavender-sauna-oil",
+   "name": "Lavender Sauna Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-birch-sauna-oil",
+   "name": "Birch Sauna Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-pine-sauna-oil",
+   "name": "Pine Sauna Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-post-sauna-body-oil",
+   "name": "Post-Sauna Body Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-hair-and-scalp-oil",
+   "name": "Hair & Scalp Oil",
+   "gender": "Women",
+   "category": "Oils",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-cooling-eye-mask",
+   "name": "Cooling Eye Mask",
+   "gender": "Women",
+   "category": "Masks",
+   "price": 54,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-cooling-face-mask",
+   "name": "Cooling Face Mask",
+   "gender": "Women",
+   "category": "Masks",
+   "price": 42,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-post-sauna-hydration-mask",
+   "name": "Post-Sauna Hydration Mask",
+   "gender": "Women",
+   "category": "Masks",
+   "price": 42,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-cooling-neck-mask",
+   "name": "Cooling Neck Mask",
+   "gender": "Women",
+   "category": "Masks",
+   "price": 42,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-head",
+   "name": "Head",
+   "gender": "Women",
+   "category": "Wraps",
+   "price": 46,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-body",
+   "name": "Body",
+   "gender": "Women",
+   "category": "Wraps",
+   "price": 78,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-foot",
+   "name": "Foot",
+   "gender": "Women",
+   "category": "Wraps",
+   "price": 32,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-set",
+   "name": "Set",
+   "gender": "Women",
+   "category": "Wraps",
+   "price": 148,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-traditional-pestemal",
+   "name": "Traditional Pestemal",
+   "gender": "Women",
+   "category": "Wraps",
+   "price": 95,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-pre-and-post-sauna-robe",
+   "name": "Pre- & Post-Sauna Robe",
+   "gender": "Women",
+   "category": "Wraps",
+   "price": 165,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-nordic-birch-soap",
+   "name": "Nordic Birch Soap",
+   "gender": "Women",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-pine-soap",
+   "name": "Pine Soap",
+   "gender": "Women",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-gentle-body-soap",
+   "name": "Gentle Body Soap",
+   "gender": "Women",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-exfoliating-soap",
+   "name": "Exfoliating Soap",
+   "gender": "Women",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-wide-tooth-wooden-hair-comb",
+   "name": "Wide-Tooth Wooden Hair Comb",
+   "gender": "Women",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-birch-comb",
+   "name": "Birch Comb",
+   "gender": "Women",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-scalp-comb",
+   "name": "Scalp Comb",
+   "gender": "Women",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-premium-wool-sauna-hat",
+   "name": "Premium Wool Sauna Hat",
+   "gender": "Women",
+   "category": "Hats",
+   "price": 72,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-linen-sauna-hat",
+   "name": "Linen Sauna Hat",
+   "gender": "Women",
+   "category": "Hats",
+   "price": 62,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-long-hair-sauna-hat",
+   "name": "Long-Hair Sauna Hat",
+   "gender": "Women",
+   "category": "Hats",
+   "price": 62,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-intimate-heat-shield",
+   "name": "Intimate Heat Shield",
+   "gender": "Women",
+   "category": "Intimate Protection",
+   "price": 68,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-womens-thermal-protection-pad",
+   "name": "Women’s Thermal Protection Pad",
+   "gender": "Women",
+   "category": "Intimate Protection",
+   "price": 68,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-intimate-cooling-pad",
+   "name": "Intimate Cooling Pad",
+   "gender": "Women",
+   "category": "Intimate Protection",
+   "price": 54,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "women-cooling-eye-mask-intimate-protection",
+   "name": "Cooling Eye Mask",
+   "gender": "Women",
+   "category": "Intimate Protection",
+   "price": 54,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-soft-cooling-eye-pillow",
+   "name": "Soft Cooling Eye Pillow",
+   "gender": "Kids",
+   "category": "Masks",
+   "price": 42,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-head",
+   "name": "Head",
+   "gender": "Kids",
+   "category": "Wraps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-body",
+   "name": "Body",
+   "gender": "Kids",
+   "category": "Wraps",
+   "price": 47,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-traditional-pestemal",
+   "name": "Traditional Pestemal",
+   "gender": "Kids",
+   "category": "Wraps",
+   "price": 57,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-pre-and-post-sauna-robe",
+   "name": "Pre- & Post-Sauna Robe",
+   "gender": "Kids",
+   "category": "Wraps",
+   "price": 110,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-fragrance-free-gentle-cleansing-bar",
+   "name": "Fragrance-Free Gentle Cleansing Bar",
+   "gender": "Kids",
+   "category": "Soaps",
+   "price": 28,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-rounded-wooden-wide-tooth-comb",
+   "name": "Rounded Wooden Wide-Tooth Comb",
+   "gender": "Kids",
+   "category": "Combs",
+   "price": 36,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-lightweight-soft-sauna-hat",
+   "name": "Lightweight Soft Sauna Hat",
+   "gender": "Kids",
+   "category": "Hats",
+   "price": 48,
+   "visible": true,
+   "description": "",
+   "image": ""
+  },
+  {
+   "id": "kids-gentle-cooling-towel",
+   "name": "Gentle Cooling Towel",
+   "gender": "Kids",
+   "category": "Cooling",
+   "price": 38,
+   "visible": true,
+   "description": "",
+   "image": ""
+  }
+ ]
+}
