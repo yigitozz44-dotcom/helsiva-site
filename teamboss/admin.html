@@ -223,6 +223,7 @@ var GIFTS=['For Him','For Her','For Couples','Housewarming','Wedding','Yacht','C
 var GN={men:'Men',women:'Women',kids:'Kids',gifts:'Gifts'},GO=['men','women','kids'];
 var CN={Kits:'Complete rituals',Oils:'Oils','Intimate Protection':'Intimate Protection',Wraps:'Towels & Wraps',Masks:'Masks',Soaps:'Soaps',Combs:'Combs',Hats:'Hats',Cooling:'Cooling'};
 var CO=['Kits','Oils','Wraps','Masks','Hats','Soaps','Combs','Intimate Protection','Cooling'];
+var STD={description:'Part of the Helsiva Nordic sauna ritual, made for calm, unhurried sessions.',materials:'The exact composition is printed on the product label.',usage:'Follow the instructions on the product label.',care:'Care instructions are printed on the product label.'};
 var DEF={oil:'/h-8bd668aea4.webp',men:'/h-2f2e0670e0.webp',women:'/h-59ddf62221.webp',kids:'/h-8f000b60dc.webp'};
 var F=['name','price','visible','description','bullets','materials','usage','care','contents','image','subgroup','deleted'];
 var TXT=['description','bullets','materials','usage','care','contents'];
@@ -331,13 +332,13 @@ function drawer(id,keep){var p=byId(id);if(!p){closeDr();return}OPEN=id;OPENR=nu
  +'<div class="row2"><div class="fl"><label>Name</label><input data-f="name" value="'+esc(p.name)+'"></div><div class="fl"><label>Price (EUR)</label><input data-f="price" type="number" min="1" step="1" value="'+p.price+'"></div></div>'
  +(isW?'<div class="fl"><label>Type</label><select data-f="subgroup">'+Object.keys(SUBL).map(function(k){return '<option value="'+k+'"'+(p.subgroup==k?' selected':'')+'>'+SUBL[k]+'</option>'}).join('')+'</select></div>':'')
  +'<div class="fl"><label>Online</label><select data-f="visible"><option value="1"'+(p.visible?' selected':'')+'>Online: visible in the shop</option><option value="0"'+(p.visible?'':' selected')+'>Offline: hidden</option></select></div>'
- +'<div class="fl"><label>Description</label><textarea data-f="description">'+esc(p.description)+'</textarea><small>Leave empty to keep the standard text. English only for now.</small></div>'
+ +'<div class="fl"><label>Description</label><textarea data-f="description">'+esc(p.description)+'</textarea><small>English only for now.</small></div>'
  +'<div class="fl"><label>Details (one per line)</label><textarea data-f="bullets">'+esc(p.bullets)+'</textarea></div>'
  +(isK?'<div class="fl"><label>In this ritual (one item per line)</label><textarea data-f="contents" style="min-height:140px">'+esc(p.contents)+'</textarea><small>Leave empty to keep the standard contents.</small></div>':'')
  +'<div class="fl"><label>Materials</label><textarea data-f="materials">'+esc(p.materials)+'</textarea></div>'
  +'<div class="fl"><label>Usage</label><textarea data-f="usage">'+esc(p.usage)+'</textarea></div>'
  +'<div class="fl"><label>Care</label><textarea data-f="care">'+esc(p.care)+'</textarea></div></div>'
- +'<div class="df"><div style="display:flex;gap:8px">'+(p.custom?'':'<button class="btn" data-rev>Revert</button>')+'<button class="btn l" data-delone>Delete</button></div><button class="btn dark" data-x>Done</button></div>';
+ +'<div class="df"><div style="display:flex;gap:8px">'+(p.custom?'<button class="btn" data-std>Fill standard texts</button>':'<button class="btn" data-rev>Revert</button>')+'<button class="btn l" data-delone>Delete</button></div><button class="btn dark" data-x>Done</button></div>';
  if(keep&&$('dr').dataset.id==id)return;
  $('dr').innerHTML=h;$('dr').dataset.id=id;$('dr').className='on';$('sh').className='on'}
 function closeDr(){OPEN=null;OPENR=null;$('dr').className='';$('dr').dataset.id='';$('sh').className=''}
@@ -366,11 +367,12 @@ document.addEventListener('click',function(e){var t=e.target,b;
  if(b=t.closest('[data-delg]')){var gid=b.dataset.delg.split('|');var ids=P.filter(function(p){return p.g==gid[0]&&p.cat==gid[1]&&SEL[p.id]&&live(p)}).map(function(p){return p.id});if(!ids.length)return;
   if(confirm('Delete '+ids.length+' product'+(ids.length>1?'s':'')+'? They disappear from the shop when you publish.')){removeProducts(ids);render()}return}
  if(b=t.closest('[data-add]')){var a=b.dataset.add.split('|');var id=(a[0]=='gifts'?'gift-':'custom-'+a[0]+'-')+Date.now().toString(36);
-  var p=norm({id:id,gender:GN[a[0]],category:a[1],name:'New product',price:50,visible:false,custom:true});P.push(p);V.f='all';V.q='';render();drawer(id);return}
+  var p=norm({id:id,gender:GN[a[0]],category:a[1],name:'New product',price:50,visible:false,custom:true,description:STD.description,materials:STD.materials,usage:STD.usage,care:STD.care});P.push(p);V.f='all';V.q='';render();drawer(id);return}
  if(b=t.closest('[data-e]')){drawer(b.dataset.e);return}
  if(t.closest('[data-x]')||t.id=='sh'){closeDr();return}
  if(t.closest('[data-up]')){$('fi').click();return}
  if(t.closest('[data-rm]')){var p=byId(OPEN);p.image='';delete p._prev;delete PEND[OPEN];$('dr').dataset.id='';render();drawer(OPEN);return}
+ if(t.closest('[data-std]')){var p=byId(OPEN);['description','materials','usage','care'].forEach(function(k){if(!String(p[k]).trim())p[k]=STD[k]});$('dr').dataset.id='';render();drawer(OPEN);toast('Empty fields filled with the standard texts.');return}
  if(t.closest('[data-rev]')){var p=byId(OPEN),o=JSON.parse(ORIG[OPEN]);F.forEach(function(k){p[k]=o[k]});delete p._prev;delete PEND[OPEN];$('dr').dataset.id='';render();drawer(OPEN);return}
  if(t.closest('[data-delone]')){if(confirm('Delete this product? It disappears from the shop when you publish.')){var id=OPEN;closeDr();removeProducts([id]);render()}return}
 });
