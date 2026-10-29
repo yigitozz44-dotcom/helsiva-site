@@ -346,13 +346,14 @@ K.forEach(function(k){mk({id:"kit-"+k[0],g:k[0],cat:"Kits",n:k[2],p:k[3],kit:1,l
 ["men","women","kids"].forEach(function(g){Object.keys(C[g]).forEach(function(h){items(g,h).forEach(function(n,i){var id=g+"-"+slug(n);if(PM[id])id+="-"+slug(h);mk({id:id,g:g,cat:h,n:n,p:pf(g,h,n),sub:subOf(n,h)});PX[g+"|"+h+"|"+i]=id})})});
 function ovl(t){return String(t||'').split(/\n+/).map(function(x){return x.replace(/^\s*[-•]\s*/,'').trim()}).filter(Boolean)}
 Object.keys(OV).forEach(function(id){var o=OV[id];if(o.custom&&!o.deleted&&!PM[id]&&o.name&&o.gender&&o.category){var g=String(o.gender).toLowerCase();if(C[g]&&+o.price>0)mk({id:id,g:g,cat:o.category,n:o.name,p:+o.price,sub:o.subgroup||"",cu:1})}});
-PL.slice().forEach(function(p){var o=OV[p.id];if(!o)return;if(o.deleted){PL.splice(PL.indexOf(p),1);delete PM[p.id];return}if(o.name)p.n=o.name;if(+o.price>0)p.p=+o.price;if(o.description)p.desc=o.description;if(o.image)p.img=o.image;if(o.bullets&&ovl(o.bullets).length)p.bul=ovl(o.bullets);if(o.materials)p.mat=o.materials;if(o.usage)p.use=o.usage;if(o.care)p.care=o.care;if(p.kit&&o.contents&&ovl(o.contents).length)p.list=ovl(o.contents);if(p.cat=="Wraps"&&o.subgroup&&SUBL[o.subgroup])p.sub=o.subgroup;if(o.visible===false)PL.splice(PL.indexOf(p),1)});
+PL.slice().forEach(function(p){var o=OV[p.id];if(!o)return;if(o.deleted){PL.splice(PL.indexOf(p),1);delete PM[p.id];return}if(o.name)p.n=o.name;if(+o.price>0)p.p=+o.price;if(o.description)p.desc=o.description;if(o.image)p.img=o.image;if(o.images&&typeof o.images=='object')p.imgs=o.images;if(o.bullets&&ovl(o.bullets).length)p.bul=ovl(o.bullets);if(o.materials)p.mat=o.materials;if(o.usage)p.use=o.usage;if(o.care)p.care=o.care;if(p.kit&&o.contents&&ovl(o.contents).length)p.list=ovl(o.contents);if(p.cat=="Wraps"&&o.subgroup&&SUBL[o.subgroup])p.sub=o.subgroup;if(o.visible===false)PL.splice(PL.indexOf(p),1)});
 function cl(p){return p.kit?"Complete ritual":LG(p.g,p.cat)}
 /* media: own photo or a quiet tile */
 var TC={Masks:["#d8d0c3","#242524"],Wraps:["#e6e0d4","#242524"],Soaps:["#c9c2b4","#242524"],Combs:["#a69d90","#111211"],Hats:["#475249","#F4F1EB"],"Intimate Protection":["#242524","#F4F1EB"],Cooling:["#b9c4c7","#242524"]};
 var GI={men:"him",women:"her",kids:"kid"};
-function ph(p,k){if(k=="own"){if(p.img)return '<div class="ph" style="background:url(\''+p.img.replace(/'/g,'')+'\') center/cover no-repeat"></div>';if(p.kit)return '<div class="ph i-'+GI[p.g]+'"></div>';if(p.cat=="Oils")return '<div class="ph i-oil"></div>';var t=TC[p.cat]||TC.Wraps;return '<div class="ph tl" style="background:'+t[0]+';color:'+t[1]+'">'+MARK+'</div>'}return '<div class="ph i-'+(k=="grp"?GI[p.g]:k)+'"></div>'}
-function slides(p){return p.cu?["own"]:p.kit?["own","sauna","wood","water"]:["own","grp","sauna","wood"]}
+function pimg(p){var sz=(PS&&PS.id==p.id&&PS.o&&PS.o.Size)||"50 ml";if(p.imgs){var a=p.imgs[sz]||p.imgs["50 ml"]||p.imgs["100 ml"];if(a)return a}return p.img||""}
+function ph(p,k){if(k=="own"){var im=pimg(p);if(im)return '<div class="ph" style="background:url(\''+im.replace(/'/g,'')+'\') center/cover no-repeat"></div>';var t=TC[p.cat]||TC.Wraps;return '<div class="ph tl" style="background:'+t[0]+';color:'+t[1]+'">'+MARK+'</div>'}return '<div class="ph i-'+(k=="grp"?GI[p.g]:k)+'"></div>'}
+function slides(p){return["own"]}
 /* content */
 var AR={Eucalyptus:"a fresh, clear aroma",Peppermint:"a cool, bright aroma",Pine:"a resinous aroma, like a forest after rain",Birch:"a green, softly woody aroma",Cedar:"a warm, dry aroma, like cut cedar",Lavender:"a soft, floral aroma"};
 var CT={
@@ -417,7 +418,7 @@ function gal(){var p=PM[PS.id],sl=slides(p);$("gm").innerHTML=ph(p,sl[PS.img])+'
 function upd(){var t=pprice(),q=PS.q;$("pp").textContent="€"+t;$("qv").textContent=q;$("pbtn").textContent="Add to Bag · €"+(t*q);$("pbp").textContent="€"+(t*q)}
 function addPdp(){var p=PM[PS.id],d=[];Object.keys(PS.o).forEach(function(k){d.push(PS.o[k])});if(PS.mono)d.push("Monogram "+PS.mono);if(PS.rep!="One-time purchase")d.push(PS.rep);if(!d.length)d.push(p.kit?"Complete kit":N[p.g]);add(p.n,pprice(),d.join(" · "),PS.q)}
 $("pg").addEventListener("click",function(e){var b=e.target.closest("[data-o]");
- if(b){PS.o[b.dataset.o]=b.dataset.v;b.parentNode.querySelectorAll(".ob").forEach(function(x){x.classList.toggle("on",x==b)});$("ov-"+b.dataset.o).textContent=b.dataset.v;upd();return}
+ if(b){PS.o[b.dataset.o]=b.dataset.v;b.parentNode.querySelectorAll(".ob").forEach(function(x){x.classList.toggle("on",x==b)});$("ov-"+b.dataset.o).textContent=b.dataset.v;gal();upd();return}
  b=e.target.closest("[data-th]");if(b){PS.img=+b.dataset.th;gal();return}
  b=e.target.closest("[data-qd]");if(b){PS.q=Math.max(1,Math.min(9,PS.q+ +b.dataset.qd));upd();return}
  if(e.target.closest("#gm")){var p=PM[PS.id];$("lbi").innerHTML=ph(p,slides(p)[PS.img]);$("lb").classList.add("on")}});
