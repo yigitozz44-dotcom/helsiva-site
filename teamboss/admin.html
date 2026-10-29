@@ -254,7 +254,12 @@ function dirty(p){return !ORIG[p.id]||ORIG[p.id]!==snap(p)}
 function cKey(c){return c.g+'|'+c.key}
 function catDirtyN(){var n=0,seen={};CATS.forEach(function(c){seen[cKey(c)]=1;if(ORIGC[cKey(c)]!==JSON.stringify(c))n++});for(var k in ORIGC)if(!seen[k])n++;return n}
 function nDirty(){var n=P.filter(dirty).length;for(var k in DEL)if(ORIG[k])n++;return n+catDirtyN()}
-function load(){return gh(API+'products.json?ref='+BRANCH+'&t='+Date.now()).then(function(r){if(r.status==401)throw new Error('auth');if(!r.ok)throw new Error('load '+r.status);return r.json()}).then(function(j){var d=JSON.parse(u8(j.content));P=d.products.map(norm);ORIG={};P.forEach(function(p){ORIG[p.id]=snap(p)});
+var OILK=['Rosemary','Pine','Tea','Birch','Lavender','Mint','Eucalyptus','Sakura','Cedar','Vanilla','Jasmine'],OLDO={'men':['eucalyptus','peppermint','pine','birch','cedar'],'women':['eucalyptus','peppermint','lavender','birch','pine']};
+function seedOils(P){var old={};Object.keys(OLDO).forEach(function(g){OLDO[g].forEach(function(k){old[g+'-'+k+'-sauna-oil']=1})});P=P.filter(function(p){return !old[p.id]});var have={};P.forEach(function(p){have[p.id]=1});
+ ['men','women'].forEach(function(g){var add=[];OILK.forEach(function(k,i){var id=g+'-no'+(i+1)+'-'+k.toLowerCase();if(!have[id])add.push(norm({id:id,gender:g=='men'?'Men':'Women',category:'Oils',name:'No'+(i+1)+' '+k,price:48,visible:true,description:'',image:''}))});
+  if(!add.length)return;var at=P.map(function(p){return p.id}).indexOf(g+'-post-sauna-body-oil');if(at<0)at=P.length;P.splice.apply(P,[at,0].concat(add))});
+ return P}
+function load(){return gh(API+'products.json?ref='+BRANCH+'&t='+Date.now()).then(function(r){if(r.status==401)throw new Error('auth');if(!r.ok)throw new Error('load '+r.status);return r.json()}).then(function(j){var d=JSON.parse(u8(j.content));P=d.products.map(norm);P=seedOils(P);ORIG={};P.forEach(function(p){ORIG[p.id]=snap(p)});
  CATS=(d.categories||[]).map(function(c){return{g:String(c.gender||'').toLowerCase(),key:c.key,label:c.label||'',custom:!!c.custom,tr:c.tr||{}}});ORIGC={};CATS.forEach(function(c){ORIGC[cKey(c)]=JSON.stringify(c)});DEL={};PEND={};SEL={}})}
 function boot(){TOK=TOK||sessionStorage.getItem('hsv_t');if(!TOK)return showLogin();
  gh('https://api.github.com/user').then(function(r){if(!r.ok)throw new Error('auth');return r.json()}).then(function(u){$('who').textContent=u.login;$('login').hidden=true;$('app').hidden=false;return load()})  .then(function(){render();return dLoad().then(render)}).catch(function(e){sessionStorage.removeItem('hsv_t');TOK=null;showLogin(e.message=='auth'?'':'Could not load the catalogue ('+e.message+').')})}
@@ -292,7 +297,7 @@ function match(p){if(V.f=='del'){if(!p.deleted)return false}else if(p.deleted)re
  if(V.g!='all'&&p.g!=V.g)return false;if(V.cat&&p.cat!=V.cat&&V.g!='gifts')return false;if(V.g=='gifts'&&V.gs&&p.cat!=V.gs)return false;
  if(V.f=='on'&&!p.visible)return false;if(V.f=='off'&&p.visible)return false;
  if(V.q){var q=V.q.toLowerCase();if((p.name+' '+p.id+' '+p.description).toLowerCase().indexOf(q)<0)return false}return true}
-var SIZES=['50 ml','100 ml'];
+var SIZES=['20 ml','50 ml'];
 function thumb(p){if(p._prev)return p._prev;if(p.image)return '/'+p.image.replace(/^\//,'');var im=p.images||{},pv=p._prevs||{};for(var i=0;i<SIZES.length;i++){if(pv[SIZES[i]])return pv[SIZES[i]];if(im[SIZES[i]])return '/'+String(im[SIZES[i]]).replace(/^\//,'')}return null}
 function extras(p,key){var a=(p.more||{})[key]||[],pv=p._mprev||{};return '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">'+a.map(function(x,i){var u=pv[x]||'/'+String(x).replace(/^\//,'');return '<div style="position:relative;width:48px;height:60px;background:#ddd url(\''+esc(u)+'\') center/cover;border:1px solid var(--sand)"><button data-rmx="'+esc(key)+'|'+i+'" title="Remove" style="position:absolute;top:-9px;right:-9px;width:20px;height:20px;padding:0;border-radius:50%;border:1px solid #111;background:#fff;color:#111;font:13px/17px sans-serif;cursor:pointer">×</button></div>'}).join('')+'<button class="ed" data-upx="'+esc(key)+'">+ Add photo</button><small style="flex-basis:100%">Extra photos form a gallery on the shop page: a click on the right half of the photo shows the next one, the left half the previous.</small></div>'}
 function cleanMore(m){var o={};Object.keys(m||{}).forEach(function(k){var a=(m[k]||[]).filter(Boolean);if(a.length)o[k]=a});return o}
