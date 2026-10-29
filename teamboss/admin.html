@@ -20,7 +20,7 @@ a{color:inherit}
 .btn.solid{background:var(--ivory);color:var(--black);border-color:var(--ivory)}
 .btn.dark{background:var(--black);color:var(--ivory);border-color:var(--black)}
 .btn[disabled]{opacity:.35;cursor:default}
-#err{color:#e29a93;margin-top:22px;min-height:20px;font-size:13px}
+#pw{display:block;width:260px;max-width:100%;margin:0 auto 14px;background:transparent;border:1px solid rgba(244,241,235,.35);color:var(--ivory);padding:13px 14px;font:14px var(--sans);letter-spacing:.08em;text-align:center;outline:0}#pw:focus{border-color:var(--ivory)}#err{color:#e29a93;margin-top:22px;min-height:20px;font-size:13px}
 /* header */
 header{position:sticky;top:0;z-index:30;background:var(--black);color:var(--ivory);display:flex;align-items:center;gap:28px;padding:0 24px;height:72px}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;white-space:nowrap}
@@ -207,7 +207,7 @@ button.al{cursor:pointer}button.al:hover{background:#F7F4EE}
 @media(max-width:900px){.shell{display:block}#side{position:static;width:auto;height:auto;display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--sand);padding:0}.sg{display:none}button.si{width:auto;white-space:nowrap;font-size:16px;padding:12px 14px;border-left:0;border-bottom:2px solid transparent}button.si.on{border-bottom-color:var(--black)}button.si i{display:none}.two,.fg{grid-template-columns:1fr}.vb{gap:6px}}
 .gtb{background:none;border:1px solid var(--sand);padding:6px 10px;font:500 9px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--taupe);margin-left:12px;align-self:center}.gtb:hover{border-color:var(--ink);color:var(--ink)}
 </style></head><body>
-<div id="login" hidden><div><svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="#F4F1EB" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><h1>HELSIVA</h1><p>Admin</p><button class="btn solid" id="lb">Sign in with GitHub</button><div id="err"></div></div></div>
+<div id="login" hidden><div><svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="#F4F1EB" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><h1>HELSIVA</h1><p>Admin</p><input id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"><button class="btn solid" id="lb">Sign in</button><div id="err"></div></div></div>
 <div id="app" hidden>
 <header><a class="logo" href="#"><svg viewBox="0 0 60 70"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><b>HELSIVA</b><i>ADMIN</i></a>
 
@@ -216,7 +216,7 @@ button.al{cursor:pointer}button.al:hover{background:#F7F4EE}
 <main id="main"><div id="ld">Loading</div></main></div></div>
 </div>
 <div id="sh"></div><div class="mdl" id="md"></div><aside id="dr"></aside><div id="toast"></div>
-<script>var REPO='yigitozz44-dotcom/helsiva-site',BRANCH='main',AUTH='https://helsiva-auth.yigitozz44.workers.dev',API='https://api.github.com/repos/'+REPO+'/contents/';
+<script>var REPO='yigitozz44-dotcom/helsiva-site',BRANCH='main',AUTH='https://helsiva-auth.yigitozz44.workers.dev',API=AUTH+'/gh/repos/'+REPO+'/contents/';
 var SUB={"men-head": "head", "men-body": "body", "men-foot": "foot", "men-set": "set", "men-traditional-pestemal": "pestemal", "men-pre-and-post-sauna-robe": "robe", "women-head": "head", "women-body": "body", "women-foot": "foot", "women-set": "set", "women-traditional-pestemal": "pestemal", "women-pre-and-post-sauna-robe": "robe", "kids-head": "head", "kids-body": "body", "kids-traditional-pestemal": "pestemal", "kids-pre-and-post-sauna-robe": "robe"};
 var SUBL={head:'Head',body:'Body',foot:'Foot',set:'Set',pestemal:'Traditional Pestemal',robe:'Pre- & Post-Sauna Robe'};
 var GIFTS=['For Him','For Her','For Couples','Housewarming','Wedding','Yacht','Chalet','Corporate Gifts'];
@@ -241,11 +241,13 @@ function gh(path,opt){opt=opt||{};opt.headers=Object.assign({Authorization:'Bear
 function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'x'}
 /* auth */
 function showLogin(msg){$('app').hidden=true;$('login').hidden=false;$('err').textContent=msg||''}
-$('lb').onclick=function(){$('err').textContent='';var w=window.open(AUTH+'/auth','helsiva-login','width=620,height=760');if(!w)$('err').textContent='Your browser blocked the sign-in window. Allow pop-ups for this page and try again.'};
-window.addEventListener('message',function(e){if(typeof e.data!=='string')return;
- if(e.data==='authorizing:github'){e.source.postMessage(e.data,e.origin);return}
- if(e.data.indexOf('authorization:github:success:')==0){try{var j=JSON.parse(e.data.slice('authorization:github:success:'.length));TOK=j.token;sessionStorage.setItem('hsv_t',TOK);boot()}catch(x){showLogin('Sign-in failed.')}}
- else if(e.data.indexOf('authorization:github:error:')==0){showLogin('This GitHub account is not allowed to use the admin.')}});
+function doLogin(){var pw=$('pw').value;if(!pw){$('err').textContent='Enter your password.';return}$('err').textContent='';$('lb').disabled=true;
+ fetch(AUTH+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{s:r.status,j:j}})}).then(function(x){$('lb').disabled=false;
+  if(x.s==200&&x.j.token){TOK=x.j.token;sessionStorage.setItem('hsv_t',TOK);$('pw').value='';boot()}
+  else if(x.s==429)$('err').textContent='Too many attempts. Try again in 15 minutes.';
+  else if(x.s==501)$('err').textContent='Login is not set up on the server yet.';
+  else $('err').textContent='Wrong password.'}).catch(function(){$('lb').disabled=false;$('err').textContent='Could not reach the server. Check your connection.'})}
+$('lb').onclick=doLogin;$('pw').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
 /* data */
 function norm(o){var p={id:o.id,gender:o.gender||'',category:o.category||'',custom:!!o.custom};F.forEach(function(k){p[k]=o[k]==null?(k=='visible'?true:(k=='deleted'?false:(k=='tr'||k=='images'||k=='more'?{}:''))):o[k]});p.price=+o.price||0;p.deleted=!!o.deleted;if(!p.subgroup&&SUB[o.id])p.subgroup=SUB[o.id];
  p.g=String(p.gender).toLowerCase();p.cat=p.category=='Complete rituals'?'Kits':p.category;return p}
@@ -262,7 +264,7 @@ function seedOils(P){var old={};Object.keys(OLDO).forEach(function(g){OLDO[g].fo
 function load(){return gh(API+'products.json?ref='+BRANCH+'&t='+Date.now()).then(function(r){if(r.status==401)throw new Error('auth');if(!r.ok)throw new Error('load '+r.status);return r.json()}).then(function(j){var d=JSON.parse(u8(j.content));P=d.products.map(norm);P=seedOils(P);ORIG={};P.forEach(function(p){ORIG[p.id]=snap(p)});
  CATS=(d.categories||[]).map(function(c){return{g:String(c.gender||'').toLowerCase(),key:c.key,label:c.label||'',custom:!!c.custom,tr:c.tr||{}}});ORIGC={};CATS.forEach(function(c){ORIGC[cKey(c)]=JSON.stringify(c)});DEL={};PEND={};SEL={}})}
 function boot(){TOK=TOK||sessionStorage.getItem('hsv_t');if(!TOK)return showLogin();
- gh('https://api.github.com/user').then(function(r){if(!r.ok)throw new Error('auth');return r.json()}).then(function(u){$('who').textContent=u.login;$('login').hidden=true;$('app').hidden=false;return load()})  .then(function(){render();return dLoad().then(render)}).catch(function(e){sessionStorage.removeItem('hsv_t');TOK=null;showLogin(e.message=='auth'?'':'Could not load the catalogue ('+e.message+').')})}
+ fetch(AUTH+'/me',{headers:{Authorization:'Bearer '+TOK}}).then(function(r){if(!r.ok)throw new Error('auth');return r.json()}).then(function(u){$('who').textContent='Signed in';$('login').hidden=true;$('app').hidden=false;return load()})  .then(function(){render();return dLoad().then(render)}).catch(function(e){sessionStorage.removeItem('hsv_t');TOK=null;showLogin(e.message=='auth'?'':'Could not load the catalogue ('+e.message+').')})}
 /* categories */
 function catEntry(g,k){for(var i=0;i<CATS.length;i++)if(CATS[i].g==g&&CATS[i].key==k)return CATS[i]}
 function LAB(g,k){if(g=='gifts')return k;var e=catEntry(g,k);return (e&&e.label)||CN[k]||k}
@@ -750,5 +752,4 @@ function openPtr(id){var p=byId(id);if(!p)return;PTR=id;var f=V.ptf||'name',lab=
  h+='</div><div class="df2"><button class="btn" data-mclose>Done</button><button class="btn" data-trtab>Auto-translate '+lab.toLowerCase()+'</button><button class="btn dark" data-trall>Auto-translate all</button></div></div>';$('md').innerHTML=h;$('md').className='mdl on'}
 
 boot();
-
 </script></body></html>
