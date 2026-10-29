@@ -739,23 +739,6 @@
    "visible": true,
    "description": "",
    "image": ""
-  },
-  {
-   "id": "custom-men-mvsk50jm",
-   "name": "Hacı Yağ",
-   "gender": "Men",
-   "category": "Oils",
-   "subgroup": "",
-   "price": 100,
-   "visible": true,
-   "description": "Gerçek hacılar için",
-   "bullets": "hacı şakir\nbeyaz\n",
-   "materials": "kila hakan",
-   "usage": "sabah akşam",
-   "care": "",
-   "contents": "",
-   "image": "uploads/custom-men-mvsk50jm-mvsk6zsl.jpg",
-   "custom": true
   }
  ],
  "categories": [
