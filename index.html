@@ -196,6 +196,21 @@ body.sro #sq{display:none}
  .hero .cta{margin-bottom:64px}
  #sq2{font-size:24px}
 }
+
+/* product page: photo aligned with the title, fits the screen, stays while the details scroll */
+.pd .gal{position:sticky;top:88px;align-self:start}
+.pd .gm{flex:none;margin:0;aspect-ratio:4/5;height:calc(100vh - 210px);max-height:calc(100vh - 210px);margin-top:7px;width:auto;max-width:100%;justify-self:start;min-height:0}
+@media(max-width:900px){.pd .gal{position:static}.pd .gm{height:auto;max-height:none;width:100%}}
+
+.gm .gl,#lbi .gl{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}.gm .gl.on,#lbi .gl.on{opacity:1}
+#lbi{position:relative}
+.gm .zm{z-index:2}
+.gm.nv.l,#lbi.nv.l{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Ccircle cx='22' cy='22' r='21' fill='%23F4F1EB' fill-opacity='.92' stroke='%23111211'/%3E%3Cpath d='M25 14l-8 8 8 8' fill='none' stroke='%23111211' stroke-width='1.5'/%3E%3C/svg%3E") 22 22,w-resize}
+.gm.nv.r,#lbi.nv.r{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Ccircle cx='22' cy='22' r='21' fill='%23F4F1EB' fill-opacity='.92' stroke='%23111211'/%3E%3Cpath d='M19 14l8 8-8 8' fill='none' stroke='%23111211' stroke-width='1.5'/%3E%3C/svg%3E") 22 22,e-resize}
+.gm .zm{cursor:zoom-in}
+.pd .gal:not(.one) .gm{width:auto;height:calc(100vh - 210px);max-height:calc(100vh - 210px);justify-self:start}
+.pd .th{max-height:calc(100vh - 210px);overflow:auto;scrollbar-width:none;margin-top:7px}
+@media(max-width:900px){.pd .gal:not(.one) .gm{width:100%;height:auto;max-height:none}.pd .th{max-height:none}}
 </style><meta name="description" content="Premium sauna ritual materials."><meta property="og:type" content="website"><meta property="og:site_name" content="Helsiva"><meta property="og:title" content="Helsiva"><meta property="og:description" content="Premium sauna ritual materials."><meta property="og:url" content="https://helsiva.com/"><meta property="og:image" content="https://helsiva.com/og-image.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Helsiva monogram"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Helsiva"><meta name="twitter:description" content="Premium sauna ritual materials."><meta name="twitter:image" content="https://helsiva.com/og-image.png"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preload" as="image" href="h-36bdca15a8.webp" fetchpriority="high"></head><body>
 <header id="hd"><a href="#top" class="logo"><svg class="hm" viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><span>HELSIVA</span></a>
 <nav><a class="shop" href="#/shop">Shop</a><a href="#/shop/men" data-n="men">Men</a><a href="#/shop/women" data-n="women">Women</a><a href="#/shop/kids" data-n="kids">Kids</a><a href="#/gifts">Gifts</a></nav>
@@ -346,14 +361,14 @@ K.forEach(function(k){mk({id:"kit-"+k[0],g:k[0],cat:"Kits",n:k[2],p:k[3],kit:1,l
 ["men","women","kids"].forEach(function(g){Object.keys(C[g]).forEach(function(h){items(g,h).forEach(function(n,i){var id=g+"-"+slug(n);if(PM[id])id+="-"+slug(h);mk({id:id,g:g,cat:h,n:n,p:pf(g,h,n),sub:subOf(n,h)});PX[g+"|"+h+"|"+i]=id})})});
 function ovl(t){return String(t||'').split(/\n+/).map(function(x){return x.replace(/^\s*[-•]\s*/,'').trim()}).filter(Boolean)}
 Object.keys(OV).forEach(function(id){var o=OV[id];if(o.custom&&!o.deleted&&!PM[id]&&o.name&&o.gender&&o.category){var g=String(o.gender).toLowerCase();if(C[g]&&+o.price>0)mk({id:id,g:g,cat:o.category,n:o.name,p:+o.price,sub:o.subgroup||"",cu:1})}});
-PL.slice().forEach(function(p){var o=OV[p.id];if(!o)return;if(o.deleted){PL.splice(PL.indexOf(p),1);delete PM[p.id];return}if(o.name)p.n=o.name;if(+o.price>0)p.p=+o.price;if(o.description)p.desc=o.description;if(o.image)p.img=o.image;if(o.images&&typeof o.images=='object')p.imgs=o.images;if(o.bullets&&ovl(o.bullets).length)p.bul=ovl(o.bullets);if(o.materials)p.mat=o.materials;if(o.usage)p.use=o.usage;if(o.care)p.care=o.care;if(p.kit&&o.contents&&ovl(o.contents).length)p.list=ovl(o.contents);if(p.cat=="Wraps"&&o.subgroup&&SUBL[o.subgroup])p.sub=o.subgroup;if(o.visible===false)PL.splice(PL.indexOf(p),1)});
+PL.slice().forEach(function(p){var o=OV[p.id];if(!o)return;if(o.deleted){PL.splice(PL.indexOf(p),1);delete PM[p.id];return}if(o.name)p.n=o.name;if(+o.price>0)p.p=+o.price;if(o.description)p.desc=o.description;if(o.image)p.img=o.image;if(o.images&&typeof o.images=='object')p.imgs=o.images;if(o.more&&typeof o.more=='object')p.more=o.more;if(o.bullets&&ovl(o.bullets).length)p.bul=ovl(o.bullets);if(o.materials)p.mat=o.materials;if(o.usage)p.use=o.usage;if(o.care)p.care=o.care;if(p.kit&&o.contents&&ovl(o.contents).length)p.list=ovl(o.contents);if(p.cat=="Wraps"&&o.subgroup&&SUBL[o.subgroup])p.sub=o.subgroup;if(o.visible===false)PL.splice(PL.indexOf(p),1)});
 function cl(p){return p.kit?"Complete ritual":LG(p.g,p.cat)}
 /* media: own photo or a quiet tile */
 var TC={Masks:["#d8d0c3","#242524"],Wraps:["#e6e0d4","#242524"],Soaps:["#c9c2b4","#242524"],Combs:["#a69d90","#111211"],Hats:["#475249","#F4F1EB"],"Intimate Protection":["#242524","#F4F1EB"],Cooling:["#b9c4c7","#242524"]};
 var GI={men:"him",women:"her",kids:"kid"};
 function pimg(p){var sz=(PS&&PS.id==p.id&&PS.o&&PS.o.Size)||"50 ml";if(p.imgs){var a=p.imgs[sz]||p.imgs["50 ml"]||p.imgs["100 ml"];if(a)return a}return p.img||""}
-function ph(p,k){if(k=="own"){var im=pimg(p);if(im)return '<div class="ph" style="background:url(\''+im.replace(/'/g,'')+'\') center/cover no-repeat"></div>';var t=TC[p.cat]||TC.Wraps;return '<div class="ph tl" style="background:'+t[0]+';color:'+t[1]+'">'+MARK+'</div>'}return '<div class="ph i-'+(k=="grp"?GI[p.g]:k)+'"></div>'}
-function slides(p){return["own"]}
+function ph(p,k){if(typeof k=="string"&&k.indexOf("x:")==0)return '<div class="ph" style="background:url(\''+k.slice(2).replace(/'/g,'')+'\') center/cover no-repeat"></div>';if(k=="own"){var im=pimg(p);if(im)return '<div class="ph" style="background:url(\''+im.replace(/'/g,'')+'\') center/cover no-repeat"></div>';var t=TC[p.cat]||TC.Wraps;return '<div class="ph tl" style="background:'+t[0]+';color:'+t[1]+'">'+MARK+'</div>'}return '<div class="ph i-'+(k=="grp"?GI[p.g]:k)+'"></div>'}
+function slides(p){var sz=p.cat=="Oils"?((PS&&PS.id==p.id&&PS.o&&PS.o.Size)||"50 ml"):"_",m=(p.more&&p.more[sz])||[];return["own"].concat(m.map(function(x){return"x:"+x}))}
 /* content */
 var AR={Eucalyptus:"a fresh, clear aroma",Peppermint:"a cool, bright aroma",Pine:"a resinous aroma, like a forest after rain",Birch:"a green, softly woody aroma",Cedar:"a warm, dry aroma, like cut cedar",Lavender:"a soft, floral aroma"};
 var CT={
@@ -408,22 +423,34 @@ function pdp(id){var p=PM[id];if(!p){$("pg").innerHTML='<div class="pgw"><div cl
  var bc=[["Home","#top"],["Shop","#/shop"],[GL[p.g],"#/shop/"+p.g]];if(!p.kit)bc.push([cl(p),"#/shop/"+p.g+"/"+encodeURIComponent(p.cat)]);bc.push([p.n,null]);
  var det=(b.b?acc("Details",'<ul>'+b.b.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul>',1):"")+(p.kit?acc("In this ritual",'<ul>'+p.list.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul>',1):"")+acc("Materials",b.m)+spec(p)+acc("Usage &amp; Safety",b.u)+acc("Care",b.c)+acc("Shipping &amp; Returns","Complimentary shipping on orders over €250, otherwise €15. Duties and taxes are shown at checkout. See Shipping &amp; Delivery and Returns &amp; Exchanges under Customer Care.");
  var rl=rel(p);
- $("pg").innerHTML='<div class="pgw">'+crumbs(bc)+'<div class="pd"><div class="gal'+(sl.length>1?'':' one')+'"><div class="th">'+sl.map(function(k,i){return '<button data-th="'+i+'" class="'+(i?'':'on')+'" aria-label="Image '+(i+1)+'">'+ph(p,k)+'</button>'}).join("")+'</div><div class="gm" id="gm" role="button" aria-label="Zoom picture"></div></div>'+
+ $("pg").innerHTML='<div class="pgw">'+crumbs(bc)+'<div class="pd"><div class="gal one"><div class="th"></div><div class="gm" id="gm" role="button" aria-label="Zoom picture"></div></div>'+
  '<div class="pi"><span class="cap">'+GL[p.g]+' · '+cl(p)+'</span><h1>'+p.n+'</h1><div class="pp" id="pp"></div><p class="ds">'+b.d+'</p>'+opt+'<div class="qb"><div class="qty"><button data-qd="-1" aria-label="Less">−</button><span id="qv">1</span><button data-qd="1" aria-label="More">+</button></div><button class="btn" id="pbtn" onclick="addPdp()"></button></div>'+
  '<ul class="tr"><li>— Complimentary shipping over €250</li><li>— Signature packaging and a handwritten note, on request</li><li>— Secure payment · Cards · Apple Pay · Google Pay</li></ul>'+(p.kit?'':'<a class="ul" href="#/p/kit-'+p.g+'">See the full ritual</a>')+'<div class="ac">'+det+'</div></div></div>'+
  (rl.length?'<div class="rel"><span class="cap">Complete the ritual</span><h2>Chosen to go with it.</h2><div class="pgr">'+rl.map(card).join("")+'</div></div>':"")+'</div>'+
  '<div class="pdbar"><div><span class="cap">'+p.n+'</span><span id="pbp"></span></div><button class="btn" onclick="addPdp()">Add to Bag</button></div>';
  gal();upd();stt(p.n+" - "+N[p.g]+" - Helsiva")}
-function gal(){var p=PM[PS.id],sl=slides(p);$("gm").innerHTML=ph(p,sl[PS.img])+'<span class="zm">Zoom</span>';document.querySelectorAll(".th button").forEach(function(b,i){b.classList.toggle("on",i==PS.img)})}
+function layer(box,h,fade){var o=box.querySelectorAll(".gl");if(!o.length||!fade){box.querySelectorAll(".gl").forEach(function(x){x.remove()});var n=document.createElement("div");n.className="gl on";n.innerHTML=h;box.insertBefore(n,box.firstChild);return}
+ var n=document.createElement("div");n.className="gl";n.innerHTML=h;box.insertBefore(n,box.firstChild);n.offsetWidth;n.classList.add("on");setTimeout(function(){o.forEach(function(x){x.remove()})},650)}
+function gal(fade){var p=PM[PS.id],sl=slides(p),g=document.querySelector(".gal"),gm=$("gm");if(PS.img>=sl.length)PS.img=0;g.classList.toggle("one",sl.length<2);gm.classList.toggle("nv",sl.length>1);if(!gm.querySelector(".zm"))gm.insertAdjacentHTML("beforeend",'<span class="zm">Zoom</span>');
+ document.querySelector(".th").innerHTML=sl.map(function(k,i){return '<button data-th="'+i+'" class="'+(i==PS.img?'on':'')+'" aria-label="Image '+(i+1)+'">'+ph(p,k)+'</button>'}).join("");
+ layer(gm,ph(p,sl[PS.img]),fade)}
+function gstep(d){var n=slides(PM[PS.id]).length;if(n<2)return;PS.img=(PS.img+d+n)%n;gal(1)}
+function lbr(fade){var p=PM[PS.id],sl=slides(p);layer($("lbi"),ph(p,sl[PS.img]),fade);$("lbi").classList.toggle("nv",sl.length>1);var th=document.querySelectorAll(".th button");th.forEach(function(b,i){b.classList.toggle("on",i==PS.img)})}
+var swx=null,swd=0;
 function upd(){var t=pprice(),q=PS.q;$("pp").textContent="€"+t;$("qv").textContent=q;$("pbtn").textContent="Add to Bag · €"+(t*q);$("pbp").textContent="€"+(t*q)}
 function addPdp(){var p=PM[PS.id],d=[];Object.keys(PS.o).forEach(function(k){d.push(PS.o[k])});if(PS.mono)d.push("Monogram "+PS.mono);if(PS.rep!="One-time purchase")d.push(PS.rep);if(!d.length)d.push(p.kit?"Complete kit":N[p.g]);add(p.n,pprice(),d.join(" · "),PS.q)}
 $("pg").addEventListener("click",function(e){var b=e.target.closest("[data-o]");
- if(b){PS.o[b.dataset.o]=b.dataset.v;b.parentNode.querySelectorAll(".ob").forEach(function(x){x.classList.toggle("on",x==b)});$("ov-"+b.dataset.o).textContent=b.dataset.v;gal();upd();return}
- b=e.target.closest("[data-th]");if(b){PS.img=+b.dataset.th;gal();return}
+ if(b){PS.o[b.dataset.o]=b.dataset.v;b.parentNode.querySelectorAll(".ob").forEach(function(x){x.classList.toggle("on",x==b)});$("ov-"+b.dataset.o).textContent=b.dataset.v;gal(1);upd();return}
+ b=e.target.closest("[data-th]");if(b){PS.img=+b.dataset.th;gal(1);return}
  b=e.target.closest("[data-qd]");if(b){PS.q=Math.max(1,Math.min(9,PS.q+ +b.dataset.qd));upd();return}
- if(e.target.closest("#gm")){var p=PM[PS.id];$("lbi").innerHTML=ph(p,slides(p)[PS.img]);$("lb").classList.add("on")}});
-$("lb").onclick=function(){this.classList.remove("on")};
-addEventListener("keydown",function(e){if(e.key=="Escape")$("lb").classList.remove("on")});
+ if(swd){swd=0;return}
+ if(e.target.closest("#gm")){var gm=$("gm");if(slides(PM[PS.id]).length>1&&!e.target.closest(".zm")){var r=gm.getBoundingClientRect();gstep(e.clientX<r.left+r.width/2?-1:1)}else{gm.classList.contains("nv")||0;lbr(0);$("lb").classList.add("on")}}});
+$("pg").addEventListener("mousemove",function(e){var gm=e.target.closest&&e.target.closest("#gm");if(!gm||!gm.classList.contains("nv"))return;var r=gm.getBoundingClientRect();gm.classList.toggle("l",e.clientX<r.left+r.width/2);gm.classList.toggle("r",e.clientX>=r.left+r.width/2)});
+$("pg").addEventListener("touchstart",function(e){swx=e.target.closest("#gm")?e.touches[0].clientX:null},{passive:true});
+$("pg").addEventListener("touchend",function(e){if(swx==null)return;var dx=e.changedTouches[0].clientX-swx;swx=null;if(Math.abs(dx)>45){swd=1;setTimeout(function(){swd=0},400);gstep(dx<0?1:-1)}},{passive:true});
+$("lb").onclick=function(e){var im=e.target.closest("#lbi");if(im&&slides(PM[PS.id]).length>1){var r=im.getBoundingClientRect();PS.img=(PS.img+(e.clientX<r.left+r.width/2?-1:1)+slides(PM[PS.id]).length)%slides(PM[PS.id]).length;lbr(1);return}this.classList.remove("on")};
+$("lbi").addEventListener("mousemove",function(e){var r=this.getBoundingClientRect();this.classList.toggle("l",e.clientX<r.left+r.width/2);this.classList.toggle("r",e.clientX>=r.left+r.width/2)});
+addEventListener("keydown",function(e){if(e.key=="Escape")$("lb").classList.remove("on");if((e.key=="ArrowLeft"||e.key=="ArrowRight")&&onpg&&PS&&PM[PS.id]&&!/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||"")){var d=e.key=="ArrowLeft"?-1:1;gstep(d);if($("lb").classList.contains("on"))lbr(0)}});
 /* router */
 function view(on){var was=onpg;onpg=on;$("top").hidden=!!on;$("pg").hidden=!on;document.body.classList.toggle("pgv",!!on);$("lb").classList.remove("on");if(on||was)window.scrollTo({top:0,behavior:"instant"})}
 var RT="",HASHOK=/^(https?|file):$/.test(location.protocol);
