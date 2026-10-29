@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Helsiva Admin</title>
+<link rel="icon" href="/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#F4F1EB;--paper:#FBFAF7;--sand:#D8D0C3;--taupe:#A69D90;--ink:#242524;--black:#111211;--forest:#475249;--red:#A33A32;--gold:#B79A5B;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0}
+body{background:var(--ivory);color:var(--ink);font:400 14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;background:var(--black);color:var(--ivory);text-align:center;padding:24px}
+#login svg{width:54px;height:62px;margin-bottom:18px}
+#login h1{font:300 40px var(--serif);letter-spacing:.3em;margin:0 0 6px;padding-left:.3em}
+#login p{opacity:.6;letter-spacing:.2em;text-transform:uppercase;font-size:11px;margin:0 0 36px}
+.btn{border:1px solid currentColor;background:none;padding:13px 26px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;transition:.2s}
+.btn:hover{opacity:.75}
+.btn.solid{background:var(--ivory);color:var(--black);border-color:var(--ivory)}
+.btn.dark{background:var(--black);color:var(--ivory);border-color:var(--black)}
+.btn[disabled]{opacity:.35;cursor:default}
+#pw{display:block;width:260px;max-width:100%;margin:0 auto 14px;background:transparent;border:1px solid rgba(244,241,235,.35);color:var(--ivory);padding:13px 14px;font:14px var(--sans);letter-spacing:.08em;text-align:center;outline:0}#pw:focus{border-color:var(--ivory)}#err{color:#e29a93;margin-top:22px;min-height:20px;font-size:13px}
+/* header */
+header{position:sticky;top:0;z-index:30;background:var(--black);color:var(--ivory);display:flex;align-items:center;gap:28px;padding:0 24px;height:72px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;white-space:nowrap}
+.logo svg{height:34px;width:auto}
+.logo b{font:400 22px var(--serif);letter-spacing:.3em}
+.logo i{font:400 10px var(--sans);letter-spacing:.3em;border:1px solid rgba(244,241,235,.4);padding:3px 7px;margin-left:4px;font-style:normal}
+nav{display:flex;gap:6px;margin:0 auto;height:100%}
+nav button{background:none;border:0;color:inherit;padding:0 20px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;height:100%;position:relative;opacity:.8}
+nav button:hover,nav button.on{opacity:1}
+nav button.on:after{content:"";position:absolute;left:20px;right:20px;bottom:18px;height:1px;background:var(--ivory)}
+.hr{display:flex;align-items:center;gap:14px;white-space:nowrap}
+.hr a,.hr .who{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;text-decoration:none}
+.hr a:hover{opacity:1}
+#pub{background:var(--ivory);color:var(--black);border:0;padding:11px 20px;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+#pub[disabled]{background:transparent;color:rgba(244,241,235,.4);border:1px solid rgba(244,241,235,.25);cursor:default}
+#dis{background:none;border:0;color:var(--ivory);opacity:.7;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:underline}
+/* mega */
+#mega{position:fixed;left:0;right:0;top:72px;background:var(--black);color:var(--ivory);z-index:29;padding:30px 24px 36px;border-top:1px solid rgba(244,241,235,.12);display:none}
+#mega.on{display:block}
+.mg{display:flex;gap:64px;justify-content:center;flex-wrap:wrap}
+.mc h4{font:400 24px var(--serif);margin:0 0 12px}
+.mc button{display:flex;justify-content:space-between;gap:30px;width:100%;min-width:200px;background:none;border:0;color:inherit;text-align:left;padding:6px 0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.mc button:hover{opacity:1}
+.mc button span{opacity:.5}
+.mc h4 button{font:400 24px var(--serif);text-transform:none;letter-spacing:0;padding:0;opacity:1;display:inline}
+#band{background:var(--black);color:var(--ivory);border-top:1px solid rgba(244,241,235,.12);padding:6px 24px 26px;overflow-x:auto}
+.bg{display:grid;align-items:stretch;min-width:760px;max-width:1380px;margin:0 auto}
+.bg>*{display:flex;align-items:center;min-height:46px}
+.bh{font-size:10px;letter-spacing:.16em;text-transform:uppercase;justify-content:center;text-align:center;line-height:1.35;opacity:.65;background:none;border:0;color:inherit;padding:14px 6px}
+.bh:hover,.bh.on{opacity:1}
+.bh.on{box-shadow:inset 0 -1px 0 var(--ivory)}
+.bl{background:none;border:0;color:inherit;font:300 24px var(--serif);text-align:left;padding:0 10px 0 0;opacity:.7;justify-content:flex-start}
+.bl:hover,.bl.on{opacity:1}
+.bl.on:before{content:"";width:18px;height:1px;background:var(--ivory);margin-right:10px}
+.bl.all{font:500 10px var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.bc{justify-content:center;background:none;border:0;border-top:1px solid rgba(244,241,235,.1);color:inherit;font:300 22px var(--serif);flex-direction:column;gap:0;line-height:1.1}
+.bc small{font:400 9px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#e29a93;min-height:11px}
+.bc:hover{background:rgba(244,241,235,.07)}
+.bc.on{background:var(--ivory);color:var(--black)}
+.bc.on small{color:var(--red)}
+.bc.none{opacity:.25;pointer-events:none}
+.bs{border-top:1px solid rgba(244,241,235,.1)}
+/* main */
+main{max-width:1380px;margin:0 auto;padding:36px 24px 120px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.top h1{font:300 46px/1.1 var(--serif);margin:0}
+.top small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);margin-bottom:8px}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tools input[type=search]{border:1px solid var(--sand);background:var(--paper);padding:11px 14px;width:240px;font:inherit;outline:0}
+.tools input[type=search]:focus{border-color:var(--ink)}
+.chips{display:flex}
+.chips button{border:1px solid var(--sand);background:none;padding:10px 16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-left:-1px}
+.chips button.on{background:var(--black);color:var(--ivory);border-color:var(--black)}
+.grp{margin-bottom:44px}
+.gh{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:0}
+.gh h2{font:400 30px var(--serif);margin:0;cursor:pointer}
+.gh h2 em{font:400 11px var(--sans);font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:var(--taupe);margin-left:14px}
+.gh button{background:none;border:1px solid var(--sand);padding:8px 14px;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.gh button:hover{border-color:var(--ink)}
+.tw{overflow-x:auto;background:var(--paper);border:1px solid var(--sand);border-top:0}
+table{width:100%;border-collapse:collapse;min-width:860px}
+th{font:500 10px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);text-align:left;padding:12px 14px;border-bottom:1px solid var(--sand);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid #ECE7DD;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tr.dirty td:first-child{box-shadow:inset 3px 0 0 var(--gold)}
+tr.off .nm input,tr.off .th{opacity:.45}
+tr:hover td{background:#F7F4EE}
+.th{width:54px;height:54px;background:var(--sand);display:grid;place-items:center;overflow:hidden;color:var(--taupe);font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background-size:cover;background-position:center}
+.nm input{border:1px solid transparent;background:none;font:400 19px var(--serif);width:100%;min-width:200px;padding:4px 6px;margin-left:-6px}
+.nm input:hover{border-color:var(--sand)}.nm input:focus{border-color:var(--ink);background:#fff;outline:0}
+.nm small{display:block;color:var(--taupe);font-size:10px;letter-spacing:.06em;padding-left:0}
+.pr{display:flex;align-items:center;gap:4px;font:400 17px var(--serif)}
+.pr input{border:1px solid transparent;background:none;font:400 17px var(--serif);width:76px;padding:4px 6px}
+.pr input:hover{border-color:var(--sand)}.pr input:focus{border-color:var(--ink);background:#fff;outline:0}
+.tg{width:34px;height:34px;display:grid;place-items:center;border:1px solid;background:none;font-size:16px;line-height:1}
+.tg.on{background:var(--forest);border-color:var(--forest);color:#fff}
+.tg.no{border-color:var(--red);color:var(--red)}
+.cp{display:flex;gap:6px;flex-wrap:wrap}
+.cp span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--sand);padding:3px 8px;color:var(--taupe)}
+.cp span.y{border-color:var(--forest);color:var(--forest)}
+.ed{background:none;border:1px solid var(--ink);padding:8px 14px;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.ed:hover{background:var(--black);color:var(--ivory)}
+.sb{font-size:11px;color:var(--taupe)}
+.empty{padding:34px;text-align:center;color:var(--taupe)}
+/* drawer */
+#sh{position:fixed;inset:0;background:rgba(17,18,17,.45);z-index:40;display:none}
+#sh.on{display:block}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--ivory);z-index:41;transform:translateX(102%);transition:transform .25s;display:flex;flex-direction:column}
+#dr.on{transform:none}
+.dh{background:var(--black);color:var(--ivory);padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.dh small{letter-spacing:.2em;text-transform:uppercase;font-size:10px;opacity:.6}
+.dh h3{font:300 28px/1.15 var(--serif);margin:6px 0 0}
+.dh button{background:none;border:0;color:inherit;font-size:22px;line-height:1;padding:4px}
+.db{flex:1;overflow:auto;padding:24px 28px 40px}
+.fl{margin-bottom:20px}
+.fl label{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);margin-bottom:7px}
+.fl input,.fl textarea,.fl select{width:100%;border:1px solid var(--sand);background:var(--paper);padding:11px 13px;font:inherit;outline:0}
+.fl textarea{min-height:92px;resize:vertical}
+.fl input:focus,.fl textarea:focus,.fl select:focus{border-color:var(--ink)}
+.fl small{display:block;color:var(--taupe);font-size:11px;margin-top:5px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ph{display:flex;gap:16px;align-items:center}
+.ph .th{width:96px;height:96px}
+.ph div button{display:block;margin-bottom:8px}
+.df{border-top:1px solid var(--sand);padding:16px 28px;display:flex;gap:12px;justify-content:space-between;background:var(--paper)}
+.df .l{color:var(--red);border-color:var(--red)}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--black);color:var(--ivory);padding:14px 24px;font-size:12px;letter-spacing:.08em;z-index:60;display:none;max-width:90vw}
+#toast.on{display:block}
+#toast.bad{background:var(--red)}
+#ld{padding:90px;text-align:center;color:var(--taupe);letter-spacing:.2em;text-transform:uppercase;font-size:11px}
+@media(max-width:900px){.cc{display:none}table{min-width:0}td,th{padding:8px 6px}.th{width:44px;height:44px}.nm input{min-width:0;font-size:17px}.pr input{width:58px}.ed{padding:8px 10px}.gh h2{font-size:24px}header{gap:10px;padding:0 12px;height:auto;min-height:64px;flex-wrap:wrap}nav{order:3;width:100%;margin:0;height:46px;justify-content:space-between}nav button{padding:0 6px}nav button.on:after{left:6px;right:6px;bottom:8px}.logo i,.hr a,.hr .who{display:none}.top h1{font-size:34px}main{padding:24px 12px 100px}.row2{grid-template-columns:1fr}}
+
+.gl{border:1px solid transparent;background:none;font:400 30px var(--serif);color:var(--ink);padding:0 6px;margin-left:-6px;min-width:120px;max-width:60vw}
+.gl:hover{border-color:var(--sand)}.gl:focus{border-color:var(--ink);background:#fff;outline:0}
+.gh .gb{display:flex;gap:8px;align-items:center}.gh .gb button{white-space:nowrap}
+.gh .gb button.rd{border-color:var(--red);color:var(--red)}
+.gh .gb button.rd[disabled]{opacity:.35;cursor:default}
+.gh .gb button.rd:not([disabled]):hover{background:var(--red);color:#fff}
+.gh h2.pl{cursor:default}
+.sq{width:30px;height:30px;border:1px solid var(--taupe);background:#fff;display:grid;place-items:center;color:transparent;font-size:15px;line-height:1;padding:0}
+.sq:hover{border-color:var(--ink)}
+.sq.on{border-color:var(--red);color:var(--red)}
+th.sc{width:46px}
+.hbtn{background:none;border:0;color:var(--ivory);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:0 14px;height:72px;opacity:.7;position:relative}
+.hbtn:hover,.hbtn.on{opacity:1}
+.hbtn.on:after{content:"";position:absolute;left:14px;right:14px;bottom:18px;height:1px;background:var(--ivory)}
+.hmid{display:flex;margin:0 auto}
+.bl.all,.oh{cursor:pointer}
+button.oh{background:none;border:0;color:inherit;text-align:left;padding:0;display:flex;align-items:center;gap:8px}
+button.oh .ar{opacity:.7;font-size:14px;letter-spacing:0;margin-left:2px}
+.mdl{position:fixed;inset:0;background:rgba(17,18,17,.55);z-index:50;display:none;place-items:center;padding:20px}
+.mdl.on{display:grid}
+.mdb{background:var(--ivory);width:min(440px,100%);padding:30px}
+.mdb h3{font:300 30px var(--serif);margin:0 0 20px}
+.mdb .df2{display:flex;gap:10px;justify-content:flex-end;margin-top:26px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
+.tile{background:var(--paper);border:1px solid var(--sand);padding:16px 18px}
+.tile b{display:block;font:300 36px/1 var(--serif)}
+.tile span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe)}
+.tile.warn b{color:var(--red)}
+.st{font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--sand);padding:4px 9px;white-space:nowrap}
+.st.Lead{border-color:var(--gold);color:#8a6f33}.st.Customer{border-color:var(--forest);color:var(--forest)}.st.VIP{background:var(--black);color:var(--ivory);border-color:var(--black)}.st.Contacted{border-color:var(--taupe)}.st.Inactive{color:var(--taupe)}
+.due{color:var(--red)}
+.note{background:var(--paper);border:1px solid var(--sand);padding:16px 18px;max-width:640px;margin-bottom:22px;color:var(--taupe)}
+.note b{color:var(--ink)}
+.log{border-top:1px solid var(--sand);margin-top:6px}
+.log div{padding:10px 0;border-bottom:1px solid #ECE7DD;font-size:13px}
+.log small{color:var(--taupe);display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:900px){.tiles{grid-template-columns:1fr 1fr}.hbtn{height:46px;padding:0 8px}.hmid{order:3;width:100%;justify-content:center}.row3{grid-template-columns:1fr}}
+
+.shell{display:flex;align-items:flex-start}
+#side{width:236px;flex:none;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto;background:var(--paper);border-right:1px solid var(--sand);padding:18px 0 40px;display:block;margin:0;gap:0}
+.cont{flex:1;min-width:0}
+.sg{font:500 9px var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--taupe);padding:22px 24px 6px}
+button.si{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;background:none;border:0;border-left:2px solid transparent;text-align:left;padding:9px 20px 9px 22px;font:400 19px var(--serif);color:var(--ink);opacity:.72;height:auto;letter-spacing:0;text-transform:none}
+button.si:hover{opacity:1;background:#F4F1EB}
+button.si.on{opacity:1;border-left-color:var(--black);background:var(--ivory)}
+button.si i{font:400 10px var(--sans);letter-spacing:.14em;color:var(--taupe);margin-right:10px;font-style:normal}
+button.si b{font:500 10px var(--sans);min-width:20px;height:20px;border-radius:10px;background:var(--red);color:#fff;display:inline-grid;place-items:center;padding:0 6px}
+button.si b.dot{background:none;color:var(--gold);font-size:22px;line-height:1}
+.tabs{display:flex;gap:28px;border-bottom:1px solid var(--sand);margin:-8px 0 26px;flex-wrap:wrap}
+.tabs button{background:none;border:0;padding:10px 0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);border-bottom:1px solid transparent;margin-bottom:-1px}
+.tabs button.on{color:var(--ink);border-color:var(--ink)}
+.card{background:var(--paper);border:1px solid var(--sand);padding:24px 26px;margin-bottom:22px}
+.card h3{font:400 26px var(--serif);margin:0 0 4px}.card .sub{color:var(--taupe);font-size:12px;margin-bottom:16px;min-height:4px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}.two>.card{min-width:0}
+.tiles{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.st.g{border-color:var(--forest);color:var(--forest)}.st.y{border-color:var(--gold);color:#8a6f33}.st.r{border-color:var(--red);color:var(--red)}.st.k{background:var(--black);color:var(--ivory);border-color:var(--black)}.st.n{color:var(--taupe)}
+button.al,div.al{display:flex;align-items:center;gap:16px;width:100%;background:none;border:0;border-top:1px solid #ECE7DD;padding:13px 2px;text-align:left}
+button.al{cursor:pointer}button.al:hover{background:#F7F4EE}
+.al b{font:300 28px var(--serif);min-width:34px}.al span{flex:1}.al i{font-style:normal;color:var(--taupe)}
+.ck{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid #ECE7DD;color:var(--taupe)}
+.ck u{width:22px;height:22px;border:1px solid var(--taupe);display:grid;place-items:center;text-decoration:none;font-size:13px}
+.ck.ok{color:var(--ink)}.ck.ok u{background:var(--forest);border-color:var(--forest);color:#fff}
+.hb>div{display:grid;grid-template-columns:minmax(90px,200px) 1fr auto;gap:12px;align-items:center;padding:6px 0;font-size:13px}
+.hb i{height:10px;background:#ECE7DD;display:block}.hb u{display:block;height:100%;background:var(--forest)}.hb b{font-weight:500}
+.vb{display:flex;align-items:flex-end;gap:14px;height:190px;padding-top:10px}
+.vb>div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;font-size:11px;color:var(--taupe)}
+.vb u{width:100%;max-width:70px;background:var(--forest);display:block}.vb b{font:400 12px var(--sans);color:var(--ink)}
+.mi{border:1px solid transparent;background:none;font:inherit;padding:6px 8px;width:110px}.mi.n{width:84px}
+.mi:hover{border-color:var(--sand)}.mi:focus{border-color:var(--ink);background:#fff;outline:0}
+@media(max-width:900px){.shell{display:block}#side{position:static;width:auto;height:auto;display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--sand);padding:0}.sg{display:none}button.si{width:auto;white-space:nowrap;font-size:16px;padding:12px 14px;border-left:0;border-bottom:2px solid transparent}button.si.on{border-bottom-color:var(--black)}button.si i{display:none}.two,.fg{grid-template-columns:1fr}.vb{gap:6px}}
+.gtb{background:none;border:1px solid var(--sand);padding:6px 10px;font:500 9px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--taupe);margin-left:12px;align-self:center}.gtb:hover{border-color:var(--ink);color:var(--ink)}
+</style></head><body>
+<div id="login" hidden><div><svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="#F4F1EB" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><h1>HELSIVA</h1><p>Admin</p><input id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"><button class="btn solid" id="lb">Sign in</button><div id="err"></div></div></div>
+<div id="app" hidden>
+<header><a class="logo" href="#"><svg viewBox="0 0 60 70"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><b>HELSIVA</b><i>ADMIN</i></a>
+
+<div class="hr"><button id="dis" hidden>Discard</button><button id="pub" disabled>Publish</button><a href="/" target="_blank" rel="noopener">Live site ↗</a><span class="who" id="who"></span></div></header>
+<div class="shell"><div id="side"></div><div class="cont"><div id="band"></div>
+<main id="main"><div id="ld">Loading</div></main></div></div>
+</div>
+<div id="sh"></div><div class="mdl" id="md"></div><aside id="dr"></aside><div id="toast"></div>
+<script>var REPO='yigitozz44-dotcom/helsiva-site',BRANCH='main',AUTH='https://helsiva-auth.yigitozz44.workers.dev',API=AUTH+'/gh/repos/'+REPO+'/contents/';
+var SUB={"men-head": "head", "men-body": "body", "men-foot": "foot", "men-set": "set", "men-traditional-pestemal": "pestemal", "men-pre-and-post-sauna-robe": "robe", "women-head": "head", "women-body": "body", "women-foot": "foot", "women-set": "set", "women-traditional-pestemal": "pestemal", "women-pre-and-post-sauna-robe": "robe", "kids-head": "head", "kids-body": "body", "kids-traditional-pestemal": "pestemal", "kids-pre-and-post-sauna-robe": "robe"};
+var SUBL={head:'Head',body:'Body',foot:'Foot',set:'Set',pestemal:'Traditional Pestemal',robe:'Pre- & Post-Sauna Robe'};
+var GIFTS=['For Him','For Her','For Couples','Housewarming','Wedding','Yacht','Chalet','Corporate Gifts'];
+var GN={men:'Men',women:'Women',kids:'Kids',gifts:'Gifts'},GO=['men','women','kids'];
+var CN={Kits:'Complete rituals',Oils:'Oils','Intimate Protection':'Intimate Protection',Wraps:'Towels & Wraps',Masks:'Masks',Soaps:'Soaps',Combs:'Combs',Hats:'Hats',Cooling:'Cooling'};
+var CO=['Kits','Oils','Wraps','Masks','Hats','Soaps','Combs','Intimate Protection','Cooling'];
+var STD={description:'Part of the Helsiva Nordic sauna ritual, made for calm, unhurried sessions.',materials:'The exact composition is printed on the product label.',usage:'Follow the instructions on the product label.',care:'Care instructions are printed on the product label.'};
+var DEF={oil:'/h-8bd668aea4.webp',men:'/h-2f2e0670e0.webp',women:'/h-59ddf62221.webp',kids:'/h-8f000b60dc.webp'};
+var F=['name','price','visible','description','bullets','materials','usage','care','contents','image','subgroup','deleted','tr','images','more'];
+var TL=[['tr','Türkçe'],['de','Deutsch'],['fr','Français'],['es','Español'],['it','Italiano'],['nl','Nederlands'],['pt','Português'],['el','Ελληνικά'],['ru','Русский'],['ar','العربية'],['zh','中文'],['ja','日本語'],['ko','한국어']];
+var TRF=[['name','Name'],['description','Description'],['bullets','Details'],['materials','Materials'],['usage','Usage'],['care','Care']];
+var TXT=['description','bullets','materials','usage','care','contents'];
+var CST=['Lead','Contacted','Customer','VIP','Inactive'],CSEG=['Private home sauna','Hotel & spa','Yacht','Chalet','Corporate','Reseller','Other'],CSRC=['Website','Instagram','Referral','Event','Email','Other'];
+var TOK=null,P=[],CATS=[],ORIG={},ORIGC={},DEL={},SEL={},PEND={},OPEN=null;
+var V={sec:'dash',tabs:{},lq:{},lf:{},g:'all',cat:null,q:'',f:'all',open:false,oopen:false,gs:null};
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function toast(m,bad){var t=$('toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){t.className=''},bad?8000:4200)}
+function u8(b64){return decodeURIComponent(escape(atob(b64.replace(/\s/g,''))))}
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function gh(path,opt){opt=opt||{};opt.headers=Object.assign({Authorization:'Bearer '+TOK,Accept:'application/vnd.github+json'},opt.headers||{});return fetch(path,opt)}
+function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'x'}
+/* auth */
+function showLogin(msg){$('app').hidden=true;$('login').hidden=false;$('err').textContent=msg||''}
+function doLogin(){var pw=$('pw').value;if(!pw){$('err').textContent='Enter your password.';return}$('err').textContent='';$('lb').disabled=true;
+ fetch(AUTH+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{s:r.status,j:j}})}).then(function(x){$('lb').disabled=false;
+  if(x.s==200&&x.j.token){TOK=x.j.token;sessionStorage.setItem('hsv_t',TOK);$('pw').value='';boot()}
+  else if(x.s==429)$('err').textContent='Too many attempts. Try again in 15 minutes.';
+  else if(x.s==501)$('err').textContent='Login is not set up on the server yet.';
+  else $('err').textContent='Wrong password.'}).catch(function(){$('lb').disabled=false;$('err').textContent='Could not reach the server. Check your connection.'})}
+$('lb').onclick=doLogin;$('pw').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
+/* data */
+function norm(o){var p={id:o.id,gender:o.gender||'',category:o.category||'',custom:!!o.custom};F.forEach(function(k){p[k]=o[k]==null?(k=='visible'?true:(k=='deleted'?false:(k=='tr'||k=='images'||k=='more'?{}:''))):o[k]});p.price=+o.price||0;p.deleted=!!o.deleted;if(!p.subgroup&&SUB[o.id])p.subgroup=SUB[o.id];
+ p.g=String(p.gender).toLowerCase();p.cat=p.category=='Complete rituals'?'Kits':p.category;return p}
+function snap(p){var o={};F.forEach(function(k){o[k]=p[k]});o.custom=p.custom;return JSON.stringify(o)}
+function dirty(p){return !ORIG[p.id]||ORIG[p.id]!==snap(p)}
+function cKey(c){return c.g+'|'+c.key}
+function catDirtyN(){var n=0,seen={};CATS.forEach(function(c){seen[cKey(c)]=1;if(ORIGC[cKey(c)]!==JSON.stringify(c))n++});for(var k in ORIGC)if(!seen[k])n++;return n}
+function nDirty(){var n=P.filter(dirty).length;for(var k in DEL)if(ORIG[k])n++;return n+catDirtyN()}
+var OILK=['Rosemary','Pine','Tea','Birch','Lavender','Mint','Eucalyptus','Sakura','Cedar','Vanilla','Jasmine'],OLDO={'men':['eucalyptus','peppermint','pine','birch','cedar'],'women':['eucalyptus','peppermint','lavender','birch','pine']};
+function seedOils(P){var old={};Object.keys(OLDO).forEach(function(g){OLDO[g].forEach(function(k){old[g+'-'+k+'-sauna-oil']=1})});P=P.filter(function(p){return !old[p.id]});var have={};P.forEach(function(p){have[p.id]=1});
+ ['men','women'].forEach(function(g){var add=[];OILK.forEach(function(k,i){var id=g+'-no'+(i+1)+'-'+k.toLowerCase();if(!have[id])add.push(norm({id:id,gender:g=='men'?'Men':'Women',category:'Oils',name:'No'+(i+1)+' '+k,price:48,visible:true,description:'',image:''}))});
+  if(!add.length)return;var at=P.map(function(p){return p.id}).indexOf(g+'-post-sauna-body-oil');if(at<0)at=P.length;P.splice.apply(P,[at,0].concat(add))});
+ return P}
+function load(){return gh(API+'products.json?ref='+BRANCH+'&t='+Date.now()).then(function(r){if(r.status==401)throw new Error('auth');if(!r.ok)throw new Error('load '+r.status);return r.json()}).then(function(j){var d=JSON.parse(u8(j.content));P=d.products.map(norm);P=seedOils(P);ORIG={};P.forEach(function(p){ORIG[p.id]=snap(p)});
+ CATS=(d.categories||[]).map(function(c){return{g:String(c.gender||'').toLowerCase(),key:c.key,label:c.label||'',custom:!!c.custom,tr:c.tr||{}}});ORIGC={};CATS.forEach(function(c){ORIGC[cKey(c)]=JSON.stringify(c)});DEL={};PEND={};SEL={}})}
+function boot(){TOK=TOK||sessionStorage.getItem('hsv_t');if(!TOK)return showLogin();
+ fetch(AUTH+'/me',{headers:{Authorization:'Bearer '+TOK}}).then(function(r){if(!r.ok)throw new Error('auth');return r.json()}).then(function(u){$('who').textContent='Signed in';$('login').hidden=true;$('app').hidden=false;return load()})  .then(function(){render();return dLoad().then(render)}).catch(function(e){sessionStorage.removeItem('hsv_t');TOK=null;showLogin(e.message=='auth'?'':'Could not load the catalogue ('+e.message+').')})}
+/* categories */
+function catEntry(g,k){for(var i=0;i<CATS.length;i++)if(CATS[i].g==g&&CATS[i].key==k)return CATS[i]}
+function LAB(g,k){if(g=='gifts')return k;var e=catEntry(g,k);return (e&&e.label)||CN[k]||k}
+function catsOf(g){if(g=='gifts')return GIFTS.slice();var s={};P.forEach(function(p){if(p.g==g)s[p.cat]=1});var a=CO.filter(function(c){return s[c]});Object.keys(s).forEach(function(c){if(a.indexOf(c)<0)a.push(c)});CATS.forEach(function(c){if(c.g==g&&a.indexOf(c.key)<0)a.push(c.key)});return a}
+function allKeys(){var a=CO.filter(function(c){return P.some(function(p){return p.cat==c&&p.g!='gifts'})});GO.forEach(function(g){catsOf(g).forEach(function(k){if(a.indexOf(k)<0)a.push(k)})});return a}
+function keyLabel(k){for(var i=0;i<GO.length;i++){if(catsOf(GO[i]).indexOf(k)>-1)return LAB(GO[i],k)}return CN[k]||k}
+function live(p){return !p.deleted}
+function cnt(g,k){var l=P.filter(function(p){return live(p)&&(g=='all'?p.g!='gifts':p.g==g)&&p.cat==k});return l}
+/* band */
+function cell(g,k,on,attr){var l=cnt(g,k),off=l.filter(function(p){return !p.visible}).length,ex=l.length||(g!='all'&&g!='gifts'&&catEntry(g,k)&&catEntry(g,k).custom);
+ return '<button class="bc '+(ex?'':'none ')+(on?'on':'')+'" '+attr+'>'+(l.length||'·')+'<small>'+(off?off+' offline':'')+'</small></button>'}
+function renderNav(){var cs=allKeys(),gsel=V.g=='men'||V.g=='women'||V.g=='kids',showRows=V.open||gsel;
+ var h='<div class="bg" style="grid-template-columns:150px repeat('+cs.length+',minmax(88px,1fr))"><span></span>';
+ cs.forEach(function(c){h+='<button class="bh '+(V.cat==c?'on':'')+'" data-bc="'+esc(c)+'">'+esc(keyLabel(c))+'</button>'});
+ h+='<button class="bl all '+(V.g=='all'?'on':'')+'" data-bl="all">All products <span class="ar">'+(showRows&&V.g=='all'?'−':'+')+'</span></button>';
+ cs.forEach(function(c){h+=cell('all',c,false,'data-bc="'+esc(c)+'"')});
+ if(showRows)GO.forEach(function(g){
+  h+='<button class="bl '+(V.g==g?'on':'')+'" data-bl="'+g+'">'+GN[g]+'</button>';
+  cs.forEach(function(c){if(gsel&&V.g!=g||catsOf(g).indexOf(c)<0){h+='<span class="bs"></span>';return}
+   h+=cell(g,c,V.g==g&&V.cat==c,'data-bg="'+g+'" data-bk="'+esc(c)+'"')})});
+ h+='</div>';
+ {var oo=V.oopen||V.g=='gifts';
+  h+='<div class="ot"><button class="oh" data-oo>Other products <i>Admin only</i><span class="ar">'+(oo?'−':'+')+'</span></button>';
+  if(oo){h+='<div class="bg" style="grid-template-columns:150px repeat('+GIFTS.length+',minmax(88px,1fr))"><span></span>';
+   GIFTS.forEach(function(x){h+='<button class="bh '+(V.g=='gifts'&&V.gs==x?'on':'')+'" data-gs="'+esc(x)+'">'+esc(x)+'</button>'});
+   h+='<button class="bl '+(V.g=='gifts'?'on':'')+'" data-bl="gifts">Gifts</button>';
+   GIFTS.forEach(function(x){h+=cell('gifts',x,V.g=='gifts'&&V.gs==x,'data-gs="'+esc(x)+'"').replace('class="bc none ','class="bc ')})}
+  h+=(oo?'</div>':'')+'</div>'}
+ $('band').innerHTML=h}
+/* catalogue */
+function match(p){if(V.f=='del'){if(!p.deleted)return false}else if(p.deleted)return false;
+ if(V.g!='all'&&p.g!=V.g)return false;if(V.cat&&p.cat!=V.cat&&V.g!='gifts')return false;if(V.g=='gifts'&&V.gs&&p.cat!=V.gs)return false;
+ if(V.f=='on'&&!p.visible)return false;if(V.f=='off'&&p.visible)return false;
+ if(V.q){var q=V.q.toLowerCase();if((p.name+' '+p.id+' '+p.description).toLowerCase().indexOf(q)<0)return false}return true}
+var SIZES=['20 ml','50 ml'];
+function thumb(p){if(p._prev)return p._prev;if(p.image)return '/'+p.image.replace(/^\//,'');var im=p.images||{},pv=p._prevs||{};for(var i=0;i<SIZES.length;i++){if(pv[SIZES[i]])return pv[SIZES[i]];if(im[SIZES[i]])return '/'+String(im[SIZES[i]]).replace(/^\//,'')}return null}
+function extras(p,key){var a=(p.more||{})[key]||[],pv=p._mprev||{};return '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">'+a.map(function(x,i){var u=pv[x]||'/'+String(x).replace(/^\//,'');return '<div style="position:relative;width:48px;height:60px;background:#ddd url(\''+esc(u)+'\') center/cover;border:1px solid var(--sand)"><button data-rmx="'+esc(key)+'|'+i+'" title="Remove" style="position:absolute;top:-9px;right:-9px;width:20px;height:20px;padding:0;border-radius:50%;border:1px solid #111;background:#fff;color:#111;font:13px/17px sans-serif;cursor:pointer">×</button></div>'}).join('')+'<button class="ed" data-upx="'+esc(key)+'">+ Add photo</button><small style="flex-basis:100%">Extra photos form a gallery on the shop page: a click on the right half of the photo shows the next one, the left half the previous.</small></div>'}
+function cleanMore(m){var o={};Object.keys(m||{}).forEach(function(k){var a=(m[k]||[]).filter(Boolean);if(a.length)o[k]=a});return o}
+function photoBlock(p){var one=function(size,lab){var u=size?((p._prevs||{})[size]||((p.images||{})[size]?'/'+String(p.images[size]).replace(/^\//,''):null)):(p._prev||(p.image?'/'+p.image.replace(/^\//,''):null)),has=size?!!(p.images||{})[size]:!!p.image;return '<div style="margin-bottom:14px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:8px">'+lab+'</div><div class="ph"><div class="th" style="'+(u?'background-image:url(\''+esc(u)+'\')':'')+'">'+(u?'':'H')+'</div><div><button class="ed" data-up="'+esc(size)+'">Upload photo</button>'+(has?'<button class="ed" data-rm="'+esc(size)+'">Remove</button>':'')+'</div></div>'+extras(p,size||'_')+'</div>'};
+ return '<div class="fl"><label>Photo</label>'+(p.cat=='Oils'?SIZES.map(function(s){return one(s,'Bottle · '+s)}).join(''):one('','Product photo'))+'<input type="file" id="fi" accept="image/*" hidden><small>Without a photo the shop shows the Helsiva monogram. Square or portrait photos look best. Large images are resized automatically.</small></div>'}
+function byId(id){return P.filter(function(p){return p.id==id})[0]}
+function groupHtml(g,k,rows,filterOn){
+ var all=P.filter(function(p){return p.g==g&&p.cat==k&&live(p)}),oc=all.filter(function(p){return p.visible}).length,isG=g=='gifts',gid=g+'|'+k;
+ var sel=rows.filter(function(p){return SEL[p.id]});
+ var h='<section class="grp"><div class="gh"><div style="display:flex;align-items:baseline;flex-wrap:wrap">'+(isG?'<h2 class="pl">'+esc(k)+'</h2>':'<h2 class="pl" style="display:flex;align-items:baseline">'+(V.g=='all'?'<span style="font-size:30px;margin-right:6px">'+GN[g]+' ·</span>':'')+'<input class="gl" data-gl="'+esc(gid)+'" value="'+esc(LAB(g,k))+'" title="Click to rename this group"><button class="gtb" data-gtr="'+esc(gid)+'" title="Translations">🌐 Translate</button></h2>')+'<em style="font:400 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--taupe);margin-left:14px">'+oc+' / '+all.length+' online</em></div>';
+ if(V.f!='del')h+='<div class="gb"><button data-add="'+esc(gid)+'">+ Add product</button><button class="rd" data-delg="'+esc(gid)+'"'+(sel.length?'':' disabled')+'>Delete product'+(sel.length?' ('+sel.length+')':'')+'</button>'+(!isG&&catEntry(g,k)&&catEntry(g,k).custom?'<button class="rd" data-delcat="'+esc(gid)+'">Delete category</button>':'')+'</div>';
+ h+='</div><div class="tw"><table><thead><tr><th></th><th>Product</th>'+(k=='Wraps'?'<th class="cc">Type</th>':'')+'<th>Price</th><th>Online</th><th class="cc">Content</th><th></th><th class="sc">'+(V.f=='del'?'':'<button class="sq'+(rows.length&&sel.length==rows.length?' on':'')+'" data-sqall="'+esc(gid)+'" title="Select all">✕</button>')+'</th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="8"><div class="empty">'+(filterOn?'No products match.':'No products in this group yet. Use “+ Add product”.')+'</div></td></tr>';
+ rows.forEach(function(p){var t=thumb(p),hasT=TXT.some(function(x){return p[x]});
+  h+='<tr class="'+(dirty(p)?'dirty':'')+(p.visible?'':' off')+'" data-id="'+esc(p.id)+'"><td><div class="th" data-e="'+esc(p.id)+'" style="'+(t?'background-image:url(\''+esc(t)+'\')':'')+'">'+(t?'':'Photo')+'</div></td>'
+  +'<td class="nm"><input data-n="'+esc(p.id)+'" value="'+esc(p.name)+'"><small>'+esc(p.id)+(p.custom?' · new':'')+'</small></td>'
+  +(k=='Wraps'?'<td class="sb cc">'+esc(SUBL[p.subgroup]||'-')+'</td>':'')
+  +'<td><div class="pr">€<input data-p="'+esc(p.id)+'" type="number" min="1" step="1" value="'+p.price+'"></div></td>'
+  +'<td>'+(p.deleted?'<span class="st">Deleted</span>':'<button class="tg '+(p.visible?'on':'no')+'" data-t="'+esc(p.id)+'" title="'+(p.visible?'Online: click to hide':'Offline: click to publish')+'">'+(p.visible?'✓':'✕')+'</button>')+'</td>'
+  +'<td class="cc"><div class="cp"><span class="'+(p.image?'y':'')+'">Photo</span><span class="'+(hasT?'y':'')+'">Texts</span></div></td>'
+  +'<td>'+(p.deleted?'<button class="ed" data-restore="'+esc(p.id)+'">Restore</button>':'<button class="gtb" style="margin:0 8px 0 0" data-trp="'+esc(p.id)+'" title="Translate this product">🌐'+(Object.keys(p.tr||{}).length?' '+Object.keys(p.tr).length+'/13':'')+'</button><button class="ed" data-e="'+esc(p.id)+'">Edit</button>')+'</td>'
+  +'<td class="sc">'+(p.deleted?'':'<button class="sq'+(SEL[p.id]?' on':'')+'" data-sq="'+esc(p.id)+'" title="Select">✕</button>')+'</td></tr>'});
+ return h+'</tbody></table></div></section>'}
+function renderCat(){var h='',isG=V.g=='gifts';
+ var title=isG?('Gifts'+(V.gs?' · '+V.gs:'')):((V.g=='all'?'All products':GN[V.g])+(V.cat?' · '+keyLabel(V.cat):''));
+ var scope=P.filter(function(p){return live(p)&&(V.g=='all'?p.g!='gifts':p.g==V.g)}),on=scope.filter(function(p){return p.visible}).length,nd=P.filter(function(p){return p.deleted}).length;
+ h+='<div class="top"><div><small>'+(isG?'Other products · admin only':'Catalogue · '+on+' of '+scope.length+' online')+'</small><h1>'+esc(title)+'</h1></div><div class="tools"><input id="q" type="search" placeholder="Search products" value="'+esc(V.q)+'"><div class="chips">'+[['all','All'],['on','Online'],['off','Offline']].concat(nd?[['del','Deleted ('+nd+')']]:[]).map(function(c){return '<button data-f="'+c[0]+'" class="'+(V.f==c[0]?'on':'')+'">'+c[1]+'</button>'}).join('')+'</div>'+(isG?'':'<button class="btn dark" data-newcat style="padding:11px 18px">+ New category</button>')+'</div></div>';
+ var filterOn=!!V.q||V.f!='all',keys=[];
+ var gl=isG?['gifts']:GO.filter(function(g){return V.g=='all'||V.g==g});
+ gl.forEach(function(g){catsOf(g).forEach(function(k){if(!isG&&V.cat&&V.cat!=k)return;if(isG&&V.gs&&V.gs!=k)return;
+  var rows=P.filter(function(p){return p.g==g&&p.cat==k&&match(p)});
+  var custom=!isG&&catEntry(g,k)&&catEntry(g,k).custom;
+  if(!rows.length&&(filterOn||(!isG&&!custom&&P.filter(function(p){return p.g==g&&p.cat==k}).length&&V.f!='del')&&false))return;
+  if(!rows.length&&V.f=='del')return;
+  if(!rows.length&&filterOn)return;
+  h+=groupHtml(g,k,rows,filterOn)})});
+ if(!/class="grp"/.test(h))h+='<div class="empty">'+(V.f=='del'?'No deleted products.':'No products match.')+'</div>';
+ $('main').innerHTML=h}
+/* drawer: product */
+function drawer(id,keep){var p=byId(id);if(!p){closeDr();return}OPEN=id;OPENR=null;
+ var isK=p.cat=='Kits',isW=p.cat=='Wraps',isG=p.g=='gifts';
+ var h='<div class="dh"><div><small>'+(GN[p.g]||'')+' · '+esc(LAB(p.g,p.cat))+'</small><h3>'+esc(p.name)+'</h3></div><button data-x>✕</button></div><div class="db">'
+ +photoBlock(p)
+ +'<div class="row2"><div class="fl"><label>Name</label><input data-f="name" value="'+esc(p.name)+'"></div><div class="fl"><label>Price (EUR)</label><input data-f="price" type="number" min="1" step="1" value="'+p.price+'"></div></div>'
+ +(isW?'<div class="fl"><label>Type</label><select data-f="subgroup">'+Object.keys(SUBL).map(function(k){return '<option value="'+k+'"'+(p.subgroup==k?' selected':'')+'>'+SUBL[k]+'</option>'}).join('')+'</select></div>':'')
+ +'<div class="fl"><label>Online</label><select data-f="visible"><option value="1"'+(p.visible?' selected':'')+'>Online: visible in the shop</option><option value="0"'+(p.visible?'':' selected')+'>Offline: hidden</option></select></div>'
+ +'<div class="fl"><label>Description</label><textarea data-f="description">'+esc(p.description)+'</textarea><small>English only for now.</small></div>'
+ +'<div class="fl"><label>Details (one per line)</label><textarea data-f="bullets">'+esc(p.bullets)+'</textarea></div>'
+ +(isK?'<div class="fl"><label>In this ritual (one item per line)</label><textarea data-f="contents" style="min-height:140px">'+esc(p.contents)+'</textarea><small>Leave empty to keep the standard contents.</small></div>':'')
+ +'<div class="fl"><label>Materials</label><textarea data-f="materials">'+esc(p.materials)+'</textarea></div>'
+ +'<div class="fl"><label>Usage</label><textarea data-f="usage">'+esc(p.usage)+'</textarea></div>'
+ +'<div class="fl"><label>Care</label><textarea data-f="care">'+esc(p.care)+'</textarea></div>'+'</div>'
+ +'<div class="df"><div style="display:flex;gap:8px">'+(p.custom?'<button class="btn" data-std>Fill standard texts</button>':'<button class="btn" data-rev>Revert</button>')+'<button class="btn l" data-delone>Delete</button></div><button class="btn dark" data-x>Done</button></div>';
+ if(keep&&$('dr').dataset.id==id)return;
+ $('dr').innerHTML=h;$('dr').dataset.id=id;$('dr').className='on';$('sh').className='on'}
+function closeDr(){OPEN=null;OPENR=null;$('dr').className='';$('dr').dataset.id='';$('sh').className=''}
+function removeProducts(ids){ids.forEach(function(id){var p=byId(id);if(!p)return;delete SEL[id];if(p.custom){P=P.filter(function(x){return x.id!=id});if(ORIG[id])DEL[id]=1;Object.keys(PEND).forEach(function(k){if(k==id||k.indexOf(id+'|')==0)delete PEND[k]})}else{p.deleted=true}})}
+/* modal: new category */
+function openNewCat(){var g=(V.g=='men'||V.g=='women'||V.g=='kids')?V.g:'men';
+ $('md').innerHTML='<div class="mdb"><h3>New category</h3><div class="fl"><label>Section</label><select id="ncg">'+GO.map(function(x){return '<option value="'+x+'"'+(x==g?' selected':'')+'>'+GN[x]+'</option>'}).join('')+'</select></div><div class="fl"><label>Category name</label><input id="ncn" placeholder="e.g. Candles"></div><div class="df2"><button class="btn" data-mclose>Cancel</button><button class="btn dark" data-mok>Create</button></div></div>';
+ $('md').className='mdl on';setTimeout(function(){$('ncn').focus()},40)}
+function closeModal(){$('md').className='mdl'}
+/* events */
+document.addEventListener('click',function(e){var t=e.target,b;
+ if(t.closest('[data-mclose]')||t.id=='md'){closeModal();return}
+ if(t.closest('[data-mok]')){var g=$('ncg').value,n=$('ncn').value.trim();if(!n){$('ncn').focus();return}
+  var key='c-'+slug(n)+'-'+Date.now().toString(36);CATS.push({g:g,key:key,label:n,custom:true,tr:{}});closeModal();V.sec='cat';V.g=g;V.cat=key;V.open=true;V.f='all';V.q='';render();toast('Category added. Add products to it, then publish.');return}
+ if(t.closest('[data-newcat]')){openNewCat();return}
+ if(b=t.closest('[data-oo]')){V.oopen=!V.oopen;if(V.g=='gifts'&&!V.oopen){V.g='all'}render();return}
+ if(b=t.closest('[data-gs]')){V.g='gifts';V.gs=b.dataset.gs==V.gs?null:b.dataset.gs;V.cat=null;V.f='all';render();return}
+ if(b=t.closest('[data-bl]')){var g=b.dataset.bl;if(g=='all'){if(V.g=='all'){V.open=!V.open}else{V.g='all';V.open=true}}else{V.g=g;if(g=='gifts'){V.open=false;V.oopen=true;V.gs=null}else V.open=true}V.cat=null;V.f='all';render();return}
+ if(b=t.closest('[data-bc]')){if(V.g=='gifts')V.g='all';V.cat=V.cat==b.dataset.bc?null:b.dataset.bc;render();return}
+ if(b=t.closest('[data-bg]')){V.g=b.dataset.bg;V.cat=b.dataset.bk;render();return}
+ if(b=t.closest('.chips button')){V.f=b.dataset.f;render();return}
+ if(b=t.closest('[data-t]')){var p=byId(b.dataset.t);p.visible=!p.visible;render();return}
+ if(b=t.closest('[data-restore]')){byId(b.dataset.restore).deleted=false;render();return}
+ if(b=t.closest('[data-sqall]')){var gid=b.dataset.sqall.split('|');var rows=P.filter(function(p){return p.g==gid[0]&&p.cat==gid[1]&&match(p)});var all=rows.length&&rows.every(function(p){return SEL[p.id]});rows.forEach(function(p){if(all)delete SEL[p.id];else SEL[p.id]=1});render();return}
+ if(b=t.closest('[data-sq]')){var id=b.dataset.sq;if(SEL[id])delete SEL[id];else SEL[id]=1;render();return}
+ if(b=t.closest('[data-delcat]')){var cg=b.dataset.delcat.split('|'),cn=P.filter(function(p){return p.g==cg[0]&&p.cat==cg[1]&&live(p)}),ce=catEntry(cg[0],cg[1]);if(!ce||!ce.custom)return;
+  if(confirm('Delete the category "'+LAB(cg[0],cg[1])+'"'+(cn.length?' and its '+cn.length+' product'+(cn.length>1?'s':''):'')+'? It disappears from the shop when you publish.')){removeProducts(cn.map(function(p){return p.id}));CATS=CATS.filter(function(c){return !(c.g==cg[0]&&c.key==cg[1])});P=P.filter(function(p){return !(p.g==cg[0]&&p.cat==cg[1]&&p.deleted&&p.custom)});if(V.cat==cg[1])V.cat=null;render();toast('Category removed. Press Publish to apply.')}return}
+ if(b=t.closest('[data-delg]')){var gid=b.dataset.delg.split('|');var ids=P.filter(function(p){return p.g==gid[0]&&p.cat==gid[1]&&SEL[p.id]&&live(p)}).map(function(p){return p.id});if(!ids.length)return;
+  if(confirm('Delete '+ids.length+' product'+(ids.length>1?'s':'')+'? They disappear from the shop when you publish.')){removeProducts(ids);render()}return}
+ if(b=t.closest('[data-add]')){var a=b.dataset.add.split('|');var id=(a[0]=='gifts'?'gift-':'custom-'+a[0]+'-')+Date.now().toString(36);
+  var p=norm({id:id,gender:GN[a[0]],category:a[1],name:'New product',price:50,visible:false,custom:true,description:STD.description,materials:STD.materials,usage:STD.usage,care:STD.care});P.push(p);V.f='all';V.q='';render();drawer(id);return}
+ if(b=t.closest('[data-e]')){drawer(b.dataset.e);return}
+ if(t.closest('[data-x]')||t.id=='sh'){closeDr();return}
+ if(b=t.closest('[data-upx]')){$('fi').dataset.size=b.dataset.upx;$('fi').dataset.x='1';$('fi').click();return}
+ if(b=t.closest('[data-rmx]')){var p=byId(OPEN),a=b.dataset.rmx.split('|'),L=(p.more||{})[a[0]]||[],nm=L[+a[1]];L.splice(+a[1],1);if(nm)delete PEND[p.id+'|+'+nm];$('dr').dataset.id='';render();drawer(OPEN);return}
+ if(b=t.closest('[data-up]')){$('fi').dataset.size=b.dataset.up||'';$('fi').dataset.x='';$('fi').click();return}
+ if(b=t.closest('[data-rm]')){var p=byId(OPEN),sz=b.dataset.rm;if(sz){delete p.images[sz];if(p._prevs)delete p._prevs[sz];delete PEND[p.id+'|'+sz]}else{p.image='';delete p._prev;delete PEND[OPEN]}$('dr').dataset.id='';render();drawer(OPEN);return}
+ if(t.closest('[data-std]')){var p=byId(OPEN);['description','materials','usage','care'].forEach(function(k){if(!String(p[k]).trim())p[k]=STD[k]});$('dr').dataset.id='';render();drawer(OPEN);toast('Empty fields filled with the standard texts.');return}
+ if(t.closest('[data-rev]')){var p=byId(OPEN),o=JSON.parse(ORIG[OPEN]);F.forEach(function(k){p[k]=o[k]});delete p._prev;delete p._prevs;Object.keys(PEND).forEach(function(k){if(k==OPEN||k.indexOf(OPEN+'|')==0)delete PEND[k]});$('dr').dataset.id='';render();drawer(OPEN);return}
+ if(t.closest('[data-delone]')){if(confirm('Delete this product? It disappears from the shop when you publish.')){var id=OPEN;closeDr();removeProducts([id]);render()}return}
+});
+document.addEventListener('input',function(e){var t=e.target,id,p;
+ if(t.id=='q'){V.q=t.value;var pos=t.selectionStart;render();var q=$('q');q.focus();q.setSelectionRange(pos,pos);return}
+ if(id=t.dataset.gl){var a=id.split('|'),e2=catEntry(a[0],a[1]);var v=t.value;if(e2)e2.label=v;else CATS.push({g:a[0],key:a[1],label:v,custom:false,tr:{}});markTop();return}
+ if(id=t.dataset.n){p=byId(id);p.name=t.value;markRow(p);return}
+ if(id=t.dataset.p){p=byId(id);p.price=Math.max(0,Math.round(+t.value||0));markRow(p);return}
+ if(t.dataset.ptx){p=byId(PTR);var l=t.dataset.ptx,f=V.ptf||'name';p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l][f]=t.value;markTop();return}
+ if(t.dataset.gt){GTR.tr[t.dataset.gt]=t.value;return}
+ if(t.dataset.f&&t.closest('#dr')){p=byId(OPEN);var k=t.dataset.f,v=t.value;if(k=='price')v=Math.max(0,Math.round(+v||0));if(k=='visible')v=v=='1';p[k]=v;markTop()}});
+document.addEventListener('change',function(e){var t=e.target;if(t.id=='fi'&&t.files[0])pick(t.files[0]);
+ if(t.dataset.f&&t.closest('#dr'))render();
+ if(t.dataset.gl){var a=t.dataset.gl.split('|'),e2=catEntry(a[0],a[1]);if(e2&&!e2.custom&&!e2.label.trim()){CATS=CATS.filter(function(x){return x!==e2})}render()}
+});
+function markRow(p){var r=document.querySelector('tr[data-id="'+p.id+'"]');if(r)r.classList.toggle('dirty',dirty(p));markTop()}
+$('dis').onclick=function(){if(!confirm('Discard all unsaved changes?'))return;closeDr();if(V.sec=='cat')load().then(render);else dLoad().then(render)};
+/* image */
+function pick(f){var p=byId(OPEN),size=$('fi').dataset.size||'',xf=$('fi').dataset.x=='1';var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var m=1400,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+ var url=c.toDataURL('image/webp',.84);if(url.indexOf('image/webp')<0)url=c.toDataURL('image/jpeg',.86);var ext=url.indexOf('image/webp')>0?'webp':'jpg';var name='uploads/'+p.id+(size?'-'+size.replace(/[^0-9a-z]/gi,''):'')+'-'+Date.now().toString(36)+'.'+ext;
+ if(xf){var key=size||'_',nx='uploads/'+p.id+'-g'+Date.now().toString(36)+'.'+ext;PEND[p.id+'|+'+nx]={name:nx,data:url.split(',')[1]};p.more=p.more||{};(p.more[key]=p.more[key]||[]).push(nx);p._mprev=p._mprev||{};p._mprev[nx]=url}else if(size){PEND[p.id+'|'+size]={name:name,data:url.split(',')[1]};p.images=p.images||{};p.images[size]=name;p._prevs=p._prevs||{};p._prevs[size]=url}else{PEND[p.id]={name:name,data:url.split(',')[1]};p.image=name;p._prev=url}$('dr').dataset.id='';render();drawer(p.id)};im.onerror=function(){toast('This file could not be read as an image.',1)};im.src=r.result};r.readAsDataURL(f)}
+/* publish */
+$('pub').onclick=function(){
+ if(V.sec!='cat'){dSave();return}
+ var bad=P.filter(function(p){return dirty(p)&&!p.deleted&&(!p.name.trim()||p.price<1)});if(bad.length){toast('Check name and price: '+bad[0].name,1);return}
+ var badc=CATS.filter(function(c){return !String(c.label).trim()&&c.custom});if(badc.length){toast('A new category needs a name.',1);return}
+ $('pub').disabled=true;$('pub').textContent='Publishing…';
+ var ids=Object.keys(PEND).filter(function(k){var a=k.split('|'),q=byId(a[0]);if(q&&a[1]&&a[1].charAt(0)=='+')return Object.keys(q.more||{}).some(function(z){return (q.more[z]||[]).indexOf(a[1].slice(1))>=0});return q&&(a[1]?(q.images||{})[a[1]]==PEND[k].name:q.image==PEND[k].name)});
+ ids.reduce(function(pr,id){return pr.then(function(){return gh(API+PEND[id].name,{method:'PUT',body:JSON.stringify({message:'Admin: photo '+id,content:PEND[id].data,branch:BRANCH})}).then(function(r){if(!r.ok)throw new Error('photo upload '+r.status)})})},Promise.resolve())
+ .then(function(){return gh(API+'products.json?ref='+BRANCH+'&t='+Date.now()).then(function(r){if(!r.ok)throw new Error('read '+r.status);return r.json()})})
+ .then(function(j){var d=JSON.parse(u8(j.content)),arr=d.products,idx={};arr.forEach(function(o,i){idx[o.id]=i});
+  P.forEach(function(p){if(!dirty(p))return;var o={id:p.id,name:p.name.trim(),gender:p.gender,category:p.category,subgroup:p.subgroup||'',price:p.price,visible:p.visible,description:p.description||'',bullets:p.bullets||'',materials:p.materials||'',usage:p.usage||'',care:p.care||'',contents:p.contents||'',image:p.image||'',images:cleanImgs(p.images),more:cleanMore(p.more),tr:cleanTr(p.tr)};if(p.custom)o.custom=true;if(p.deleted)o.deleted=true;
+   if(idx[p.id]!=null){var old=arr[idx[p.id]];delete old.deleted;arr[idx[p.id]]=Object.assign(old,o)}else arr.push(o)});
+  for(var k in DEL){arr=arr.filter(function(o){return o.id!=k})}
+  d.products=arr;
+  if(catDirtyN())d.categories=CATS.filter(function(c){return c.custom||String(c.label).trim()}).map(function(c){return{gender:GN[c.g]||c.g,key:c.key,label:c.label,custom:!!c.custom,tr:cleanTr(c.tr,1)}});
+  var body={message:'Admin: update catalogue',content:b64(JSON.stringify(d,null,1)),sha:j.sha,branch:BRANCH};
+  return gh(API+'products.json',{method:'PUT',body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw new Error('save '+r.status)})})
+ .then(function(){return load()}).then(function(){render();toast('Published. The live site updates in 1–2 minutes.')})
+ .catch(function(e){toast('Could not publish ('+e.message+'). Your edits are still here.',1);markTop()})};
+window.addEventListener('beforeunload',function(e){if(nDirty()||dDirty().length){e.preventDefault();e.returnValue=''}});
+
+
+/* ===== DATA LAYER (private storage in Cloudflare KV) ===== */
+var DK=['orders','customers','inventory','discounts','loyalty','marketing','brand','shipping','policies','storefront','pages','journal','reviews','tickets','replies','settings'];
+var OBJK={inventory:1,loyalty:1,brand:1,policies:1,storefront:1,settings:1};
+var D={},ORIGD={},DSTATE='loading',DERR='',OPENR=null;
+DK.forEach(function(k){D[k]=OBJK[k]?{}:[];ORIGD[k]=JSON.stringify(D[k])});
+function dDirty(){return DK.filter(function(k){return JSON.stringify(D[k])!==ORIGD[k]})}
+function dLoad(){DSTATE='loading';return fetch(AUTH+'/store',{headers:{Authorization:'Bearer '+TOK}}).then(function(r){if(r.status==501)throw new Error('setup');if(!r.ok)throw new Error('error '+r.status);return r.json()}).then(function(j){var d=j.data||{};DK.forEach(function(k){D[k]=d[k]!=null?d[k]:(OBJK[k]?{}:[]);ORIGD[k]=JSON.stringify(D[k])});DSTATE='ok'}).catch(function(e){DSTATE=e.message=='setup'?'setup':'err';DERR=e.message})}
+function dSave(){var ks=dDirty();if(!ks.length)return;$('pub').disabled=true;$('pub').textContent='Saving…';
+ ks.reduce(function(pr,k){return pr.then(function(){return fetch(AUTH+'/store?k='+k,{method:'PUT',headers:{Authorization:'Bearer '+TOK,'Content-Type':'application/json'},body:JSON.stringify({data:D[k]})}).then(function(r){if(!r.ok)throw new Error(k+' '+r.status);ORIGD[k]=JSON.stringify(D[k])})})},Promise.resolve())
+ .then(function(){render();toast('Saved.')}).catch(function(e){toast('Could not save ('+e.message+'). Your edits are still here.',1);render()})}
+function dnote(){if(DSTATE=='loading')return '<div id="ld">Loading</div>';
+ if(DSTATE=='setup')return '<div class="note"><b>Private storage is not switched on yet.</b><br>Orders, customers and the other business data are private, so they live in your own Cloudflare account, never on the public website. To switch it on: in Cloudflare create a KV namespace called <b>helsiva-crm</b>, bind it to the <b>helsiva-auth</b> worker with the variable name <b>CRM</b>, and deploy the updated worker code. Then reload this page.</div>';
+ return '<div class="note"><b>Could not reach private storage</b> ('+esc(DERR)+'). <button class="ed" data-dretry>Try again</button></div>'}
+/* ===== helpers ===== */
+function today(){return new Date().toISOString().slice(0,10)}
+function addDays(n){var d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function eur(n){n=+n||0;return '€'+n.toLocaleString('en-US',{maximumFractionDigits:2})}
+function sum(a,k){return a.reduce(function(s,r){return s+(+r[k]||0)},0)}
+var TONE={Paid:'g',Delivered:'g',Shipped:'g',Customer:'g',Live:'g',Published:'g',Resolved:'g',Active:'g','In stock':'g',Done:'g',VIP:'k',New:'y',Lead:'y',Pending:'y',Planned:'y',Waiting:'y',Packed:'y',Low:'y',Open:'r',High:'r',Cancelled:'r',Refunded:'r',Out:'r',Expired:'r'};
+function chip(v){return v?'<span class="st '+(TONE[v]||'n')+'">'+esc(v)+'</span>':''}
+function nameCell(a,b){return '<span style="font:400 19px var(--serif)">'+esc(a||'(untitled)')+'</span>'+(b?'<small style="display:block;color:var(--taupe);font-size:11px;letter-spacing:.04em">'+esc(b)+'</small>':'')}
+function sm(v){return '<span class="sb">'+esc(v||'-')+'</span>'}
+function stChips(f,o){return [['all','All']].concat(o.map(function(x){return [x,x,function(r){return r[f]==x}]}))}
+function stars(n){n=+n||0;return '<span style="color:var(--gold);letter-spacing:2px">'+'★★★★★'.slice(0,n)+'<span style="color:var(--sand)">'+'★★★★★'.slice(n)+'</span></span>'}
+function tiles(a){return '<div class="tiles">'+a.map(function(t){return '<div class="tile'+(t[2]?' warn':'')+'"><b>'+t[1]+'</b><span>'+t[0]+'</span></div>'}).join('')+'</div>'}
+function isLive(o){return o.status!='Cancelled'&&o.status!='Refunded'}
+function csv(cols,rows,name){var q=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};var s=cols.join(',')+'\n'+rows.map(function(r){return cols.map(function(k){return q(r[k])}).join(',')}).join('\n');dl(new Blob([s],{type:'text/csv'}),name+'-'+today()+'.csv')}
+function dl(blob,name){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
+function hbars(rows,f){var m=Math.max.apply(null,rows.map(function(r){return r[1]}).concat([1]));f=f||function(v){return v};
+ return rows.length?'<div class="hb">'+rows.map(function(r){return '<div><span>'+esc(r[0])+'</span><i><u style="width:'+Math.round(r[1]/m*100)+'%"></u></i><b>'+f(r[1])+'</b></div>'}).join('')+'</div>':'<div class="empty" style="padding:18px">No data yet.</div>'}
+function groupSum(a,k,v){var m={};a.forEach(function(r){var x=r[k]||'Unknown';m[x]=(m[x]||0)+(v?(+r[v]||0):1)});return Object.keys(m).map(function(x){return [x,m[x]]}).sort(function(a,b){return b[1]-a[1]})}
+/* ===== schema ===== */
+var ORS=['New','Paid','Packed','Shipped','Delivered','Cancelled','Refunded'];
+var LISTS={
+orders:{key:'orders',noun:'order',title:'Orders',eyebrow:'Sales',log:1,logOn:'status',
+ sort:function(a,b){return String(b.date).localeCompare(a.date)||String(b.no).localeCompare(a.no)},
+ search:['no','customer','email','country','items','tracking'],
+ chips:[['all','All'],['ship','To ship',function(r){return ['New','Paid','Packed'].indexOf(r.status)>-1}]].concat(stChips('status',ORS).slice(1)),
+ mk:function(){var n=Math.max.apply(null,D.orders.map(function(o){return parseInt(String(o.no).replace(/\D/g,''))||0}).concat([1000]))+1;return{no:(D.settings.orderPrefix||'HS-')+n,date:today(),customer:'',email:'',country:'',items:'',total:0,shipping:0,discount:'',status:'New',payment:'Pending',carrier:'',tracking:'',notes:'',log:[]}},
+ tt:function(r){return 'Order '+r.no},
+ tiles:function(rows){var l=rows.filter(isLive),rev=sum(l,'total'),ship=rows.filter(function(r){return ['New','Paid','Packed'].indexOf(r.status)>-1}).length;return tiles([['Orders',l.length],['Revenue',eur(rev)],['To ship',ship,ship>0],['Average order',eur(l.length?rev/l.length:0)]])},
+ cols:[{l:'Order',r:function(r){return nameCell(r.no,r.customer)}},{l:'Date',r:function(r){return sm(r.date)}},{l:'Status',r:function(r){return chip(r.status)}},{l:'Payment',cc:1,r:function(r){return chip(r.payment)}},{l:'Country',cc:1,r:function(r){return sm(r.country)}},{l:'Total',r:function(r){return '<span class="pr">'+eur(r.total)+'</span>'}}],
+ fields:[{k:'no',l:'Order no.',w:2},{k:'date',l:'Date',t:'date',w:2},{k:'customer',l:'Customer',dl:'customers'},{k:'email',l:'Email',t:'email',w:2},{k:'country',l:'Country',w:2},{k:'items',l:'Items (one per line)',t:'area'},{k:'total',l:'Order total (EUR)',t:'money',w:2},{k:'shipping',l:'of which shipping (EUR)',t:'money',w:2},{k:'status',l:'Status',t:'sel',o:ORS,w:2},{k:'payment',l:'Payment',t:'sel',o:['Pending','Paid','Refunded'],w:2},{k:'carrier',l:'Carrier',w:2},{k:'tracking',l:'Tracking number',w:2},{k:'discount',l:'Discount code'},{k:'notes',l:'Internal notes',t:'area'}]},
+customers:{key:'customers',noun:'customer',title:'Customers',eyebrow:'Customer relations',log:1,
+ sort:function(a,b){return String(a.name).localeCompare(b.name)},
+ search:['name','email','phone','country','city','notes'],
+ chips:[['all','All'],['due','Follow-up due',function(r){return r.nextFollowUp&&r.nextFollowUp<=today()}]].concat(stChips('status',CST).slice(1)),
+ mk:function(){return{name:'New customer',email:'',phone:'',country:'',city:'',segment:'Private home sauna',status:'Lead',source:'Website',lastContact:'',nextFollowUp:'',orders:0,spent:0,notes:'',log:[]}},
+ tt:function(r){return r.name},
+ tiles:function(rows){var due=rows.filter(function(c){return c.nextFollowUp&&c.nextFollowUp<=today()}).length;return tiles([['Customers',rows.length],['Leads',rows.filter(function(c){return c.status=='Lead'}).length],['VIP',rows.filter(function(c){return c.status=='VIP'}).length],['Follow-ups due',due,due>0]])},
+ cols:[{l:'Customer',r:function(r){return nameCell(r.name,r.email||r.phone)}},{l:'Segment',cc:1,r:function(r){return sm(r.segment)}},{l:'Status',r:function(r){return chip(r.status)}},{l:'Country',cc:1,r:function(r){return sm(r.country)}},{l:'Last contact',cc:1,r:function(r){return sm(r.lastContact)}},{l:'Next follow-up',r:function(r){var od=r.nextFollowUp&&r.nextFollowUp<=today();return '<span class="sb '+(od?'due':'')+'">'+esc(r.nextFollowUp||'-')+'</span>'}},{l:'Spent',cc:1,r:function(r){return '<span class="pr">'+eur(r.spent)+'</span>'}}],
+ fields:[{k:'name',l:'Name'},{k:'email',l:'Email',t:'email',w:2},{k:'phone',l:'Phone',w:2},{k:'country',l:'Country',w:2},{k:'city',l:'City',w:2},{k:'status',l:'Status',t:'sel',o:CST,w:2},{k:'segment',l:'Segment',t:'sel',o:CSEG,w:2},{k:'source',l:'Source',t:'sel',o:CSRC,w:2},{k:'lastContact',l:'Last contact',t:'date',w:2},{k:'nextFollowUp',l:'Next follow-up',t:'date',w:2},{k:'orders',l:'Orders',t:'num',w:2},{k:'spent',l:'Total spent (EUR)',t:'money',w:2},{k:'notes',l:'Notes',t:'area'}]},
+discounts:{key:'discounts',noun:'discount code',title:'Discount codes',eyebrow:'Offers',
+ sort:function(a,b){return String(a.code).localeCompare(b.code)},search:['code','notes'],chips:stChips('status',['Active','Paused','Expired']),
+ mk:function(){return{code:'',kind:'Percent',value:10,min:0,from:'',to:'',limit:0,used:0,status:'Active',notes:''}},tt:function(r){return r.code||'New code'},
+ tiles:function(rows){return tiles([['Codes',rows.length],['Active',rows.filter(function(r){return r.status=='Active'}).length],['Redemptions',sum(rows,'used')],['Expiring in 14 days',rows.filter(function(r){return r.status=='Active'&&r.to&&r.to>=today()&&r.to<=addDays(14)}).length]])},
+ cols:[{l:'Code',r:function(r){return nameCell(r.code,r.notes)}},{l:'Offer',r:function(r){return sm(r.kind=='Percent'?r.value+'% off':r.kind=='Fixed amount'?eur(r.value)+' off':'Free shipping')}},{l:'Valid',cc:1,r:function(r){return sm((r.from||'…')+' → '+(r.to||'open'))}},{l:'Used',cc:1,r:function(r){return sm(r.used+(+r.limit?' / '+r.limit:''))}},{l:'Status',r:function(r){return chip(r.status)}}],
+ fields:[{k:'code',l:'Code (customers type this)',up:1},{k:'kind',l:'Type',t:'sel',o:['Percent','Fixed amount','Free shipping'],w:2},{k:'value',l:'Value (% or EUR)',t:'num',w:2},{k:'min',l:'Minimum order (EUR)',t:'money',w:2},{k:'limit',l:'Usage limit (0 = unlimited)',t:'num',w:2},{k:'from',l:'Starts',t:'date',w:2},{k:'to',l:'Ends',t:'date',w:2},{k:'used',l:'Times used',t:'num',w:2},{k:'status',l:'Status',t:'sel',o:['Active','Paused','Expired'],w:2},{k:'notes',l:'Notes (who is it for?)',t:'area'}]},
+marketing:{key:'marketing',noun:'campaign',title:'Campaigns',eyebrow:'Marketing',
+ sort:function(a,b){return String(b.start).localeCompare(a.start)},search:['name','channel','notes'],chips:stChips('status',['Idea','Planned','Live','Done']),
+ mk:function(){return{name:'New campaign',channel:'Instagram',status:'Idea',start:'',end:'',budget:0,spent:0,revenue:0,link:'',notes:''}},tt:function(r){return r.name},
+ tiles:function(rows){var sp=sum(rows,'spent'),rv=sum(rows,'revenue');return tiles([['Live campaigns',rows.filter(function(r){return r.status=='Live'}).length],['Budget',eur(sum(rows,'budget'))],['Spent',eur(sp)],['Return on spend',sp?(rv/sp).toFixed(1)+'×':'-']])},
+ cols:[{l:'Campaign',r:function(r){return nameCell(r.name,r.channel)}},{l:'Status',r:function(r){return chip(r.status)}},{l:'Dates',cc:1,r:function(r){return sm((r.start||'…')+' → '+(r.end||'…'))}},{l:'Spent / budget',cc:1,r:function(r){return sm(eur(r.spent)+' / '+eur(r.budget))}},{l:'Revenue',r:function(r){return '<span class="pr">'+eur(r.revenue)+'</span>'}}],
+ fields:[{k:'name',l:'Campaign name'},{k:'channel',l:'Channel',t:'sel',o:['Instagram','Email','Influencer','Paid ads','Event','PR','Partnership','Other'],w:2},{k:'status',l:'Status',t:'sel',o:['Idea','Planned','Live','Done'],w:2},{k:'start',l:'Starts',t:'date',w:2},{k:'end',l:'Ends',t:'date',w:2},{k:'budget',l:'Budget (EUR)',t:'money',w:2},{k:'spent',l:'Spent (EUR)',t:'money',w:2},{k:'revenue',l:'Revenue attributed (EUR)',t:'money'},{k:'link',l:'Link (post, brief, folder)'},{k:'notes',l:'Notes / what we learned',t:'area'}]},
+shipping:{key:'shipping',noun:'shipping zone',title:'Shipping zones & rates',eyebrow:'Delivery',
+ sort:function(a,b){return String(a.name).localeCompare(b.name)},search:['name','countries','carrier'],chips:stChips('status',['Active','Paused']),
+ mk:function(){return{name:'New zone',countries:'',carrier:'',method:'Tracked',price:0,freeOver:0,days:'3-5',status:'Active'}},tt:function(r){return r.name},
+ tiles:function(rows){var a=rows.filter(function(r){return r.status=='Active'});return tiles([['Zones',rows.length],['Active',a.length],['Cheapest rate',a.length?eur(Math.min.apply(null,a.map(function(r){return +r.price||0}))):'-'],['Free-shipping offers',a.filter(function(r){return +r.freeOver>0}).length]])},
+ cols:[{l:'Zone',r:function(r){return nameCell(r.name,r.countries)}},{l:'Carrier',cc:1,r:function(r){return sm(r.carrier+(r.method?' · '+r.method:''))}},{l:'Rate',r:function(r){return '<span class="pr">'+eur(r.price)+'</span>'}},{l:'Free over',cc:1,r:function(r){return sm(+r.freeOver?eur(r.freeOver):'-')}},{l:'Delivery',cc:1,r:function(r){return sm(r.days+' days')}},{l:'Status',r:function(r){return chip(r.status)}}],
+ fields:[{k:'name',l:'Zone name (e.g. Turkey, EU, Rest of world)'},{k:'countries',l:'Countries',t:'area',h:'One per line or comma separated.'},{k:'carrier',l:'Carrier',w:2},{k:'method',l:'Service',w:2},{k:'price',l:'Rate (EUR)',t:'money',w:2},{k:'freeOver',l:'Free shipping over (EUR, 0 = never)',t:'money',w:2},{k:'days',l:'Delivery time (days)',w:2},{k:'status',l:'Status',t:'sel',o:['Active','Paused'],w:2}]},
+pages:{key:'pages',noun:'page',title:'Pages',eyebrow:'Content',
+ sort:function(a,b){return String(a.title).localeCompare(b.title)},search:['title','slug','body'],chips:stChips('status',['Draft','Live']),
+ mk:function(){return{title:'New page',slug:'',status:'Draft',body:'',updated:today()}},tt:function(r){return r.title},
+ seed:function(){return['About Helsiva','Shipping & returns','FAQ','Contact','Privacy policy','Terms of sale'].map(function(t,i){return{id:'pg-'+i+Date.now().toString(36),title:t,slug:t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,''),status:'Draft',body:'',updated:today()}})},
+ tiles:function(rows){return tiles([['Pages',rows.length],['Live',rows.filter(function(r){return r.status=='Live'}).length],['Drafts',rows.filter(function(r){return r.status=='Draft'}).length],['Empty',rows.filter(function(r){return !r.body}).length]])},
+ cols:[{l:'Page',r:function(r){return nameCell(r.title,'/'+r.slug)}},{l:'Status',r:function(r){return chip(r.status)}},{l:'Updated',cc:1,r:function(r){return sm(r.updated)}},{l:'Length',cc:1,r:function(r){return sm((r.body||'').split(/\s+/).filter(Boolean).length+' words')}}],
+ fields:[{k:'title',l:'Title'},{k:'slug',l:'Address (slug)',w:2},{k:'status',l:'Status',t:'sel',o:['Draft','Live'],w:2},{k:'body',l:'Text',t:'area',tall:1}]},
+journal:{key:'journal',noun:'article',title:'Ritual journal',eyebrow:'Content',
+ sort:function(a,b){return String(b.date).localeCompare(a.date)},search:['title','tags','body'],chips:stChips('status',['Draft','Live']),
+ mk:function(){return{title:'New article',date:today(),status:'Draft',tags:'',body:''}},tt:function(r){return r.title},
+ tiles:function(rows){return tiles([['Articles',rows.length],['Live',rows.filter(function(r){return r.status=='Live'}).length],['Drafts',rows.filter(function(r){return r.status=='Draft'}).length],['This month',rows.filter(function(r){return String(r.date).slice(0,7)==today().slice(0,7)}).length]])},
+ cols:[{l:'Article',r:function(r){return nameCell(r.title,r.tags)}},{l:'Date',r:function(r){return sm(r.date)}},{l:'Status',r:function(r){return chip(r.status)}}],
+ fields:[{k:'title',l:'Title'},{k:'date',l:'Date',t:'date',w:2},{k:'status',l:'Status',t:'sel',o:['Draft','Live'],w:2},{k:'tags',l:'Tags'},{k:'body',l:'Text',t:'area',tall:1}]},
+reviews:{key:'reviews',noun:'review',title:'Product reviews',eyebrow:'Reputation',
+ sort:function(a,b){return String(b.date).localeCompare(a.date)},search:['product','author','text'],chips:stChips('status',['Pending','Published','Hidden']),
+ mk:function(){return{product:'',author:'',rating:5,text:'',status:'Pending',date:today(),source:'Website'}},tt:function(r){return r.author||'New review'},
+ tiles:function(rows){var p=rows.filter(function(r){return r.status=='Pending'}).length,pub=rows.filter(function(r){return r.status=='Published'});return tiles([['Reviews',rows.length],['Waiting for approval',p,p>0],['Published',pub.length],['Average rating',pub.length?(sum(pub,'rating')/pub.length).toFixed(1)+' / 5':'-']])},
+ cols:[{l:'Review',r:function(r){return nameCell(r.author,r.product)}},{l:'Rating',r:function(r){return stars(r.rating)}},{l:'Comment',cc:1,r:function(r){return sm((r.text||'').slice(0,70))}},{l:'Status',r:function(r){return chip(r.status)}},{l:'Date',cc:1,r:function(r){return sm(r.date)}}],
+ fields:[{k:'product',l:'Product',dl:'products'},{k:'author',l:'Author',w:2},{k:'rating',l:'Rating',t:'sel',o:['5','4','3','2','1'],num:1,w:2},{k:'date',l:'Date',t:'date',w:2},{k:'source',l:'Source',t:'sel',o:['Website','Email','Instagram','Imported'],w:2},{k:'status',l:'Status',t:'sel',o:['Pending','Published','Hidden']},{k:'text',l:'Review text',t:'area'}]},
+tickets:{key:'tickets',noun:'ticket',title:'Support tickets',eyebrow:'Customer care',log:1,
+ sort:function(a,b){return String(b.date).localeCompare(a.date)},search:['subject','customer','email','order'],chips:[['all','All'],['hot','Needs reply',function(r){return r.status!='Resolved'}]].concat(stChips('status',['Open','Waiting','Resolved']).slice(1)),
+ mk:function(){return{subject:'New ticket',customer:'',email:'',channel:'Email',priority:'Normal',status:'Open',order:'',date:today(),log:[]}},tt:function(r){return r.subject},
+ tiles:function(rows){var o=rows.filter(function(r){return r.status=='Open'}).length;return tiles([['Tickets',rows.length],['Open',o,o>0],['High priority',rows.filter(function(r){return r.priority=='High'&&r.status!='Resolved'}).length],['Resolved',rows.filter(function(r){return r.status=='Resolved'}).length]])},
+ cols:[{l:'Subject',r:function(r){return nameCell(r.subject,r.customer)}},{l:'Channel',cc:1,r:function(r){return sm(r.channel)}},{l:'Priority',cc:1,r:function(r){return chip(r.priority=='High'?'High':'')||sm('Normal')}},{l:'Status',r:function(r){return chip(r.status)}},{l:'Opened',cc:1,r:function(r){return sm(r.date)}}],
+ fields:[{k:'subject',l:'Subject'},{k:'customer',l:'Customer',dl:'customers',w:2},{k:'email',l:'Email',t:'email',w:2},{k:'channel',l:'Channel',t:'sel',o:['Email','Instagram','WhatsApp','Phone','Other'],w:2},{k:'priority',l:'Priority',t:'sel',o:['Normal','High'],w:2},{k:'status',l:'Status',t:'sel',o:['Open','Waiting','Resolved'],w:2},{k:'order',l:'Related order no.',w:2}],logLabel:'Conversation notes'},
+replies:{key:'replies',noun:'template',title:'Reply templates',eyebrow:'Customer care',
+ sort:function(a,b){return String(a.title).localeCompare(b.title)},search:['title','body'],
+ mk:function(){return{title:'New template',body:''}},tt:function(r){return r.title},
+ seed:function(){return[['Order shipped','Dear {name}, your Helsiva order {order} is on its way. Tracking: {tracking}. With warm regards, Helsiva'],['Delivery delay','Dear {name}, a short note to let you know your order {order} will reach you a little later than planned. We are sorry for the wait and will keep you updated.'],['Return instructions','Dear {name}, thank you for writing. Please send the unused item in its original packaging to the address below and we will refund you once it arrives.'],['Care instructions','Dear {name}, to keep your textiles beautiful: wash at 30°C, dry flat and avoid fabric softener. Warm regards, Helsiva']].map(function(x,i){return{id:'rp-'+i+Date.now().toString(36),title:x[0],body:x[1]}})},
+ cols:[{l:'Template',r:function(r){return nameCell(r.title,(r.body||'').slice(0,90))}}],
+ fields:[{k:'title',l:'Title'},{k:'body',l:'Message',t:'area',tall:1,h:'Use {name}, {order}, {tracking} as placeholders and copy the text into your email.'}]}
+};
+var FORMS={
+loyalty:{key:'loyalty',title:'Loyalty programme',eyebrow:'Rewards',note:'Define the rules here. Points and tiers will start applying automatically once checkout is connected.',groups:[
+ {t:'Programme',f:[{k:'on',l:'Programme',t:'sel',o:['Off','On'],w:2},{k:'welcome',l:'Welcome bonus (points)',t:'num',w:2},{k:'earn',l:'Points earned per EUR 1',t:'num',w:2},{k:'redeemPts',l:'Points needed to redeem',t:'num',w:2},{k:'redeemVal',l:'Redeem value (EUR)',t:'num',w:2}]},
+ {t:'Tiers (by total spent)',f:[{k:'t1n',l:'Tier 1 name',w:2,d:'Silver'},{k:'t1v',l:'Tier 1 from (EUR)',t:'num',w:2,d:0},{k:'t2n',l:'Tier 2 name',w:2,d:'Gold'},{k:'t2v',l:'Tier 2 from (EUR)',t:'num',w:2,d:500},{k:'t3n',l:'Tier 3 name',w:2,d:'Black'},{k:'t3v',l:'Tier 3 from (EUR)',t:'num',w:2,d:1500}]},
+ {t:'Perks',f:[{k:'perks',l:'Perks per tier',t:'area',h:'E.g. Gold: free shipping, early access to new rituals.'},{k:'birthday',l:'Birthday gift',w:2},{k:'referral',l:'Referral reward',w:2}]}]},
+brand:{key:'brand',title:'Brand & channels',eyebrow:'Marketing',groups:[
+ {t:'Social & channels',f:[{k:'instagram',l:'Instagram',w:2},{k:'tiktok',l:'TikTok',w:2},{k:'pinterest',l:'Pinterest',w:2},{k:'newsletter',l:'Email tool (e.g. Mailchimp, Klaviyo)',w:2},{k:'hashtags',l:'Brand hashtags'}]},
+ {t:'Voice',f:[{k:'voice',l:'Brand voice (how we write and speak)',t:'area'},{k:'avoid',l:'Words and claims we never use',t:'area',h:'For example: no medical, fertility or detox claims.'}]}]},
+policies:{key:'policies',title:'Shipping & returns policy',eyebrow:'Delivery',groups:[
+ {t:'Fulfilment',f:[{k:'processing',l:'Processing time (days)',t:'num',w:2},{k:'cutoff',l:'Daily cut-off time',w:2},{k:'packaging',l:'Packaging notes',t:'area'},{k:'customs',l:'Customs & duties note',t:'area'}]},
+ {t:'Returns',f:[{k:'window',l:'Return window (days)',t:'num',w:2},{k:'returnAddr',l:'Return address',t:'area',w:2},{k:'returnText',l:'Returns policy text',t:'area',tall:1},{k:'shipText',l:'Shipping policy text',t:'area',tall:1}]}]},
+storefront:{key:'storefront',title:'Storefront',eyebrow:'Content',note:'Texts for the home page are stored here. Connecting them to the live site is the next step.',groups:[
+ {t:'Announcement bar',f:[{k:'annOn',l:'Show announcement',t:'sel',o:['No','Yes'],w:2},{k:'ann',l:'Announcement text',w:2}]},
+ {t:'Home page hero',f:[{k:'heroTitle',l:'Headline'},{k:'heroSub',l:'Sub-headline',t:'area'},{k:'heroCta',l:'Button label',w:2},{k:'heroFor',l:'Featured collection',t:'sel',o:['Women','Men','Kids','Gifts'],w:2}]},
+ {t:'Footer & newsletter',f:[{k:'tagline',l:'Footer tagline',w:2},{k:'nlHead',l:'Newsletter headline',w:2},{k:'season',l:'Seasonal note',t:'area'}]}]},
+settings:{key:'settings',title:'Store settings',eyebrow:'Settings',groups:[
+ {t:'Business',f:[{k:'storeName',l:'Store name',w:2,d:'Helsiva'},{k:'legalName',l:'Legal company name',w:2},{k:'email',l:'Contact email',t:'email',w:2},{k:'phone',l:'Phone',w:2},{k:'address',l:'Business address',t:'area'},{k:'vatNo',l:'Tax / VAT number',w:2},{k:'vat',l:'VAT rate (%)',t:'num',w:2}]},
+ {t:'Preferences',f:[{k:'currency',l:'Store currency',t:'sel',o:['EUR'],w:2},{k:'timezone',l:'Time zone',w:2,d:'Europe/Istanbul'},{k:'orderPrefix',l:'Order number prefix',w:2,d:'HS-'},{k:'lowStock',l:'Default low-stock level',t:'num',w:2,d:5}]}]}
+};
+var SECS=[
+ {id:'dash',l:'Dashboard',fn:'dash'},
+ {id:'cat',l:'Catalogue',g:'Operate',n:1},
+ {id:'orders',l:'Orders',n:2,tabs:[{id:'o',l:'Orders',list:'orders'}]},
+ {id:'customers',l:'Customers',n:3,tabs:[{id:'c',l:'Customers',list:'customers'}]},
+ {id:'inventory',l:'Inventory',n:4,tabs:[{id:'i',l:'Stock levels',fn:'inv'}]},
+ {id:'discounts',l:'Discounts & Loyalty',g:'Grow',n:5,tabs:[{id:'d',l:'Discount codes',list:'discounts'},{id:'l',l:'Loyalty programme',form:'loyalty'}]},
+ {id:'marketing',l:'Marketing',n:6,tabs:[{id:'m',l:'Campaigns',list:'marketing'},{id:'b',l:'Brand & channels',form:'brand'}]},
+ {id:'shipping',l:'Shipping',g:'Deliver',n:7,tabs:[{id:'q',l:'To ship',fn:'shipq'},{id:'z',l:'Zones & rates',list:'shipping'},{id:'p',l:'Policies',form:'policies'}]},
+ {id:'content',l:'Content & Storefront',g:'Brand',n:8,tabs:[{id:'s',l:'Storefront',form:'storefront'},{id:'p',l:'Pages',list:'pages'},{id:'j',l:'Journal',list:'journal'}]},
+ {id:'reviews',l:'Reviews & Support',n:9,tabs:[{id:'r',l:'Reviews',list:'reviews'},{id:'t',l:'Support tickets',list:'tickets'},{id:'x',l:'Reply templates',list:'replies'}]},
+ {id:'analytics',l:'Analytics & Reports',g:'Insight',n:10,tabs:[{id:'a',l:'Overview',fn:'an'},{id:'r',l:'Reports',fn:'rep'}]},
+ {id:'settings',l:'Settings',g:'Admin',n:11,tabs:[{id:'s',l:'Store',form:'settings'},{id:'i',l:'Integrations',fn:'int'},{id:'b',l:'Data & backup',fn:'bk'}]}
+];
+function sec(id){return SECS.filter(function(s){return s.id==id})[0]}
+function curTab(s){var id=V.tabs[s.id];return s.tabs.filter(function(t){return t.id==id})[0]||s.tabs[0]}
+function lowLvl(){return +D.settings.lowStock||5}
+function invState(p){var r=D.inventory[p.id];if(!r||r.stock===''||r.stock==null)return 'Untracked';var s=+r.stock,lv=r.reorder===''||r.reorder==null?lowLvl():+r.reorder;return s<=0?'Out':s<=lv?'Low':'In stock'}
+function invProducts(){return P.filter(function(p){return live(p)}).sort(function(a,b){return (a.g+a.cat+a.name).localeCompare(b.g+b.cat+b.name)})}
+function counts(){var c={};if(DSTATE!='ok')return c;c.orders=D.orders.filter(function(r){return ['New','Paid','Packed'].indexOf(r.status)>-1}).length;c.customers=D.customers.filter(function(r){return r.nextFollowUp&&r.nextFollowUp<=today()}).length;
+ c.inventory=invProducts().filter(function(p){var s=invState(p);return s=='Low'||s=='Out'}).length;c.reviews=D.reviews.filter(function(r){return r.status=='Pending'}).length+D.tickets.filter(function(r){return r.status=='Open'}).length;return c}
+function side(){var cn=counts(),h='',lg='';SECS.forEach(function(s){if(s.g&&s.g!=lg){h+='<div class="sg">'+s.g+'</div>';lg=s.g}
+ h+='<button class="si'+(V.sec==s.id?' on':'')+'" data-sec="'+s.id+'"><span>'+(s.n?'<i>'+(s.n<10?'0':'')+s.n+'</i>':'')+s.l+'</span>'+(s.id=='cat'&&nDirty()?'<b class="dot">•</b>':(cn[s.id]?'<b>'+cn[s.id]+'</b>':''))+'</button>'});if(side.h!==h){side.h=h;$('side').innerHTML=h}}
+function markTop(){var cat=V.sec=='cat',n=cat?nDirty():dDirty().length;$('pub').disabled=!n;$('pub').textContent=cat?(n?'Publish '+n+' change'+(n>1?'s':''):'Publish'):(n?'Save '+n+' change'+(n>1?'s':''):'Save');$('dis').hidden=!n;side()}
+function render(){
+ if(V.sec=='cat'){$('band').style.display='';renderNav();renderCat();markTop();if(OPEN)drawer(OPEN,true);return}
+ $('band').style.display='none';var s=sec(V.sec),h='';
+ if(s.fn)h=FN[s.fn]();else{if(s.tabs.length>1)h+='<div class="tabs">'+s.tabs.map(function(t){return '<button data-tab="'+t.id+'" class="'+(curTab(s)==t?'on':'')+'">'+t.l+'</button>'}).join('')+'</div>';var t=curTab(s);h+=t.list?renderList(LISTS[t.list]):t.form?renderForm(FORMS[t.form]):FN[t.fn]()}
+ $('main').innerHTML=h;markTop();if(OPENR&&OPENR.m)drawerR(OPENR.m,OPENR.id,true)}
+/* ===== list engine ===== */
+function listView(m){var rows=D[m.key].filter(function(r){var f=V.lf[m.key]||'all',c=(m.chips||[]).filter(function(x){return x[0]==f})[0];if(c&&c[2]&&!c[2](r))return false;var q=(V.lq[m.key]||'').toLowerCase();return !q||m.search.map(function(k){return r[k]}).join(' ').toLowerCase().indexOf(q)>-1});return m.sort?rows.sort(m.sort):rows}
+function renderList(m){if(DSTATE!='ok')return topH(m)+dnote();var all=D[m.key],rows=listView(m),f=V.lf[m.key]||'all';
+ var h='<div class="top"><div><small>'+m.eyebrow+'</small><h1>'+m.title+'</h1></div><div class="tools"><input id="lq" type="search" placeholder="Search" value="'+esc(V.lq[m.key]||'')+'" data-m="'+m.key+'">'+(m.chips?'<div class="chips" style="flex-wrap:wrap">'+m.chips.map(function(c){return '<button data-lf="'+m.key+'|'+c[0]+'" class="'+(f==c[0]?'on':'')+'">'+c[1]+'</button>'}).join('')+'</div>':'')+'<button class="btn" data-lexp="'+m.key+'" style="padding:11px 18px">Export CSV</button><button class="btn dark" data-lnew="'+m.key+'" style="padding:11px 18px">+ New '+m.noun+'</button></div></div>';
+ if(m.tiles)h+=m.tiles(all);
+ h+='<div class="tw" style="border-top:1px solid var(--ink)"><table><thead><tr>'+m.cols.map(function(c){return '<th'+(c.cc?' class="cc"':'')+'>'+c.l+'</th>'}).join('')+'<th></th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="'+(m.cols.length+1)+'"><div class="empty">'+(all.length?'Nothing matches.':'Nothing here yet.')+(!all.length&&m.seed?' <button class="ed" data-lseed="'+m.key+'" style="margin-left:10px">Add starter set</button>':'')+'</div></td></tr>';
+ rows.forEach(function(r){h+='<tr data-rec="'+m.key+'|'+esc(r.id)+'" style="cursor:pointer">'+m.cols.map(function(c){return '<td'+(c.cc?' class="cc"':'')+'>'+c.r(r)+'</td>'}).join('')+'<td><button class="ed" data-rec="'+m.key+'|'+esc(r.id)+'">Open</button></td></tr>'});
+ return h+'</tbody></table></div>'}
+function topH(m){return '<div class="top"><div><small>'+m.eyebrow+'</small><h1>'+m.title+'</h1></div></div>'}
+function recOf(m,id){return D[m.key].filter(function(r){return r.id==id})[0]}
+function fld(f,v,attr){var t=f.t||'text',x='';
+ if(t=='area')x='<textarea '+attr+(f.tall?' style="min-height:220px"':'')+'>'+esc(v)+'</textarea>';
+ else if(t=='sel')x='<select '+attr+'>'+f.o.map(function(o){return '<option'+(String(o)==String(v)?' selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select>';
+ else if(t=='num'||t=='money')x='<input '+attr+' type="number" min="0" step="'+(t=='money'?'0.01':'1')+'" value="'+(v===''||v==null?'':esc(v))+'">';
+ else x='<input '+attr+' type="'+(t=='date'?'date':t=='email'?'email':'text')+'" value="'+esc(v)+'"'+(f.dl?' list="dl-'+f.dl+'"':'')+'>';
+ return '<div class="fl" style="'+(f.w==2?'':'grid-column:1/-1')+'"><label>'+f.l+'</label>'+x+(f.h?'<small>'+f.h+'</small>':'')+'</div>'}
+function dlists(){return '<datalist id="dl-customers">'+D.customers.map(function(c){return '<option value="'+esc(c.name)+'">'}).join('')+'</datalist><datalist id="dl-products">'+P.filter(live).map(function(p){return '<option value="'+esc(p.name)+'">'}).join('')+'</datalist>'}
+function drawerR(m,id,keep){m=typeof m=='string'?LISTS[m]:m;var r=recOf(m,id);if(!r){closeDr();return}OPENR={m:m,id:id};OPEN=null;
+ if(keep&&$('dr').dataset.id=='r'+id)return;
+ var h='<div class="dh"><div><small>'+m.noun+'</small><h3>'+esc(m.tt(r))+'</h3></div><button data-x>✕</button></div><div class="db"><div class="fg">'+m.fields.map(function(f){return fld(f,r[f.k],'data-ra="'+f.k+'"')}).join('')+'</div>';
+ if(m.log)h+='<div class="fl"><label>'+(m.logLabel||'Activity log')+'</label><textarea id="cln" placeholder="What happened? e.g. Called, sent quote, parcel handed to carrier" style="min-height:70px"></textarea><div style="margin-top:8px"><button class="ed" data-rlog>Add to log</button></div><div class="log">'+((r.log||[]).map(function(l){return '<div><small>'+esc(l.date)+'</small>'+esc(l.text)+'</div>'}).join('')||'<div style="color:var(--taupe)">No entries yet.</div>')+'</div></div>';
+ h+=dlists()+'</div><div class="df"><button class="btn l" data-rdel>Delete</button><button class="btn dark" data-x>Done</button></div>';
+ $('dr').innerHTML=h;$('dr').dataset.id='r'+id;$('dr').className='on';$('sh').className='on'}
+function openNew(mk){var m=LISTS[mk],r=Object.assign({id:mk.slice(0,2)+'-'+Date.now().toString(36)},m.mk());D[m.key].unshift(r);if(m.cols)render();drawerR(m,r.id)}
+function renderForm(F){if(DSTATE!='ok')return topH(F)+dnote();var d=D[F.key];
+ var h='<div class="top"><div><small>'+F.eyebrow+'</small><h1>'+F.title+'</h1></div></div>'+(F.note?'<div class="note">'+F.note+'</div>':'');
+ F.groups.forEach(function(g){h+='<div class="card"><h3>'+g.t+'</h3><div class="sub"></div><div class="fg">'+g.f.map(function(f){var v=d[f.k];if(v==null)v=f.d!=null?f.d:'';return fld(f,v,'data-rf="'+F.key+'|'+f.k+'"')}).join('')+'</div></div>'});return h}
+/* ===== custom sections ===== */
+var FN={};
+FN.dash=function(){var o=D.orders,live2=o.filter(isLive),r30=live2.filter(function(r){return r.date>=addDays(-30)}),rev=sum(r30,'total');
+ var hr=new Date().getHours(),gr=hr<5?'Good night':hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
+ var pr=P.filter(function(p){return live(p)&&p.g!='gifts'}),on=pr.filter(function(p){return p.visible}).length;
+ var h='<div class="top"><div><small>'+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</small><h1>'+gr+', Patron</h1></div><div class="tools"><button class="btn dark" data-go="orders|o|all|new" style="padding:11px 18px">+ New order</button><button class="btn" data-go="customers|c|all|new" style="padding:11px 18px">+ New customer</button><button class="btn" data-go="cat" style="padding:11px 18px">Open catalogue</button></div></div>';
+ if(DSTATE!='ok')h+=dnote();
+ h+=tiles([['Revenue · last 30 days',eur(rev)],['Orders · last 30 days',r30.length],['Average order',eur(r30.length?rev/r30.length:0)],['Products online',on+' / '+pr.length]]);
+ var cn=counts(),A=[['Orders to ship',cn.orders,'orders|o|ship'],['Stock running low or out',cn.inventory,'inventory|i'],['Customer follow-ups due',cn.customers,'customers|c|due'],['Reviews waiting for approval',DSTATE=='ok'?D.reviews.filter(function(r){return r.status=='Pending'}).length:0,'reviews|r|Pending'],['Open support tickets',DSTATE=='ok'?D.tickets.filter(function(r){return r.status=='Open'}).length:0,'reviews|t|Open'],['Products offline in the shop',pr.length-on,'cat'],['Pages still in draft',DSTATE=='ok'?D.pages.filter(function(r){return r.status=='Draft'}).length:0,'content|p|Draft']].filter(function(a){return a[1]>0});
+ h+='<div class="two"><div class="card"><h3>Needs your attention</h3><div class="sub">Everything that is waiting for a decision.</div>'+(A.length?A.map(function(a){return '<button class="al" data-go="'+a[2]+'"><b>'+a[1]+'</b><span>'+a[0]+'</span><i>→</i></button>'}).join(''):'<div class="empty" style="padding:22px">All clear. Nothing is waiting.</div>')+'</div>';
+ var rec=o.slice().sort(LISTS.orders.sort).slice(0,6);
+ h+='<div class="card"><h3>Recent orders</h3><div class="sub">The six most recent.</div>'+(rec.length?rec.map(function(r){return '<button class="al" data-go="orders|o|all|'+esc(r.id)+'"><b style="font-size:18px">'+esc(r.no)+'</b><span>'+esc(r.customer||'-')+' · '+chip(r.status)+'</span><i>'+eur(r.total)+'</i></button>'}).join(''):'<div class="empty" style="padding:22px">No orders yet. Orders you record appear here.</div>')+'</div></div>';
+ var C=[[pr.length-on<pr.length,'Catalogue has products online'],[DSTATE=='ok','Private storage connected'],[!!D.settings.email,'Store details filled in (Settings)'],[D.shipping.some(function(z){return z.status=='Active'}),'At least one shipping zone'],[D.pages.filter(function(p){return p.status=='Live'}).length>=2,'Policy pages live (shipping, returns, privacy)'],[false,'Online payments connected (needs Shopify or Stripe)']];
+ h+='<div class="card"><h3>Launch checklist</h3><div class="sub">What stands between today and taking real orders.</div>'+C.map(function(c){return '<div class="ck '+(c[0]?'ok':'')+'"><u>'+(c[0]?'✓':'')+'</u>'+c[1]+'</div>'}).join('')+'</div>';
+ return h};
+FN.inv=function(){if(DSTATE!='ok')return '<div class="top"><div><small>Stock</small><h1>Inventory</h1></div></div>'+dnote();
+ var ps=invProducts(),f=V.lf.inv||'all',q=(V.lq.inv||'').toLowerCase(),st={};ps.forEach(function(p){st[p.id]=invState(p)});
+ var rows=ps.filter(function(p){return (f=='all'||st[p.id]==f)&&(!q||(p.name+p.id+(D.inventory[p.id]||{}).sku).toLowerCase().indexOf(q)>-1)});
+ var tracked=ps.filter(function(p){return st[p.id]!='Untracked'}),units=tracked.reduce(function(s,p){return s+(+D.inventory[p.id].stock||0)},0),val=tracked.reduce(function(s,p){return s+(+D.inventory[p.id].stock||0)*p.price},0);
+ var lo=ps.filter(function(p){return st[p.id]=='Low'}).length,out=ps.filter(function(p){return st[p.id]=='Out'}).length;
+ var h='<div class="top"><div><small>Stock</small><h1>Inventory</h1></div><div class="tools"><input id="lq" data-m="inv" type="search" placeholder="Search name or SKU" value="'+esc(V.lq.inv||'')+'"><div class="chips" style="flex-wrap:wrap">'+['all','Low','Out','In stock','Untracked'].map(function(c){return '<button data-lf="inv|'+c+'" class="'+(f==c?'on':'')+'">'+(c=='all'?'All':c)+'</button>'}).join('')+'</div><button class="btn" data-invexp style="padding:11px 18px">Export CSV</button></div></div>';
+ h+=tiles([['Products tracked',tracked.length+' / '+ps.length],['Units on hand',units],['Low · Out',lo+' · '+out,lo+out>0],['Stock value (retail)',eur(val)]]);
+ h+='<div class="note">Type the number on hand and the level to reorder at. Leave stock empty to stop tracking a product. Low-stock default: <b>'+lowLvl()+'</b> (change in Settings).</div>';
+ h+='<div class="tw" style="border-top:1px solid var(--ink)"><table><thead><tr><th></th><th>Product</th><th class="cc">SKU</th><th>On hand</th><th class="cc">Reorder at</th><th>Status</th><th class="cc">Value</th><th></th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="8"><div class="empty">Nothing matches.</div></td></tr>';
+ rows.forEach(function(p){var r=D.inventory[p.id]||{},t=thumb(p),s=st[p.id];
+  h+='<tr class="'+(p.visible?'':'off')+'"><td><div class="th" style="width:44px;height:44px;'+(t?'background-image:url(\''+esc(t)+'\')':'')+'"></div></td><td class="nm">'+nameCell(p.name,GN[p.g]+' · '+LAB(p.g,p.cat)+(p.visible?'':' · offline'))+'</td>'
+  +'<td class="cc"><input class="mi" data-inv="'+esc(p.id)+'|sku" value="'+esc(r.sku||'')+'" placeholder="SKU"></td><td><input class="mi n" type="number" min="0" data-inv="'+esc(p.id)+'|stock" value="'+(r.stock==null?'':esc(r.stock))+'"></td><td class="cc"><input class="mi n" type="number" min="0" data-inv="'+esc(p.id)+'|reorder" placeholder="'+lowLvl()+'" value="'+(r.reorder==null?'':esc(r.reorder))+'"></td>'
+  +'<td>'+chip(s=='Untracked'?'':s)+(s=='Untracked'?sm('Not tracked'):'')+'</td><td class="cc">'+sm(s=='Untracked'?'-':eur((+r.stock||0)*p.price))+'</td><td>'+(s=='Out'&&p.visible?'<button class="ed" data-invoff="'+esc(p.id)+'">Take offline</button>':'')+'</td></tr>'});
+ return h+'</tbody></table></div>'};
+FN.shipq=function(){if(DSTATE!='ok')return '<div class="top"><div><small>Delivery</small><h1>To ship</h1></div></div>'+dnote();
+ var rows=D.orders.filter(function(r){return ['New','Paid','Packed'].indexOf(r.status)>-1}).sort(function(a,b){return String(a.date).localeCompare(b.date)});
+ var h='<div class="top"><div><small>Delivery</small><h1>To ship</h1></div></div>'+tiles([['Waiting to ship',rows.length,rows.length>0],['Oldest waiting',rows.length?rows[0].date:'-'],['Active zones',D.shipping.filter(function(z){return z.status=='Active'}).length],['Processing time',(D.policies.processing||'-')+' days']]);
+ h+='<div class="tw" style="border-top:1px solid var(--ink)"><table><thead><tr><th>Order</th><th>Date</th><th class="cc">Country</th><th>Status</th><th class="cc">Carrier</th><th></th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="6"><div class="empty">Nothing waiting. Every order has shipped.</div></td></tr>';
+ rows.forEach(function(r){h+='<tr><td class="nm">'+nameCell(r.no,r.customer)+'</td><td>'+sm(r.date)+'</td><td class="cc">'+sm(r.country)+'</td><td>'+chip(r.status)+'</td><td class="cc">'+sm(r.carrier)+'</td><td><button class="ed" data-go="orders|o|all|'+esc(r.id)+'">Open order</button></td></tr>'});
+ return h+'</tbody></table></div>'};
+FN.an=function(){if(DSTATE!='ok')return '<div class="top"><div><small>Insight</small><h1>Analytics</h1></div></div>'+dnote();
+ var live2=D.orders.filter(isLive),rev=sum(live2,'total'),rep=D.customers.filter(function(c){return +c.orders>1}).length;
+ var h='<div class="top"><div><small>Insight</small><h1>Analytics</h1></div></div>'+tiles([['Revenue',eur(rev)],['Orders',live2.length],['Average order',eur(live2.length?rev/live2.length:0)],['Repeat customers',D.customers.length?Math.round(rep/D.customers.length*100)+'%':'-']]);
+ var mo=[];for(var i=5;i>=0;i--){var d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);var k=d.toISOString().slice(0,7);mo.push([d.toLocaleDateString('en-GB',{month:'short'}),sum(live2.filter(function(r){return String(r.date).slice(0,7)==k}),'total')])}
+ var mx=Math.max.apply(null,mo.map(function(x){return x[1]}).concat([1]));
+ h+='<div class="card"><h3>Revenue by month</h3><div class="sub">Last six months, excluding cancelled and refunded orders.</div><div class="vb">'+mo.map(function(x){return '<div><b>'+(x[1]?eur(x[1]):'')+'</b><u style="height:'+Math.max(2,Math.round(x[1]/mx*130))+'px"></u><span>'+x[0]+'</span></div>'}).join('')+'</div></div>';
+ h+='<div class="two"><div class="card"><h3>Orders by status</h3><div class="sub"></div>'+hbars(groupSum(D.orders,'status'))+'</div><div class="card"><h3>Revenue by country</h3><div class="sub"></div>'+hbars(groupSum(live2,'country','total').slice(0,6),eur)+'</div></div>';
+ h+='<div class="two"><div class="card"><h3>Customers by segment</h3><div class="sub"></div>'+hbars(groupSum(D.customers,'segment'))+'</div><div class="card"><h3>Customers by source</h3><div class="sub"></div>'+hbars(groupSum(D.customers,'source'))+'</div></div>';
+ var ch=groupSum(D.marketing,'channel','spent').map(function(x){var rv=sum(D.marketing.filter(function(c){return c.channel==x[0]}),'revenue');return [x[0]+' (spent '+eur(x[1])+')',rv]});
+ h+='<div class="two"><div class="card"><h3>Marketing revenue by channel</h3><div class="sub"></div>'+hbars(ch,eur)+'</div><div class="card"><h3>Catalogue health</h3><div class="sub"></div>'+hbars(GO.map(function(g){return [GN[g]+' · online',P.filter(function(p){return p.g==g&&live(p)&&p.visible}).length]}).concat(GO.map(function(g){return [GN[g]+' · offline',P.filter(function(p){return p.g==g&&live(p)&&!p.visible}).length]})))+'</div></div>';
+ return h};
+FN.rep=function(){if(DSTATE!='ok')return '<div class="top"><div><small>Insight</small><h1>Reports</h1></div></div>'+dnote();
+ var R=[['orders','Orders','Every order with customer, totals and tracking.'],['customers','Customers','Your customer list for mailings and follow-up.'],['discounts','Discount codes','Codes, offers and redemptions.'],['marketing','Campaigns','Budget, spend and revenue per campaign.'],['reviews','Reviews','Ratings and comments.'],['tickets','Support tickets','Open and resolved conversations.']];
+ return '<div class="top"><div><small>Insight</small><h1>Reports</h1></div></div><div class="card"><h3>Download as CSV</h3><div class="sub">Opens in Excel, Numbers or Google Sheets.</div>'+R.map(function(r){return '<div class="al" style="cursor:default"><b style="font-size:18px">'+D[r[0]].length+'</b><span><strong style="font-weight:500">'+r[1]+'</strong> · '+r[2]+'</span><button class="ed" data-lexp="'+r[0]+'">Download</button></div>'}).join('')+'<div class="al" style="cursor:default"><b style="font-size:18px">'+invProducts().length+'</b><span><strong style="font-weight:500">Inventory</strong> · Stock level per product.</span><button class="ed" data-invexp>Download</button></div></div>'};
+FN.int=function(){var I=[['Domain helsiva.com','Live','Served from GitHub Pages.'],['Admin sign-in','Live','GitHub login, restricted to your account.'],['Product publishing','Live','Catalogue edits are saved to the site repository.'],['Private storage',DSTATE=='ok'?'Live':DSTATE=='setup'?'Set up needed':'Error','Orders, customers and business data in your Cloudflare account.'],['Online payments','Not connected','Needed before real orders. Shopify or Stripe recommended.'],['Email sending','Not connected','Order confirmations and newsletters.'],['Web analytics','Not connected','Visitor numbers and traffic sources.']];
+ return '<div class="top"><div><small>Settings</small><h1>Integrations</h1></div></div><div class="card">'+I.map(function(i){var ok=i[1]=='Live';return '<div class="al" style="cursor:default"><span style="flex:0 0 210px;font:400 19px var(--serif)">'+i[0]+'</span><span>'+i[2]+'</span><i class="st '+(ok?'g':i[1]=='Error'||i[1]=='Set up needed'?'r':'n')+'" style="font-style:normal;margin-left:auto">'+i[1]+'</i></div>'}).join('')+'</div>'};
+FN.bk=function(){if(DSTATE!='ok')return '<div class="top"><div><small>Settings</small><h1>Data & backup</h1></div></div>'+dnote();
+ var n=DK.reduce(function(s,k){return s+(Array.isArray(D[k])?D[k].length:Object.keys(D[k]).length)},0);
+ return '<div class="top"><div><small>Settings</small><h1>Data & backup</h1></div></div><div class="card"><h3>Full backup</h3><div class="sub">'+n+' records across all sections. Download a copy regularly and keep it somewhere safe.</div><button class="btn dark" data-bkdl style="padding:12px 22px">Download backup (JSON)</button> <button class="btn" data-bkup style="padding:12px 22px">Restore from backup…</button><input type="file" id="bkf" accept="application/json" hidden><div class="sub" style="margin-top:14px">Restoring replaces what you see here. Review it, then press Save.</div></div><div class="card"><h3>Where your data lives</h3><div class="sub">Catalogue and photos are in the public site repository. Everything else (orders, customers, discounts, campaigns, reviews, tickets, settings) is in private Cloudflare storage that only your GitHub login can open.</div></div>'};
+/* ===== events for new modules ===== */
+function go(a){var p=a.split('|');V.sec=p[0];if(p[0]=='cat'){V.g='all';V.cat=null;V.f='all'}else{var s=sec(p[0]);if(p[1])V.tabs[p[0]]=p[1];var t=curTab(s);if(t&&t.list&&p[2])V.lf[t.list]=p[2];if(t&&t.fn=='inv'&&p[2])V.lf.inv=p[2]}
+ closeDr();render();window.scrollTo(0,0);if(p[3]=='new'){var t2=curTab(sec(p[0]));if(t2&&t2.list)openNew(t2.list)}else if(p[3]){var t3=curTab(sec(p[0]));if(t3&&t3.list)drawerR(t3.list,p[3])}}
+function newClick(e){var t=e.target,b;
+ if(b=t.closest('[data-sec]')){V.sec=b.dataset.sec;closeDr();render();window.scrollTo(0,0);return 1}
+ if(b=t.closest('[data-tab]')){V.tabs[V.sec]=b.dataset.tab;closeDr();render();return 1}
+ if(b=t.closest('[data-go]')){go(b.dataset.go);return 1}
+ if(t.closest('[data-dretry]')){dLoad().then(render);return 1}
+ if(b=t.closest('[data-lf]')){var a=b.dataset.lf.split('|');V.lf[a[0]]=a[1];render();return 1}
+ if(b=t.closest('[data-lnew]')){openNew(b.dataset.lnew);return 1}
+ if(b=t.closest('[data-lseed]')){var m=LISTS[b.dataset.lseed];D[m.key]=m.seed();render();return 1}
+ if(b=t.closest('[data-lexp]')){var m=LISTS[b.dataset.lexp],cols=Object.keys(m.mk()).filter(function(k){return k!='log'});csv(cols,D[m.key],m.key);return 1}
+ if(t.closest('[data-invexp]')){csv(['id','name','sku','stock','reorder','status'],invProducts().map(function(p){var r=D.inventory[p.id]||{};return{id:p.id,name:p.name,sku:r.sku||'',stock:r.stock==null?'':r.stock,reorder:r.reorder==null?'':r.reorder,status:invState(p)}}),'inventory');return 1}
+ if(b=t.closest('[data-invoff]')){var p=byId(b.dataset.invoff);p.visible=false;render();toast('Taken offline. Press Publish in the Catalogue to apply it to the shop.');return 1}
+ if(b=t.closest('[data-rec]')){var a=b.dataset.rec.split('|');drawerR(a[0],a.slice(1).join('|'));return 1}
+ if(t.closest('[data-rdel]')){if(confirm('Delete this '+OPENR.m.noun+'?')){var m=OPENR.m,id=OPENR.id;closeDr();D[m.key]=D[m.key].filter(function(r){return r.id!=id});render()}return 1}
+ if(t.closest('[data-rlog]')){var m=OPENR.m,r=recOf(m,OPENR.id),tx=$('cln').value.trim();if(!tx)return;r.log=r.log||[];r.log.unshift({date:today(),text:tx});if(r.lastContact!=null)r.lastContact=today();$('dr').dataset.id='';render();drawerR(m,r.id);return 1}
+ if(t.closest('[data-bkdl]')){dl(new Blob([JSON.stringify({exported:new Date().toISOString(),data:D},null,1)],{type:'application/json'}),'helsiva-backup-'+today()+'.json');return 1}
+ if(t.closest('[data-bkup]')){$('bkf').click();return 1}
+}
+document.addEventListener('click',function(e){if(newClick(e))e.stopPropagation()},true);
+document.addEventListener('input',function(e){var t=e.target;
+ if(t.id=='lq'){var k=t.dataset.m;V.lq[k]=t.value;var pos=t.selectionStart;render();var q=$('lq');q.focus();q.setSelectionRange(pos,pos);return}
+ if(t.dataset.ra&&OPENR){var m=OPENR.m,r=recOf(m,OPENR.id),f=m.fields.filter(function(x){return x.k==t.dataset.ra})[0],v=t.value;if(f.t=='num'||f.t=='money'||f.num)v=v===''?0:+v;if(f.up)v=v.toUpperCase();r[f.k]=v;markTop();return}
+ if(t.dataset.rf){var a=t.dataset.rf.split('|'),F=FORMS[a[0]],f;F.groups.forEach(function(g){g.f.forEach(function(x){if(x.k==a[1])f=x})});var v=t.value;if(f.t=='num')v=v===''?'':+v;D[a[0]][a[1]]=v;markTop();return}});
+document.addEventListener('change',function(e){var t=e.target;
+ if(t.dataset.ra&&OPENR){var m=OPENR.m,r=recOf(m,OPENR.id);if(m.logOn&&t.dataset.ra==m.logOn){r.log=r.log||[];r.log.unshift({date:today(),text:'Status changed to '+r[m.logOn]});$('dr').dataset.id=''}
+  render();return}
+ if(t.dataset.inv){var a=t.dataset.inv.split('|'),r=D.inventory[a[0]]||(D.inventory[a[0]]={});r[a[1]]=a[1]=='sku'?t.value:(t.value===''?'':Math.max(0,Math.round(+t.value)));
+  var x=D.inventory[a[0]];if(x.sku===''&&x.stock===''&&x.reorder==='')delete D.inventory[a[0]];render();return}
+ if(t.id=='bkf'&&t.files[0]){var rd=new FileReader();rd.onload=function(){try{var j=JSON.parse(rd.result);if(!j.data)throw 0;DK.forEach(function(k){if(j.data[k]!=null)D[k]=j.data[k]});render();toast('Backup loaded. Review it, then press Save.')}catch(x){toast('That file is not a Helsiva backup.',1)}};rd.readAsText(t.files[0])}});
+
+/* ===== translations ===== */
+var GTR=null,MTC={zh:'zh-CN',pt:'pt-BR'};
+function cleanImgs(m){var o={};Object.keys(m||{}).forEach(function(k){if(m[k])o[k]=m[k]});return o}
+function cleanTr(tr,flat){var o={};Object.keys(tr||{}).forEach(function(l){var v=tr[l];if(flat){if(String(v||'').trim())o[l]=String(v).trim()}else{var x={};TRF.forEach(function(f){if(v&&String(v[f[0]]||'').trim())x[f[0]]=String(v[f[0]]).trim()});if(Object.keys(x).length)o[l]=x}});return o}
+function trFilled(t){return t&&Object.keys(t).some(function(k){return String(t[k]||'').trim()})}
+function trHtml(p){var l=V.trl||'tr',t=(p.tr&&p.tr[l])||{};
+ var h='<div class="fl" id="trs" style="border-top:1px solid var(--sand);padding-top:20px;margin-top:8px"><label>Translations</label><small style="margin:0 0 12px">The shop shows these when a visitor picks that language. Empty fields stay in English. Always read automatic translations before publishing.</small><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"><select id="trl" style="flex:1;min-width:150px">'+TL.map(function(x){return '<option value="'+x[0]+'"'+(x[0]==l?' selected':'')+'>'+x[1]+(trFilled(p.tr&&p.tr[x[0]])?'  ✓':'')+'</option>'}).join('')+'</select><button class="ed" data-trauto>Auto-translate</button><button class="ed" data-trall>All languages</button></div>';
+ TRF.forEach(function(f){var v=t[f[0]]||'',d=l=='ar'?' dir="rtl"':'';h+='<div style="margin-bottom:12px"><label style="display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);margin-bottom:6px">'+f[1]+'</label>'+(f[0]=='name'?'<input data-tr="name"'+d+' value="'+esc(v)+'" style="width:100%;border:1px solid var(--sand);background:var(--paper);padding:11px 13px;font:inherit;outline:0">':'<textarea data-tr="'+f[0]+'"'+d+' style="width:100%;border:1px solid var(--sand);background:var(--paper);padding:11px 13px;font:inherit;outline:0;min-height:70px;resize:vertical">'+esc(v)+'</textarea>')+'</div>'});
+ return h+'<small>If you change the English text later, check its translations again.</small></div>'}
+function mt1(text,l){return fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|'+(MTC[l]||l)).then(function(r){if(!r.ok)throw new Error('service '+r.status);return r.json()}).then(function(j){var t=j&&j.responseData&&j.responseData.translatedText;if(!t||/MYMEMORY WARNING|QUERY LENGTH|INVALID/i.test(t))throw new Error('daily limit reached');return t.replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&')})}
+function mtLine(t,l){var parts=[],cur='';(t.match(/[^.!?]+[.!?]*\s*/g)||[t]).forEach(function(s){if(cur&&(cur+s).length>420){parts.push(cur.trim());cur=s}else cur+=s});if(cur.trim())parts.push(cur.trim());
+ return parts.reduce(function(pr,pt){return pr.then(function(a){return mt1(pt,l).then(function(x){return a.concat(x)})})},Promise.resolve([])).then(function(a){return a.join(' ')})}
+function mtText(t,l){return String(t).split(/\n/).reduce(function(pr,ln){return pr.then(function(a){if(!ln.trim())return a;return mtLine(ln.trim(),l).then(function(x){return a.concat(x)})})},Promise.resolve([])).then(function(a){return a.join('\n')})}
+function autoRec(p,langs,btn,only){var jobs=[];langs.forEach(function(l){TRF.forEach(function(f){if(only&&only.indexOf(f[0])<0)return;var src=p[f[0]];if(String(src||'').trim()&&!String(((p.tr||{})[l]||{})[f[0]]||'').trim())jobs.push([l,f[0],src])})});
+ if(!jobs.length){toast('Nothing to translate: fill the English text first, or these languages are done.');return}
+ var n=0,orig=btn.textContent,same={};btn.disabled=true;
+ jobs.reduce(function(pr,jb){return pr.then(function(){btn.textContent=(++n)+' / '+jobs.length;return mtText(jb[2],jb[0]).then(function(x){if(x.trim().toLowerCase()==String(jb[2]).trim().toLowerCase()){same[jb[0]]=1;return}p.tr=p.tr||{};p.tr[jb[0]]=p.tr[jb[0]]||{};p.tr[jb[0]][jb[1]]=x;markTop()})})},Promise.resolve())
+ .then(function(){var s=Object.keys(same);toast('Translated. Please read them, then publish.'+(s.length?' Not translated by the service (type them yourself): '+s.join(', ')+'.':''),s.length?1:0)}).catch(function(e){toast('Automatic translation stopped ('+e.message+'). What was done is kept.',1)}).then(function(){if(PTR&&$('md').className.indexOf('on')>-1)openPtr(PTR);else if(OPEN){$('dr').dataset.id='';drawer(OPEN)}})}
+function openGtr(gid){var a=gid.split('|'),e=catEntry(a[0],a[1]);GTR={g:a[0],key:a[1],label:LAB(a[0],a[1]),tr:Object.assign({},e&&e.tr||{})};
+ $('md').innerHTML='<div class="mdb" style="width:min(520px,100%);max-height:90vh;overflow:auto"><h3>Translate: '+esc(GTR.label)+'</h3><small style="display:block;color:var(--taupe);margin:-10px 0 16px">Group name in each language. Empty stays English.</small><div class="fg">'+TL.map(function(x){return '<div class="fl" style="margin-bottom:12px"><label>'+x[1]+'</label><input data-gt="'+x[0]+'" value="'+esc(GTR.tr[x[0]]||'')+'"'+(x[0]=='ar'?' dir="rtl"':'')+'></div>'}).join('')+'</div><div class="df2"><button class="btn" data-mclose>Cancel</button><button class="btn" data-gtauto>Auto-translate</button><button class="btn dark" data-gtok>Save</button></div></div>';$('md').className='mdl on'}
+function gtrAuto(btn){var jobs=TL.filter(function(x){return !String(GTR.tr[x[0]]||'').trim()}),n=0,same=[];if(!jobs.length)return;btn.disabled=true;
+ jobs.reduce(function(pr,x){return pr.then(function(){btn.textContent=(++n)+' / '+jobs.length;return mt1(GTR.label,x[0]).then(function(t){if(t.trim().toLowerCase()==GTR.label.trim().toLowerCase()){same.push(x[1]);return}GTR.tr[x[0]]=t;var i=document.querySelector('[data-gt="'+x[0]+'"]');if(i)i.value=t})})},Promise.resolve()).catch(function(e){toast('Automatic translation stopped ('+e.message+').',1)}).then(function(){btn.disabled=false;btn.textContent='Auto-translate';if(same.length)toast('The service could not translate: '+same.join(', ')+'. Please type those yourself.',1)})}
+document.addEventListener('click',function(e){var t=e.target,b;
+ if(b=t.closest('[data-trauto]')){autoRec(byId(PTR||OPEN),[V.trl||'tr'],b);e.stopPropagation();return}
+ if(b=t.closest('[data-trall]')){autoRec(byId(PTR||OPEN),TL.map(function(x){return x[0]}),b);e.stopPropagation();return}
+ if(b=t.closest('[data-trp]')){V.ptf='name';openPtr(b.dataset.trp);e.stopPropagation();return}
+ if(b=t.closest('[data-ptab]')){V.ptf=b.dataset.ptab;openPtr(PTR);e.stopPropagation();return}
+ if(b=t.closest('[data-trtab]')){autoRec(byId(PTR),TL.map(function(x){return x[0]}),b,[V.ptf||'name']);e.stopPropagation();return}
+ if(b=t.closest('[data-gtr]')){openGtr(b.dataset.gtr);e.stopPropagation();return}
+ if(b=t.closest('[data-gtauto]')){gtrAuto(b);e.stopPropagation();return}
+ if(t.closest('[data-gtok]')){var en=catEntry(GTR.g,GTR.key);if(!en){en={g:GTR.g,key:GTR.key,label:GTR.label,custom:false,tr:{}};CATS.push(en)}en.tr=cleanTr(GTR.tr,1);closeModal();render();e.stopPropagation();return}
+},true);
+
+/* ===== renaming: refresh stale translations automatically ===== */
+function bgTr(text,set,what){if(!String(text).trim())return;toast('Translating the new '+what+'…');var same=[];
+ TL.reduce(function(pr,x){return pr.then(function(){return mt1(text,x[0]).then(function(t){if(t.trim().toLowerCase()==String(text).trim().toLowerCase())same.push(x[1]);else set(x[0],t)})})},Promise.resolve())
+ .then(function(){toast('The new '+what+' was translated into the other languages. Please check them with the 🌐 button.'+(same.length?' The service left these unchanged: '+same.join(', ')+'.':''),same.length?1:0)})
+ .catch(function(e){toast('Automatic translation stopped ('+e.message+'). Open 🌐 to finish by hand.',1)})
+ .then(function(){if(OPEN){$('dr').dataset.id='';drawer(OPEN)}else render()})}
+function retransCat(g,k){var e=catEntry(g,k);if(!e)return;e.tr={};markTop();bgTr(LAB(g,k),function(l,x){e.tr[l]=x},'group name')}
+function retransProd(p){if(!p)return;Object.keys(p.tr||{}).forEach(function(l){if(p.tr[l])delete p.tr[l].name});markTop();bgTr(p.name,function(l,x){p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l].name=x},'product name')}
+document.addEventListener('change',function(e){var t=e.target;if(t.value===t.defaultValue)return;
+ if(t.dataset.gl){var a=t.dataset.gl.split('|');if(String(t.value).trim())setTimeout(function(){retransCat(a[0],a[1])},0);return}
+ if(t.dataset.n){var p=byId(t.dataset.n);setTimeout(function(){retransProd(p)},0);return}
+ if(t.dataset.f=='name'&&t.closest('#dr')){var p2=byId(OPEN);setTimeout(function(){retransProd(p2)},0)}},true);
+
+var PTR=null;
+function openPtr(id){var p=byId(id);if(!p)return;PTR=id;var f=V.ptf||'name',lab=TRF.filter(function(x){return x[0]==f})[0][1],src=String(p[f]||'');
+ var h='<div class="mdb" style="width:min(680px,100%);max-height:90vh;overflow:auto"><h3>Translate: '+esc(p.name)+'</h3><div class="chips" style="flex-wrap:wrap;margin-bottom:14px">'+TRF.map(function(x){var n=TL.filter(function(l){return String((((p.tr||{})[l[0]])||{})[x[0]]||'').trim()}).length;return '<button data-ptab="'+x[0]+'" class="'+(x[0]==f?'on':'')+'">'+x[1]+(n?' · '+n:'')+'</button>'}).join('')+'</div>'
+ +'<small style="display:block;color:var(--taupe);margin-bottom:14px">'+(src.trim()?'English: <span style="color:var(--ink)">'+esc(src.length>140?src.slice(0,140)+'…':src).replace(/\n/g,' · ')+'</span>':'The English '+lab.toLowerCase()+' is empty. Fill it in first, then translate.')+' Empty stays English.</small><div class="fg">';
+ TL.forEach(function(x){var v=((((p.tr||{})[x[0]])||{})[f])||'',d=x[0]=='ar'?' dir="rtl"':'';h+='<div class="fl" style="margin-bottom:12px;'+(f=='name'?'':'grid-column:1/-1')+'"><label>'+x[1]+'</label>'+(f=='name'?'<input data-ptx="'+x[0]+'"'+d+' value="'+esc(v)+'">':'<textarea data-ptx="'+x[0]+'"'+d+' style="min-height:64px">'+esc(v)+'</textarea>')+'</div>'});
+ h+='</div><div class="df2"><button class="btn" data-mclose>Done</button><button class="btn" data-trtab>Auto-translate '+lab.toLowerCase()+'</button><button class="btn dark" data-trall>Auto-translate all</button></div></div>';$('md').innerHTML=h;$('md').className='mdl on'}
+
+boot();
+</script></body></html>
