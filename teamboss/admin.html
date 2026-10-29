@@ -216,8 +216,7 @@ button.al{cursor:pointer}button.al:hover{background:#F7F4EE}
 <main id="main"><div id="ld">Loading</div></main></div></div>
 </div>
 <div id="sh"></div><div class="mdl" id="md"></div><aside id="dr"></aside><div id="toast"></div>
-<script>
-var REPO='yigitozz44-dotcom/helsiva-site',BRANCH='main',AUTH='https://helsiva-auth.yigitozz44.workers.dev',API='https://api.github.com/repos/'+REPO+'/contents/';
+<script>var REPO='yigitozz44-dotcom/helsiva-site',BRANCH='main',AUTH='https://helsiva-auth.yigitozz44.workers.dev',API='https://api.github.com/repos/'+REPO+'/contents/';
 var SUB={"men-head": "head", "men-body": "body", "men-foot": "foot", "men-set": "set", "men-traditional-pestemal": "pestemal", "men-pre-and-post-sauna-robe": "robe", "women-head": "head", "women-body": "body", "women-foot": "foot", "women-set": "set", "women-traditional-pestemal": "pestemal", "women-pre-and-post-sauna-robe": "robe", "kids-head": "head", "kids-body": "body", "kids-traditional-pestemal": "pestemal", "kids-pre-and-post-sauna-robe": "robe"};
 var SUBL={head:'Head',body:'Body',foot:'Foot',set:'Set',pestemal:'Traditional Pestemal',robe:'Pre- & Post-Sauna Robe'};
 var GIFTS=['For Him','For Her','For Couples','Housewarming','Wedding','Yacht','Chalet','Corporate Gifts'];
@@ -226,7 +225,7 @@ var CN={Kits:'Complete rituals',Oils:'Oils','Intimate Protection':'Intimate Prot
 var CO=['Kits','Oils','Wraps','Masks','Hats','Soaps','Combs','Intimate Protection','Cooling'];
 var STD={description:'Part of the Helsiva Nordic sauna ritual, made for calm, unhurried sessions.',materials:'The exact composition is printed on the product label.',usage:'Follow the instructions on the product label.',care:'Care instructions are printed on the product label.'};
 var DEF={oil:'/h-8bd668aea4.webp',men:'/h-2f2e0670e0.webp',women:'/h-59ddf62221.webp',kids:'/h-8f000b60dc.webp'};
-var F=['name','price','visible','description','bullets','materials','usage','care','contents','image','subgroup','deleted','tr','images'];
+var F=['name','price','visible','description','bullets','materials','usage','care','contents','image','subgroup','deleted','tr','images','more'];
 var TL=[['tr','Türkçe'],['de','Deutsch'],['fr','Français'],['es','Español'],['it','Italiano'],['nl','Nederlands'],['pt','Português'],['el','Ελληνικά'],['ru','Русский'],['ar','العربية'],['zh','中文'],['ja','日本語'],['ko','한국어']];
 var TRF=[['name','Name'],['description','Description'],['bullets','Details'],['materials','Materials'],['usage','Usage'],['care','Care']];
 var TXT=['description','bullets','materials','usage','care','contents'];
@@ -248,7 +247,7 @@ window.addEventListener('message',function(e){if(typeof e.data!=='string')return
  if(e.data.indexOf('authorization:github:success:')==0){try{var j=JSON.parse(e.data.slice('authorization:github:success:'.length));TOK=j.token;sessionStorage.setItem('hsv_t',TOK);boot()}catch(x){showLogin('Sign-in failed.')}}
  else if(e.data.indexOf('authorization:github:error:')==0){showLogin('This GitHub account is not allowed to use the admin.')}});
 /* data */
-function norm(o){var p={id:o.id,gender:o.gender||'',category:o.category||'',custom:!!o.custom};F.forEach(function(k){p[k]=o[k]==null?(k=='visible'?true:(k=='deleted'?false:(k=='tr'||k=='images'?{}:''))):o[k]});p.price=+o.price||0;p.deleted=!!o.deleted;if(!p.subgroup&&SUB[o.id])p.subgroup=SUB[o.id];
+function norm(o){var p={id:o.id,gender:o.gender||'',category:o.category||'',custom:!!o.custom};F.forEach(function(k){p[k]=o[k]==null?(k=='visible'?true:(k=='deleted'?false:(k=='tr'||k=='images'||k=='more'?{}:''))):o[k]});p.price=+o.price||0;p.deleted=!!o.deleted;if(!p.subgroup&&SUB[o.id])p.subgroup=SUB[o.id];
  p.g=String(p.gender).toLowerCase();p.cat=p.category=='Complete rituals'?'Kits':p.category;return p}
 function snap(p){var o={};F.forEach(function(k){o[k]=p[k]});o.custom=p.custom;return JSON.stringify(o)}
 function dirty(p){return !ORIG[p.id]||ORIG[p.id]!==snap(p)}
@@ -295,7 +294,9 @@ function match(p){if(V.f=='del'){if(!p.deleted)return false}else if(p.deleted)re
  if(V.q){var q=V.q.toLowerCase();if((p.name+' '+p.id+' '+p.description).toLowerCase().indexOf(q)<0)return false}return true}
 var SIZES=['50 ml','100 ml'];
 function thumb(p){if(p._prev)return p._prev;if(p.image)return '/'+p.image.replace(/^\//,'');var im=p.images||{},pv=p._prevs||{};for(var i=0;i<SIZES.length;i++){if(pv[SIZES[i]])return pv[SIZES[i]];if(im[SIZES[i]])return '/'+String(im[SIZES[i]]).replace(/^\//,'')}return null}
-function photoBlock(p){var one=function(size,lab){var u=size?((p._prevs||{})[size]||((p.images||{})[size]?'/'+String(p.images[size]).replace(/^\//,''):null)):(p._prev||(p.image?'/'+p.image.replace(/^\//,''):null)),has=size?!!(p.images||{})[size]:!!p.image;return '<div style="margin-bottom:14px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:8px">'+lab+'</div><div class="ph"><div class="th" style="'+(u?'background-image:url(\''+esc(u)+'\')':'')+'">'+(u?'':'H')+'</div><div><button class="ed" data-up="'+esc(size)+'">Upload photo</button>'+(has?'<button class="ed" data-rm="'+esc(size)+'">Remove</button>':'')+'</div></div></div>'};
+function extras(p,key){var a=(p.more||{})[key]||[],pv=p._mprev||{};return '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">'+a.map(function(x,i){var u=pv[x]||'/'+String(x).replace(/^\//,'');return '<div style="position:relative;width:48px;height:60px;background:#ddd url(\''+esc(u)+'\') center/cover;border:1px solid var(--sand)"><button data-rmx="'+esc(key)+'|'+i+'" title="Remove" style="position:absolute;top:-9px;right:-9px;width:20px;height:20px;padding:0;border-radius:50%;border:1px solid #111;background:#fff;color:#111;font:13px/17px sans-serif;cursor:pointer">×</button></div>'}).join('')+'<button class="ed" data-upx="'+esc(key)+'">+ Add photo</button><small style="flex-basis:100%">Extra photos form a gallery on the shop page: a click on the right half of the photo shows the next one, the left half the previous.</small></div>'}
+function cleanMore(m){var o={};Object.keys(m||{}).forEach(function(k){var a=(m[k]||[]).filter(Boolean);if(a.length)o[k]=a});return o}
+function photoBlock(p){var one=function(size,lab){var u=size?((p._prevs||{})[size]||((p.images||{})[size]?'/'+String(p.images[size]).replace(/^\//,''):null)):(p._prev||(p.image?'/'+p.image.replace(/^\//,''):null)),has=size?!!(p.images||{})[size]:!!p.image;return '<div style="margin-bottom:14px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);margin-bottom:8px">'+lab+'</div><div class="ph"><div class="th" style="'+(u?'background-image:url(\''+esc(u)+'\')':'')+'">'+(u?'':'H')+'</div><div><button class="ed" data-up="'+esc(size)+'">Upload photo</button>'+(has?'<button class="ed" data-rm="'+esc(size)+'">Remove</button>':'')+'</div></div>'+extras(p,size||'_')+'</div>'};
  return '<div class="fl"><label>Photo</label>'+(p.cat=='Oils'?SIZES.map(function(s){return one(s,'Bottle · '+s)}).join(''):one('','Product photo'))+'<input type="file" id="fi" accept="image/*" hidden><small>Without a photo the shop shows the Helsiva monogram. Square or portrait photos look best. Large images are resized automatically.</small></div>'}
 function byId(id){return P.filter(function(p){return p.id==id})[0]}
 function groupHtml(g,k,rows,filterOn){
@@ -376,7 +377,9 @@ document.addEventListener('click',function(e){var t=e.target,b;
   var p=norm({id:id,gender:GN[a[0]],category:a[1],name:'New product',price:50,visible:false,custom:true,description:STD.description,materials:STD.materials,usage:STD.usage,care:STD.care});P.push(p);V.f='all';V.q='';render();drawer(id);return}
  if(b=t.closest('[data-e]')){drawer(b.dataset.e);return}
  if(t.closest('[data-x]')||t.id=='sh'){closeDr();return}
- if(b=t.closest('[data-up]')){$('fi').dataset.size=b.dataset.up||'';$('fi').click();return}
+ if(b=t.closest('[data-upx]')){$('fi').dataset.size=b.dataset.upx;$('fi').dataset.x='1';$('fi').click();return}
+ if(b=t.closest('[data-rmx]')){var p=byId(OPEN),a=b.dataset.rmx.split('|'),L=(p.more||{})[a[0]]||[],nm=L[+a[1]];L.splice(+a[1],1);if(nm)delete PEND[p.id+'|+'+nm];$('dr').dataset.id='';render();drawer(OPEN);return}
+ if(b=t.closest('[data-up]')){$('fi').dataset.size=b.dataset.up||'';$('fi').dataset.x='';$('fi').click();return}
  if(b=t.closest('[data-rm]')){var p=byId(OPEN),sz=b.dataset.rm;if(sz){delete p.images[sz];if(p._prevs)delete p._prevs[sz];delete PEND[p.id+'|'+sz]}else{p.image='';delete p._prev;delete PEND[OPEN]}$('dr').dataset.id='';render();drawer(OPEN);return}
  if(t.closest('[data-std]')){var p=byId(OPEN);['description','materials','usage','care'].forEach(function(k){if(!String(p[k]).trim())p[k]=STD[k]});$('dr').dataset.id='';render();drawer(OPEN);toast('Empty fields filled with the standard texts.');return}
  if(t.closest('[data-rev]')){var p=byId(OPEN),o=JSON.parse(ORIG[OPEN]);F.forEach(function(k){p[k]=o[k]});delete p._prev;delete p._prevs;Object.keys(PEND).forEach(function(k){if(k==OPEN||k.indexOf(OPEN+'|')==0)delete PEND[k]});$('dr').dataset.id='';render();drawer(OPEN);return}
@@ -397,20 +400,20 @@ document.addEventListener('change',function(e){var t=e.target;if(t.id=='fi'&&t.f
 function markRow(p){var r=document.querySelector('tr[data-id="'+p.id+'"]');if(r)r.classList.toggle('dirty',dirty(p));markTop()}
 $('dis').onclick=function(){if(!confirm('Discard all unsaved changes?'))return;closeDr();if(V.sec=='cat')load().then(render);else dLoad().then(render)};
 /* image */
-function pick(f){var p=byId(OPEN),size=$('fi').dataset.size||'';var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var m=1400,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+function pick(f){var p=byId(OPEN),size=$('fi').dataset.size||'',xf=$('fi').dataset.x=='1';var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var m=1400,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
  var url=c.toDataURL('image/webp',.84);if(url.indexOf('image/webp')<0)url=c.toDataURL('image/jpeg',.86);var ext=url.indexOf('image/webp')>0?'webp':'jpg';var name='uploads/'+p.id+(size?'-'+size.replace(/[^0-9a-z]/gi,''):'')+'-'+Date.now().toString(36)+'.'+ext;
- if(size){PEND[p.id+'|'+size]={name:name,data:url.split(',')[1]};p.images=p.images||{};p.images[size]=name;p._prevs=p._prevs||{};p._prevs[size]=url}else{PEND[p.id]={name:name,data:url.split(',')[1]};p.image=name;p._prev=url}$('dr').dataset.id='';render();drawer(p.id)};im.onerror=function(){toast('This file could not be read as an image.',1)};im.src=r.result};r.readAsDataURL(f)}
+ if(xf){var key=size||'_',nx='uploads/'+p.id+'-g'+Date.now().toString(36)+'.'+ext;PEND[p.id+'|+'+nx]={name:nx,data:url.split(',')[1]};p.more=p.more||{};(p.more[key]=p.more[key]||[]).push(nx);p._mprev=p._mprev||{};p._mprev[nx]=url}else if(size){PEND[p.id+'|'+size]={name:name,data:url.split(',')[1]};p.images=p.images||{};p.images[size]=name;p._prevs=p._prevs||{};p._prevs[size]=url}else{PEND[p.id]={name:name,data:url.split(',')[1]};p.image=name;p._prev=url}$('dr').dataset.id='';render();drawer(p.id)};im.onerror=function(){toast('This file could not be read as an image.',1)};im.src=r.result};r.readAsDataURL(f)}
 /* publish */
 $('pub').onclick=function(){
  if(V.sec!='cat'){dSave();return}
  var bad=P.filter(function(p){return dirty(p)&&!p.deleted&&(!p.name.trim()||p.price<1)});if(bad.length){toast('Check name and price: '+bad[0].name,1);return}
  var badc=CATS.filter(function(c){return !String(c.label).trim()&&c.custom});if(badc.length){toast('A new category needs a name.',1);return}
  $('pub').disabled=true;$('pub').textContent='Publishing…';
- var ids=Object.keys(PEND).filter(function(k){var a=k.split('|'),q=byId(a[0]);return q&&(a[1]?(q.images||{})[a[1]]==PEND[k].name:q.image==PEND[k].name)});
+ var ids=Object.keys(PEND).filter(function(k){var a=k.split('|'),q=byId(a[0]);if(q&&a[1]&&a[1].charAt(0)=='+')return Object.keys(q.more||{}).some(function(z){return (q.more[z]||[]).indexOf(a[1].slice(1))>=0});return q&&(a[1]?(q.images||{})[a[1]]==PEND[k].name:q.image==PEND[k].name)});
  ids.reduce(function(pr,id){return pr.then(function(){return gh(API+PEND[id].name,{method:'PUT',body:JSON.stringify({message:'Admin: photo '+id,content:PEND[id].data,branch:BRANCH})}).then(function(r){if(!r.ok)throw new Error('photo upload '+r.status)})})},Promise.resolve())
  .then(function(){return gh(API+'products.json?ref='+BRANCH+'&t='+Date.now()).then(function(r){if(!r.ok)throw new Error('read '+r.status);return r.json()})})
  .then(function(j){var d=JSON.parse(u8(j.content)),arr=d.products,idx={};arr.forEach(function(o,i){idx[o.id]=i});
-  P.forEach(function(p){if(!dirty(p))return;var o={id:p.id,name:p.name.trim(),gender:p.gender,category:p.category,subgroup:p.subgroup||'',price:p.price,visible:p.visible,description:p.description||'',bullets:p.bullets||'',materials:p.materials||'',usage:p.usage||'',care:p.care||'',contents:p.contents||'',image:p.image||'',images:cleanImgs(p.images),tr:cleanTr(p.tr)};if(p.custom)o.custom=true;if(p.deleted)o.deleted=true;
+  P.forEach(function(p){if(!dirty(p))return;var o={id:p.id,name:p.name.trim(),gender:p.gender,category:p.category,subgroup:p.subgroup||'',price:p.price,visible:p.visible,description:p.description||'',bullets:p.bullets||'',materials:p.materials||'',usage:p.usage||'',care:p.care||'',contents:p.contents||'',image:p.image||'',images:cleanImgs(p.images),more:cleanMore(p.more),tr:cleanTr(p.tr)};if(p.custom)o.custom=true;if(p.deleted)o.deleted=true;
    if(idx[p.id]!=null){var old=arr[idx[p.id]];delete old.deleted;arr[idx[p.id]]=Object.assign(old,o)}else arr.push(o)});
   for(var k in DEL){arr=arr.filter(function(o){return o.id!=k})}
   d.products=arr;
