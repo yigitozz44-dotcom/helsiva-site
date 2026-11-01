@@ -915,69 +915,6 @@
    "sizes": [],
    "tr": {},
    "deleted": true
-  },
-  {
-   "id": "custom-men-mvyehwq5",
-   "name": "Your wish",
-   "gender": "Men",
-   "category": "DO YOU HAVE WISHES?",
-   "subgroup": "",
-   "price": 0,
-   "visible": true,
-   "description": "Part of the Helsiva Nordic sauna ritual, made for calm, unhurried sessions.",
-   "bullets": "",
-   "materials": "The exact composition is printed on the product label.",
-   "usage": "Follow the instructions on the product label.",
-   "care": "Care instructions are printed on the product label.",
-   "contents": "",
-   "image": "",
-   "images": {},
-   "more": {},
-   "sizes": [],
-   "tr": {},
-   "custom": true
-  },
-  {
-   "id": "custom-women-mvyeic8d",
-   "name": "Your wish",
-   "gender": "Women",
-   "category": "DO YOU HAVE WISHES?",
-   "subgroup": "",
-   "price": 0,
-   "visible": true,
-   "description": "Part of the Helsiva Nordic sauna ritual, made for calm, unhurried sessions.",
-   "bullets": "",
-   "materials": "The exact composition is printed on the product label.",
-   "usage": "Follow the instructions on the product label.",
-   "care": "Care instructions are printed on the product label.",
-   "contents": "",
-   "image": "",
-   "images": {},
-   "more": {},
-   "sizes": [],
-   "tr": {},
-   "custom": true
-  },
-  {
-   "id": "custom-kids-mvyeiltc",
-   "name": "Your wish",
-   "gender": "Kids",
-   "category": "DO YOU HAVE WISHES?",
-   "subgroup": "",
-   "price": 0,
-   "visible": true,
-   "description": "Part of the Helsiva Nordic sauna ritual, made for calm, unhurried sessions.",
-   "bullets": "",
-   "materials": "The exact composition is printed on the product label.",
-   "usage": "Follow the instructions on the product label.",
-   "care": "Care instructions are printed on the product label.",
-   "contents": "",
-   "image": "",
-   "images": {},
-   "more": {},
-   "sizes": [],
-   "tr": {},
-   "custom": true
   }
  ],
  "categories": [
@@ -1001,13 +938,6 @@
     "ja": "油",
     "ko": "기름"
    }
-  },
-  {
-   "gender": "Kids",
-   "key": "DO YOU HAVE WISHES?",
-   "label": "Do You Have Wishes?",
-   "custom": true,
-   "tr": {}
   }
  ],
  "legal": {
