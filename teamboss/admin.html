@@ -236,6 +236,7 @@ button.al{cursor:pointer}button.al:hover{background:#F7F4EE}
 
 input[type=number]{-moz-appearance:textfield;appearance:textfield}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0;display:none}
 .tgt{flex-direction:column-reverse}.tgt .tgm{margin-top:0}.tgt .tgx{padding:clamp(22px,2.4vw,32px) 24px clamp(26px,2.8vw,38px)}.tgt .te.p{margin-bottom:12px}.tgt .tfr{margin:8px 0 16px}.tgt .to{top:52px;bottom:auto}
+.tsw{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}.tsw button{width:30px;height:30px;border:1px solid rgba(0,0,0,.25);padding:0;cursor:pointer;border-radius:50%}.tsw button.on{outline:2px solid var(--ink);outline-offset:2px}
 header .hr{margin-left:auto}#who{display:none!important}#alg{background:none;border:1px solid rgba(244,241,235,.35);color:var(--ivory);font-size:17px;line-height:1;padding:6px 9px;min-height:0;cursor:pointer}#alg:hover{border-color:var(--ivory)}
 </style></head><body>
 <div id="login" hidden><div><svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="#F4F1EB" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><h1>HELSIVA</h1><p>Admin</p><input id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"><button class="btn solid" id="lb">Sign in</button><div id="err"></div></div></div>
@@ -302,8 +303,8 @@ function boot(){TOK=TOK||sessionStorage.getItem('hsv_t');if(!TOK)return showLogi
 /* categories */
 function catEntry(g,k){for(var i=0;i<CATS.length;i++)if(CATS[i].g==g&&CATS[i].key==k)return CATS[i]}
 function LAB(g,k){if(g=='gifts')return k;var e=catEntry(g,k);return (e&&e.label)||CN[k]||k}
-function catsOf(g){if(g=='gifts')return GIFTS.slice();var s={};P.forEach(function(p){if(p.g==g)s[p.cat]=1});var a=CO.filter(function(c){return s[c]});Object.keys(s).forEach(function(c){if(a.indexOf(c)<0)a.push(c)});CATS.forEach(function(c){if(c.g==g&&a.indexOf(c.key)<0)a.push(c.key)});return a}
-function allKeys(){var a=CO.filter(function(c){return P.some(function(p){return p.cat==c&&p.g!='gifts'})});GO.forEach(function(g){catsOf(g).forEach(function(k){if(a.indexOf(k)<0)a.push(k)})});return a}
+function catsOf(g){if(g=='gifts')return GIFTS.slice();var s={};P.forEach(function(p){if(p.g==g&&(!p.deleted||V.f=='del'))s[p.cat]=1});var a=CO.filter(function(c){return s[c]});Object.keys(s).forEach(function(c){if(a.indexOf(c)<0)a.push(c)});CATS.forEach(function(c){if(c.g==g&&a.indexOf(c.key)<0)a.push(c.key)});return a}
+function allKeys(){var a=CO.filter(function(c){return P.some(function(p){return p.cat==c&&p.g!='gifts'&&(!p.deleted||V.f=='del')})});GO.forEach(function(g){catsOf(g).forEach(function(k){if(a.indexOf(k)<0)a.push(k)})});return a}
 function keyLabel(k){for(var i=0;i<GO.length;i++){if(catsOf(GO[i]).indexOf(k)>-1)return LAB(GO[i],k)}return CN[k]||k}
 function live(p){return !p.deleted}
 function cnt(g,k){var l=P.filter(function(p){return live(p)&&(g=='all'?p.g!='gifts':p.g==g)&&p.cat==k});return l}
@@ -798,13 +799,15 @@ function tCats(){var s=[];function add(k){if(k&&s.indexOf(k)<0)s.push(k)}TDEF.fo
 function tAuto(l){var m=null;P.forEach(function(p){if(p.deleted||p.cat!=l||!(+p.price>0))return;if(m===null||+p.price<m)m=+p.price});return m}
 function tSrc(t){return t.img?(TPRV[t.img]||'/'+String(t.img).replace(/^\//,'')):''}
 var TLOGO='<svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg>';
+var TPAL={bg:[['#F4F1EB','Ivory'],['#E9E4D9','Light sand'],['#e6e0d4','Sand'],['#D8D0C3','Warm sand'],['#c9c2b4','Stone'],['#A69D90','Taupe'],['#B79A5B','Gold'],['#475249','Forest'],['#2b2d2b','Charcoal'],['#242524','Ink'],['#111211','Black']],fg:[['#F4F1EB','Ivory'],['#D8D0C3','Warm sand'],['#B79A5B','Gold'],['#475249','Forest'],['#242524','Ink'],['#111211','Black']]};
+function tSw(k,t){var L=TPAL[k].slice(),c=t[k].toLowerCase();if(!L.some(function(x){return x[0].toLowerCase()==c}))L.push([t[k],'Current']);return '<div class="tsw">'+L.map(function(x){return '<button type="button" class="'+(x[0].toLowerCase()==c?'on':'')+'" style="background:'+x[0]+'" data-tcol="'+k+'|'+x[0]+'" title="'+x[1]+'" aria-label="'+x[1]+'"></button>'}).join('')+'</div>'}
 function tTile(t,i){var au=t.l=='_shop'?null:tAuto(t.l),cats=tCats(),vis;
  if(t.v=='oil')vis='<div class="tgm" style="background:#E9E4D9 url(/oils/no1-t.webp) center/cover no-repeat"></div>';
  else if(t.v=='kit')vis='<div class="tgm"></div>';
  else if(t.v=='photo'&&t.img)vis='<div class="tgm" style="background:center/cover no-repeat url(\''+esc(tSrc(t))+'\')"></div>';
  else vis='<div class="tgm tl">'+TLOGO+'</div>';
  var from=LA=='tr'?'Başlangıç':'From';
- return '<article class="tgt'+(TOPEN==t.id?' op':'')+'" style="--b:'+t.bg+';--f:'+t.fg+'" data-tid="'+esc(t.id)+'"><div class="tgx">'
+ return '<article class="tgt'+(TOPEN==t.id?' op':'')+'" style="--b:'+t.bg+';--f:'+t.fg+'" data-tid="'+esc(t.id)+'"><div class="tgx" data-nt>'
  +'<input class="te h" data-tf="t" value="'+esc(t.t)+'" placeholder="Title" aria-label="Title">'
  +'<textarea class="te p" data-tf="d" rows="2" placeholder="Short text" aria-label="Text">'+esc(t.d)+'</textarea>'
  +'<div class="tfr">'+from+' € <input class="te n" type="number" min="0" step="1" data-tf="from" value="'+esc(t.from)+'" placeholder="'+(au==null?'—':au)+'" title="Only the number. Leave empty to use the lowest product price automatically." aria-label="Starting price"></div>'
@@ -814,12 +817,12 @@ function tTile(t,i){var au=t.l=='_shop'?null:tAuto(t.l),cats=tCats(),vis;
  +(TOPEN==t.id?'<div class="to"><label>Opens category</label><select data-tf="l"><option value="_shop"'+(t.l=='_shop'?' selected':'')+'>All products</option>'+cats.map(function(c){return '<option'+(c==t.l?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select>'
  +'<label>Picture</label><select data-tf="v"><option value="logo"'+(t.v=='logo'?' selected':'')+'>Helsiva monogram</option><option value="photo"'+(t.v=='photo'?' selected':'')+'>My photo</option><option value="oil"'+(t.v=='oil'?' selected':'')+'>Oil slideshow</option><option value="kit"'+(t.v=='kit'?' selected':'')+'>Empty</option></select>'
  +(t.v=='photo'?'<button class="ed" data-tup="'+esc(t.id)+'">'+(t.img?'Change photo':'Upload photo')+'</button>':'')
- +'<div class="tcl"><span>Background <input type="color" data-tf="bg" value="'+t.bg+'"></span><span>Text <input type="color" data-tf="fg" value="'+t.fg+'"></span></div></div>':'')
+ +'<label>Background</label>'+tSw('bg',t)+'<label>Text</label>'+tSw('fg',t)+'</div>':'')
  +'</article>'}
 FN.tiles=function(){
  var h='<div class="top"><div><small>Content</small><h1>Home tiles</h1></div><div class="tools"><button class="tpa" data-tadd title="Add a tile">+</button></div></div>';
  h+='<div class="note">This is the block on the home page, shown as the shop shows it. Type directly in a tile to change it. Use + to add a tile, × to remove one, and ⚙ for the link, picture and colours. In the price only the number is yours; leave it empty to use the lowest product price automatically. Press Publish at the top to make changes live.</div>';
- h+='<div class="tp" data-nt><div class="tgg">'+TL.map(tTile).join('')+'<button class="tgt tadd" data-tadd title="Add a tile"><b>+</b></button></div><input type="file" id="tfi" accept="image/*" hidden></div>';
+ h+='<div class="tp"><div class="tgg">'+TL.map(tTile).join('')+'<button class="tgt tadd" data-tadd title="Add a tile"><b>+</b></button></div><input type="file" id="tfi" accept="image/*" hidden></div>';
  return h};
 function tById(id){return TL.filter(function(t){return t.id==id})[0]}
 function tRe(){var y=window.scrollY;render();window.scrollTo(0,y)}
@@ -828,6 +831,7 @@ function tilesClick(e){var t=e.target,b,x;if(!t.closest||!t.closest('#main'))ret
  if(b=t.closest('[data-tdel]')){x=tById(b.dataset.tdel);if(!x||!confirm('Remove the tile "'+x.t+'" from the home page?'))return 1;TL=TL.filter(function(q){return q!==x});if(x.img)delete TPEND[x.img];tRe();return 1}
  if(b=t.closest('[data-tmv]')){var p=b.dataset.tmv.split('|'),i=TL.indexOf(tById(p[0])),j=i+ +p[1];if(i<0||j<0||j>=TL.length)return 1;var q=TL[i];TL[i]=TL[j];TL[j]=q;tRe();return 1}
  if(b=t.closest('[data-tset]')){TOPEN=TOPEN==b.dataset.tset?null:b.dataset.tset;tRe();return 1}
+ if(b=t.closest('[data-tcol]')){var q=b.dataset.tcol.split('|'),tt=t.closest('.tgt'),ob=tt&&tById(tt.dataset.tid);if(ob){ob[q[0]]=q[1];tRe()}return 1}
  if(b=t.closest('[data-tup]')){$('tfi').dataset.id=b.dataset.tup;$('tfi').click();return 1}
  return 0}
 document.addEventListener('click',function(e){if(isTiles()&&tilesClick(e))e.stopPropagation()},true);
