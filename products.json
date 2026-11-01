@@ -449,7 +449,64 @@
    "price": 48,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {
+    "50 ml": "uploads/women-post-sauna-body-oil-50ml-mvybiecv.jpg"
+   },
+   "more": {},
+   "sizes": [
+    {
+     "l": "50 ml",
+     "add": 30
+    }
+   ],
+   "tr": {
+    "tr": {
+     "name": "Sauna Sonrası Vücut Yağı"
+    },
+    "de": {
+     "name": "Post-Sauna Körperöl"
+    },
+    "fr": {
+     "name": "Huile pour le corps post-sauna"
+    },
+    "es": {
+     "name": "Aceite corporal post-sauna"
+    },
+    "it": {
+     "name": "Olio corpo post-sauna"
+    },
+    "nl": {
+     "name": "Post-sauna lichaamsolie"
+    },
+    "pt": {
+     "name": "Óleo Corporal Pós-Sauna"
+    },
+    "el": {
+     "name": "Λάδι σώματος μετά τη σάουνα"
+    },
+    "ru": {
+     "name": "Масло для тела после сауны"
+    },
+    "ar": {
+     "name": "زيت جسم ما بعد الساونا"
+    },
+    "zh": {
+     "name": "桑拿后身体油"
+    },
+    "ja": {
+     "name": "ポストサウナボディオイル"
+    },
+    "ko": {
+     "name": "사우나 후 바디오일"
+    }
+   }
   },
   {
    "id": "women-hair-and-scalp-oil",
@@ -459,7 +516,24 @@
    "price": 48,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {
+    "50 ml": "uploads/women-hair-and-scalp-oil-50ml-mvybivqz.jpg"
+   },
+   "more": {},
+   "sizes": [
+    {
+     "l": "50 ml",
+     "add": 32
+    }
+   ],
+   "tr": {}
   },
   {
    "id": "women-cooling-eye-mask",
