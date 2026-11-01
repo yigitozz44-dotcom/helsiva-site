@@ -1026,6 +1026,16 @@
    "bg": "#2b2d2b",
    "fg": "#F4F1EB",
    "v": "kit"
+  },
+  {
+   "id": "tmvydc026",
+   "t": "Do you have wishes?",
+   "d": "Please explain your wishes to us!",
+   "l": "Cooling",
+   "bg": "#B79A5B",
+   "fg": "#242524",
+   "v": "logo",
+   "from": 0
   }
  ]
 }
