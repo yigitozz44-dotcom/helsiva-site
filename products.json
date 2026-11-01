@@ -1026,6 +1026,21 @@
    "bg": "#2b2d2b",
    "fg": "#F4F1EB",
    "v": "kit"
+  },
+  {
+   "id": "tmvyfwgxb",
+   "t": "Do you have other wishes?",
+   "d": "Please share your idea with us!                 We will do our best for you.",
+   "l": "_wishes",
+   "bg": "#E9E4D9",
+   "fg": "#242524",
+   "v": "logo",
+   "b": "Share",
+   "w": {
+    "t": "",
+    "d": "",
+    "e": ""
+   }
   }
  ]
 }
