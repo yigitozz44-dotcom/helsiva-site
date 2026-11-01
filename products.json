@@ -903,7 +903,18 @@
    "price": 38,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {},
+   "deleted": true
   }
  ],
  "categories": [
