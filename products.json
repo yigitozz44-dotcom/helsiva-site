@@ -88,7 +88,24 @@
    "price": 48,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {
+    "50 ml": "uploads/men-post-sauna-body-oil-50ml-mvybgp40.jpg"
+   },
+   "more": {},
+   "sizes": [
+    {
+     "l": "50 ml",
+     "add": 30
+    }
+   ],
+   "tr": {}
   },
   {
    "id": "men-hair-and-scalp-oil",
@@ -98,7 +115,24 @@
    "price": 48,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {
+    "50 ml": "uploads/men-hair-and-scalp-oil-50ml-mvybh2ws.jpg"
+   },
+   "more": {},
+   "sizes": [
+    {
+     "l": "50 ml",
+     "add": 30
+    }
+   ],
+   "tr": {}
   },
   {
    "id": "men-beard-oil",
@@ -108,7 +142,24 @@
    "price": 48,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {
+    "50 ml": "uploads/men-beard-oil-50ml-mvybhduc.jpg"
+   },
+   "more": {},
+   "sizes": [
+    {
+     "l": "50 ml",
+     "add": 30
+    }
+   ],
+   "tr": {}
   },
   {
    "id": "men-cooling-eye-mask",
