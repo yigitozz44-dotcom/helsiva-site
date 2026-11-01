@@ -953,5 +953,88 @@
   },
   "docs": {},
   "companyAt": "2026-11-01T19:35:32.768Z"
- }
+ },
+ "tiles": [
+  {
+   "id": "oils",
+   "t": "Oil",
+   "d": "Botanical aroma for the sauna ritual",
+   "l": "Oils",
+   "bg": "#E9E4D9",
+   "fg": "#242524",
+   "v": "oil"
+  },
+  {
+   "id": "soaps",
+   "t": "Soap",
+   "d": "A cleansing bar for the shower between rounds.",
+   "l": "Soaps",
+   "bg": "#c9c2b4",
+   "fg": "#242524",
+   "v": "logo"
+  },
+  {
+   "id": "masks",
+   "t": "Mask",
+   "d": "A soft cooling piece for the quiet minutes after heat.",
+   "l": "Masks",
+   "bg": "#d8d0c3",
+   "fg": "#242524",
+   "v": "logo"
+  },
+  {
+   "id": "wraps",
+   "t": "Wrap",
+   "d": "A generous textile for before and after the heat.",
+   "l": "Wraps",
+   "bg": "#e6e0d4",
+   "fg": "#242524",
+   "v": "logo"
+  },
+  {
+   "id": "hats",
+   "t": "Hat",
+   "d": "A sauna hat that keeps the head comfortable in the heat.",
+   "l": "Hats",
+   "bg": "#475249",
+   "fg": "#F4F1EB",
+   "v": "logo"
+  },
+  {
+   "id": "combs",
+   "t": "Comb",
+   "d": "A wooden comb for after the shower.",
+   "l": "Combs",
+   "bg": "#a69d90",
+   "fg": "#242524",
+   "v": "logo"
+  },
+  {
+   "id": "intimate",
+   "t": "Intimate Protection",
+   "d": "A discreet accessory for comfort in the heat and the cool-down",
+   "l": "Intimate Protection",
+   "bg": "#242524",
+   "fg": "#F4F1EB",
+   "v": "logo"
+  },
+  {
+   "id": "kits",
+   "t": "Complete rituals",
+   "d": "The complete ritual, composed in one case.",
+   "l": "Kits",
+   "bg": "#2b2d2b",
+   "fg": "#F4F1EB",
+   "v": "kit"
+  },
+  {
+   "id": "tmvycqew4",
+   "t": "New tile",
+   "d": "Short description",
+   "l": "Cooling",
+   "bg": "#E9E4D9",
+   "fg": "#242524",
+   "v": "logo"
+  }
+ ]
 }
