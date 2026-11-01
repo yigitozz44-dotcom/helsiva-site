@@ -1026,15 +1026,6 @@
    "bg": "#2b2d2b",
    "fg": "#F4F1EB",
    "v": "kit"
-  },
-  {
-   "id": "tmvycqew4",
-   "t": "New tile",
-   "d": "Short description",
-   "l": "Cooling",
-   "bg": "#E9E4D9",
-   "fg": "#242524",
-   "v": "logo"
   }
  ]
 }
