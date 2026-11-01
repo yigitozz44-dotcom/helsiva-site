@@ -214,13 +214,13 @@ button.al{cursor:pointer}button.al:hover{background:#F7F4EE}
 #lgpv{position:fixed;inset:0;z-index:9000;background:rgba(17,18,17,.55);overflow:auto;padding:4vh 16px}.lgpb{max-width:780px;margin:0 auto;background:var(--ivory);padding:32px 36px;position:relative}.lgpb>button{position:absolute;right:20px;top:20px}.lgpb h1{font:300 34px var(--serif);margin:0 0 18px}
 .lgmd h2{font:400 22px var(--serif);margin:26px 0 8px}.lgmd p,.lgmd li{font-size:14px;line-height:1.7;margin:0 0 8px}.lgmd ul,.lgmd ol{padding-left:22px;margin:0 0 10px}
 @media(max-width:800px){.lgg{grid-template-columns:1fr}.lgl{grid-template-columns:30px 1fr}.lga{grid-column:1/-1;justify-content:flex-start}}
-#alg{background:none;border:1px solid rgba(244,241,235,.4);color:var(--ivory);font-size:10px;letter-spacing:.16em;padding:7px 10px;min-height:0}#alg:hover{border-color:var(--ivory)}
+header .hr{margin-left:auto}#who{display:none!important}#alg{background:none;border:1px solid rgba(244,241,235,.35);color:var(--ivory);font-size:17px;line-height:1;padding:6px 9px;min-height:0;cursor:pointer}#alg:hover{border-color:var(--ivory)}
 </style></head><body>
 <div id="login" hidden><div><svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="#F4F1EB" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><h1>HELSIVA</h1><p>Admin</p><input id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"><button class="btn solid" id="lb">Sign in</button><div id="err"></div></div></div>
 <div id="app" hidden>
 <header><a class="logo" href="#"><svg viewBox="0 0 60 70"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><b>HELSIVA</b><i>ADMIN</i></a>
 
-<div class="hr"><button id="alg" aria-label="Language"></button><button id="dis" hidden>Discard</button><button id="pub" disabled>Publish</button><a href="/" target="_blank" rel="noopener">Live site ↗</a><span class="who" id="who"></span></div></header>
+<div class="hr"><button id="dis" hidden>Discard</button><button id="pub" disabled>Publish</button><a href="/" target="_blank" rel="noopener">Live site ↗</a><span class="who" id="who"></span><button id="alg" aria-label="Language"></button></div></header>
 <div class="shell"><div id="side"></div><div class="cont"><div id="band"></div>
 <main id="main"><div id="ld">Loading</div></main></div></div>
 </div>
@@ -837,7 +837,7 @@ function aFix(n){if(aSkip(n))return;var o=n.__o;if(o===undefined||(n.__s!==undef
 function aAttr(e){['placeholder','title','aria-label'].forEach(function(a){if(!e.hasAttribute(a))return;var k='__a_'+a,o=e[k];if(o===undefined||(e['__s_'+a]!==undefined&&e.getAttribute(a)!==e['__s_'+a])){o=e.getAttribute(a);e[k]=o}var r=LA=='tr'?atr(o):o;if(r!==e.getAttribute(a))e.setAttribute(a,r);e['__s_'+a]=r})}
 function aWalk(root){if(root.nodeType==3){aFix(root);return}if(root.nodeType!=1)return;if(root.hasAttribute('placeholder')||root.hasAttribute('title')||root.hasAttribute('aria-label'))aAttr(root);var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT,null),n;while(n=w.nextNode()){if(n.nodeType==3)aFix(n);else if(n.hasAttribute('placeholder')||n.hasAttribute('title')||n.hasAttribute('aria-label'))aAttr(n)}}
 var AOB=new MutationObserver(function(ms){ms.forEach(function(m){if(m.type=='characterData')aFix(m.target);else m.addedNodes.forEach(aWalk)})});
-function aApply(){document.documentElement.lang=LA;$('alg').textContent=LA=='tr'?'EN':'TR';$('alg').title=LA=='tr'?'Switch to English':'Türkçe\'ye geç';document.title=LA=='tr'?'Helsiva Yönetim':'Helsiva Admin';aWalk(document.body)}
+function aApply(){document.documentElement.lang=LA;$('alg').textContent=LA=='tr'?'\uD83C\uDDEC\uD83C\uDDE7':'\uD83C\uDDF9\uD83C\uDDF7';$('alg').title=LA=='tr'?'Switch to English':'Türkçe\'ye geç';document.title=LA=='tr'?'Helsiva Yönetim':'Helsiva Admin';aWalk(document.body)}
 $('alg').onclick=function(){LA=LA=='tr'?'en':'tr';try{localStorage.setItem('hsv_lang',LA)}catch(e){}aApply();render()};
 (function(){var _c=window.confirm;window.confirm=function(m){return _c.call(window,LA=='tr'?atr(m):m)}})();
 aApply();AOB.observe(document.body,{childList:true,subtree:true,characterData:true});
