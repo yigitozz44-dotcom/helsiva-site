@@ -763,5 +763,19 @@
     "ko": "기름"
    }
   }
- ]
+ ],
+ "legal": {
+  "company": {
+   "brand": "Helsiva",
+   "website": "helsiva.com",
+   "name": "Helsiva A.Ş",
+   "address": "Miami, Eastside, Private Area, Post code: 34065",
+   "mersis": "111111111",
+   "taxOffice": "111111111",
+   "email": "info@helsiva.com",
+   "phone": "+90 532 281 02 44"
+  },
+  "docs": {},
+  "companyAt": "2026-11-01T19:35:32.768Z"
+ }
 }
