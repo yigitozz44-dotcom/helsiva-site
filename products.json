@@ -1003,20 +1003,6 @@
    }
   },
   {
-   "gender": "Men",
-   "key": "DO YOU HAVE WISHES?",
-   "label": "Do You Have Wishes?",
-   "custom": true,
-   "tr": {}
-  },
-  {
-   "gender": "Women",
-   "key": "DO YOU HAVE WISHES?",
-   "label": "Do You Have Wishes?",
-   "custom": true,
-   "tr": {}
-  },
-  {
    "gender": "Kids",
    "key": "DO YOU HAVE WISHES?",
    "label": "Do You Have Wishes?",
