@@ -533,7 +533,47 @@
      "add": 32
     }
    ],
-   "tr": {}
+   "tr": {
+    "tr": {
+     "name": "Saç ve Saç Derisi Yağı"
+    },
+    "de": {
+     "name": "Haar- & Kopfhautöl"
+    },
+    "fr": {
+     "name": "Huile pour cheveux et cuir chevelu"
+    },
+    "es": {
+     "name": "Aceite para el cabello y el cuero cabelludo"
+    },
+    "it": {
+     "name": "Olio per capelli e cute"
+    },
+    "nl": {
+     "name": "Haar- en hoofdhuidolie"
+    },
+    "pt": {
+     "name": "Óleo para cabelo e couro cabeludo"
+    },
+    "el": {
+     "name": "Λάδι για τα μαλλιά και το τριχωτό της κεφαλής"
+    },
+    "ru": {
+     "name": "Масло для волос и кожи головы"
+    },
+    "ar": {
+     "name": "زيت الشعر وفروة الرأس"
+    },
+    "zh": {
+     "name": "头发和头皮油"
+    },
+    "ja": {
+     "name": "ヘア＆スカルプオイル"
+    },
+    "ko": {
+     "name": "모발 및 두피 오일"
+    }
+   }
   },
   {
    "id": "women-cooling-eye-mask",
