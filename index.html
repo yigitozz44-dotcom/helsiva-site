@@ -445,7 +445,7 @@ function body0(p){var c=CT[p.cat]||CTG,m;
 /* options */
 var COL=[["Natural",0],["Stone",0],["Charcoal",0]];
 function og(p){if(p.kit)return[{k:"Colour",l:"Textile colour",v:COL},{k:"Packaging",l:"Packaging",v:[["Signature Packaging",0],["Signature Wooden Box",65]]}];var o=[];
- if(p.sz){var _v=p.sz.map(function(x){return[String(x.l).trim(),+x.add||0]});if(_v.length)o.push({k:"Size",l:"Size",v:_v})}else if(p.cat=="Oils")o.push({k:"Size",l:"Size",v:[["20 ml",0],["50 ml",32]]});
+ if(p.sz){var _v=p.sz.map(function(x){return[String(x.l).trim(),+x.add||0]});if(_v.length==1)_v[0][1]=0;if(_v.length)o.push({k:"Size",l:"Size",v:_v})}else if(p.cat=="Oils")o.push({k:"Size",l:"Size",v:[["20 ml",0],["50 ml",32]]});
  if(/^(Wraps|Hats|Masks|Cooling)$/.test(p.cat))o.push({k:"Colour",l:"Colour",v:COL});return o}
 function pprice(){var p=PM[PS.id],t=p.p;og(p).forEach(function(g){g.v.forEach(function(x){if(x[0]==PS.o[g.k])t+=x[1]})});if(PS.mono)t+=18;return t}
 /* shop page */
