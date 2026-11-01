@@ -1005,21 +1005,21 @@
   {
    "gender": "Men",
    "key": "DO YOU HAVE WISHES?",
-   "label": "DO YOU HAVE WISHES?",
+   "label": "Do You Have Wishes?",
    "custom": true,
    "tr": {}
   },
   {
    "gender": "Women",
    "key": "DO YOU HAVE WISHES?",
-   "label": "DO YOU HAVE WISHES?",
+   "label": "Do You Have Wishes?",
    "custom": true,
    "tr": {}
   },
   {
    "gender": "Kids",
    "key": "DO YOU HAVE WISHES?",
-   "label": "DO YOU HAVE WISHES?",
+   "label": "Do You Have Wishes?",
    "custom": true,
    "tr": {}
   }
@@ -1124,6 +1124,12 @@
      "k": "your_wishes",
      "l": "Your wishes"
     }
+   ],
+   "menus": [
+    "men",
+    "women",
+    "kids",
+    "gifts"
    ]
   }
  ]
