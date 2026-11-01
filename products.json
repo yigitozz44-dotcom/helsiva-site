@@ -1026,27 +1026,6 @@
    "bg": "#2b2d2b",
    "fg": "#F4F1EB",
    "v": "kit"
-  },
-  {
-   "id": "tmvydc026",
-   "t": "Do you have wishes?",
-   "d": "Please explain your wishes to us!",
-   "l": "DO YOU HAVE WISHES?",
-   "bg": "#B79A5B",
-   "fg": "#242524",
-   "v": "logo",
-   "subs": [
-    {
-     "k": "your_wishes",
-     "l": "Your wishes"
-    }
-   ],
-   "menus": [
-    "men",
-    "women",
-    "kids",
-    "gifts"
-   ]
   }
  ]
 }
