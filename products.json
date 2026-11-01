@@ -938,6 +938,27 @@
     "ja": "油",
     "ko": "기름"
    }
+  },
+  {
+   "gender": "Men",
+   "key": "DO YOU HAVE WISHES?",
+   "label": "DO YOU HAVE WISHES?",
+   "custom": true,
+   "tr": {}
+  },
+  {
+   "gender": "Women",
+   "key": "DO YOU HAVE WISHES?",
+   "label": "DO YOU HAVE WISHES?",
+   "custom": true,
+   "tr": {}
+  },
+  {
+   "gender": "Kids",
+   "key": "DO YOU HAVE WISHES?",
+   "label": "DO YOU HAVE WISHES?",
+   "custom": true,
+   "tr": {}
   }
  ],
  "legal": {
@@ -1031,11 +1052,16 @@
    "id": "tmvydc026",
    "t": "Do you have wishes?",
    "d": "Please explain your wishes to us!",
-   "l": "Cooling",
+   "l": "DO YOU HAVE WISHES?",
    "bg": "#B79A5B",
    "fg": "#242524",
    "v": "logo",
-   "from": 0
+   "subs": [
+    {
+     "k": "your_wishes",
+     "l": "Your wishes"
+    }
+   ]
   }
  ]
 }
