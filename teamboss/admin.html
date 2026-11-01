@@ -241,6 +241,7 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}input[type=num
 .tsb{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.tsc{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--ink);padding:3px 4px 3px 10px;font-size:12px}.tsc button{border:0;background:none;cursor:pointer;font-size:15px;line-height:1;padding:0 4px}
 .tsb .tsi{width:110px;padding:6px 8px;border:1px solid var(--sand);background:#fff;font:inherit;font-size:12px}.tsb .ed{padding:5px 10px}
 .tgt .to{max-height:calc(100% - 62px);overflow:auto}
+.tdone{margin-top:10px;width:100%;padding:11px;border:0;background:var(--ink);color:#fff;font:11px var(--sans);letter-spacing:.22em;text-transform:uppercase;cursor:pointer}.tdone:hover{background:#000}
 header .hr{margin-left:auto}#who{display:none!important}#alg{background:none;border:1px solid rgba(244,241,235,.35);color:var(--ivory);font-size:17px;line-height:1;padding:6px 9px;min-height:0;cursor:pointer}#alg:hover{border-color:var(--ivory)}
 </style></head><body>
 <div id="login" hidden><div><svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="#F4F1EB" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg><h1>HELSIVA</h1><p>Admin</p><input id="pw" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"><button class="btn solid" id="lb">Sign in</button><div id="err"></div></div></div>
@@ -827,7 +828,7 @@ function tTile(t,i){var au=t.l=='_shop'?null:tAuto(t.l),cats=tCats(),vis;
  +(['_shop','Kits','Oils','Wraps'].indexOf(t.l)<0?'<label>Sub-categories</label><div class="tsb" data-nt>'+(t.subs||[]).map(function(x){return '<span class="tsc">'+esc(x.l)+'<button data-tsx="'+esc(t.id)+'|'+esc(x.k)+'" title="Remove">×</button></span>'}).join('')+'<input class="tsi" placeholder="+ Add" aria-label="Add sub-category"><button class="ed" data-tsa="'+esc(t.id)+'">+</button></div>':'')
  +'<label>Picture</label><select data-tf="v"><option value="logo"'+(t.v=='logo'?' selected':'')+'>Helsiva monogram</option><option value="photo"'+(t.v=='photo'?' selected':'')+'>My photo</option><option value="oil"'+(t.v=='oil'?' selected':'')+'>Oil slideshow</option><option value="kit"'+(t.v=='kit'?' selected':'')+'>Empty</option></select>'
  +(t.v=='photo'?'<button class="ed" data-tup="'+esc(t.id)+'">'+(t.img?'Change photo':'Upload photo')+'</button>':'')
- +'<label>Background</label>'+tSw('bg',t)+'<label>Text</label>'+tSw('fg',t)+'</div>':'')
+ +'<label>Background</label>'+tSw('bg',t)+'<label>Text</label>'+tSw('fg',t)+'<button class="tdone" data-tdone>Done</button></div>':'')
  +'</article>'}
 FN.tiles=function(){
  var h='<div class="top"><div><small>Content</small><h1>Home tiles</h1></div><div class="tools"><button class="tpa" data-tadd title="Add a tile">+</button></div></div>';
@@ -841,6 +842,7 @@ function tilesClick(e){var t=e.target,b,x;if(!t.closest||!t.closest('#main'))ret
  if(b=t.closest('[data-tdel]')){x=tById(b.dataset.tdel);if(!x||!confirm('Remove the tile "'+x.t+'" from the home page?'))return 1;TL=TL.filter(function(q){return q!==x});if(x.img)delete TPEND[x.img];tRe();return 1}
  if(b=t.closest('[data-tmv]')){var p=b.dataset.tmv.split('|'),i=TL.indexOf(tById(p[0])),j=i+ +p[1];if(i<0||j<0||j>=TL.length)return 1;var q=TL[i];TL[i]=TL[j];TL[j]=q;tRe();return 1}
  if(b=t.closest('[data-tset]')){TOPEN=TOPEN==b.dataset.tset?null:b.dataset.tset;tRe();return 1}
+ if(t.closest('[data-tdone]')){TOPEN=null;TNC=null;tRe();return 1}
  if(b=t.closest('[data-tnc]')){TNC=TNC==b.dataset.tnc?null:b.dataset.tnc;tRe();setTimeout(function(){var i=document.querySelector('.tnci');if(i)i.focus()},30);return 1}
  if(b=t.closest('[data-tnok]')){tNewCat(b.dataset.tnok);return 1}
  if(b=t.closest('[data-tsa]')){tAddSub(b.dataset.tsa);return 1}
