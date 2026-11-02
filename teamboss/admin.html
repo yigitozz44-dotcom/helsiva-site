@@ -520,7 +520,7 @@ $('pub').onclick=function(){
   P.forEach(function(p){if(!dirty(p))return;var o={id:p.id,name:p.name.trim(),gender:p.gender,category:p.category,subgroup:p.subgroup||'',price:p.price,visible:p.visible,description:p.description||'',bullets:p.bullets||'',materials:p.materials||'',usage:p.usage||'',care:p.care||'',contents:p.contents||'',image:p.image||'',images:cleanImgs(p.images),more:cleanMore(p.more),sizes:cleanSizes(p.sizes),tr:cleanTr(p.tr)};if(p.custom)o.custom=true;if(p.deleted)o.deleted=true;
    if(idx[p.id]!=null){var old=arr[idx[p.id]];delete old.deleted;arr[idx[p.id]]=Object.assign(old,o)}else arr.push(o)});
   for(var k in DEL){arr=arr.filter(function(o){return o.id!=k})}
-  d.products=arr;
+  d.products=arr;if(Array.isArray(d.tiles))reTiles(d.tiles);
   if(catDirtyN())d.categories=CATS.filter(function(c){return c.custom||(String(c.label).trim()&&String(c.label).trim()!=CN[c.key]&&String(c.label).trim()!=c.key&&!(c.key=='Oils'&&/^oils$/i.test(String(c.label).trim())))}).map(function(c){return{gender:GN[c.g]||c.g,key:c.key,label:c.label,custom:!!c.custom,tr:cleanTr(c.tr,1)}});
   if(navDirty()){if(NAV.hide.length||NAV.groups.length)d.nav=NAV;else delete d.nav}
   var body={message:'Admin: update catalogue',content:b64(JSON.stringify(d,null,1)),sha:j.sha,branch:BRANCH};
@@ -848,11 +848,15 @@ function tSlug(l){var m={'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u','
 function isTiles(){return V.sec=='content'&&curTab(sec('content')).id=='h'}
 function tCats(){var s=[];function add(k){if(k&&s.indexOf(k)<0)s.push(k)}TDEF.forEach(function(t){add(t.l)});CATS.forEach(function(c){if(c.custom)add(c.key)});P.forEach(function(p){if(!p.deleted&&p.g!='gifts')add(p.cat)});TLS.forEach(function(t){if(t.l!='_shop')add(t.l)});return s}
 function tLab(k){if(k=='_shop')return 'All products';if(k=='Kits')return 'Complete rituals';for(var i=0;i<CATS.length;i++)if(CATS[i].key==k&&String(CATS[i].label).trim())return CATS[i].label;return CN[k]||fixCase(k,'title')}
-function tMenus(t){if(Array.isArray(t.menus))return t.menus;var o=[];GO.forEach(function(g){if(catsOf(g).indexOf(t.l)>=0)o.push(g)});if(GIFTS0.indexOf(t.l)>=0)o.push('gifts');return o}
-function tSetMenu(t,g,on){var m=tMenus(t).slice(),i=m.indexOf(g);if(on&&i<0)m.push(g);if(!on&&i>=0)m.splice(i,1);t.menus=m;
- if(GO.indexOf(g)>=0&&t.l!='_shop'){var e=catEntry(g,t.l);if(on&&!e){var lb='';CATS.forEach(function(c){if(c.key==t.l&&String(c.label).trim())lb=lb||c.label});CATS.push({g:g,key:t.l,label:lb||(CN[t.l]?'':t.l),custom:true,tr:{}})}
-  else if(!on&&e&&e.custom&&!P.some(function(p){return p.g==g&&p.cat==t.l&&!p.deleted}))CATS=CATS.filter(function(c){return c!==e})}
- syncGifts()}
+function hasCat(g,k){return P.some(function(p){return p.g==g&&p.cat==k&&!p.deleted})||CATS.some(function(c){return c.g==g&&c.key==k&&c.custom})}
+function tMenus(t){if(t.l=='_shop')return [];var o=GO.filter(function(g){return hasCat(g,t.l)}),gi=Array.isArray(t.menus)?t.menus.indexOf('gifts')>=0:GIFTS0.indexOf(t.l)>=0;if(gi)o.push('gifts');return o}
+function reTiles(a){(a||[]).forEach(function(t){if(!t||!t.l||t.l=='_shop'||t.l=='Kits'||!Array.isArray(t.menus))return;var gi=t.menus.indexOf('gifts')>=0;t.menus=GO.filter(function(g){return hasCat(g,t.l)}).concat(gi?['gifts']:[])})}
+function tSetMenu(t,g,on){if(g=='gifts'){var m=tMenus(t).slice(),i=m.indexOf('gifts');if(on&&i<0)m.push('gifts');if(!on&&i>=0)m.splice(i,1);t.menus=m;syncGifts();return true}
+ if(GO.indexOf(g)<0||t.l=='_shop')return false;var e=catEntry(g,t.l),ps=P.filter(function(p){return p.g==g&&p.cat==t.l&&!p.deleted});
+ if(on){if(!hasCat(g,t.l)){if(e)e.custom=true;else{var lb='';CATS.forEach(function(c){if(c.key==t.l&&String(c.label).trim())lb=lb||c.label});CATS.push({g:g,key:t.l,label:lb||(CN[t.l]?'':t.l),custom:true,tr:{}})}}}
+ else{if(ps.length&&!confirm('"'+tLab(t.l)+'" has '+ps.length+' product'+(ps.length>1?'s':'')+' in '+GN[g]+'. Removing it from this menu also deletes those products from the catalogue (you can restore them from the deleted view). Continue?'))return false;
+  if(ps.length)removeProducts(ps.map(function(p){return p.id}));if(e)CATS=CATS.filter(function(c){return c!==e})}
+ t.menus=tMenus(t);syncGifts();return true}
 function tAuto(l){var m=null;P.forEach(function(p){if(p.deleted||p.cat!=l||!(+p.price>0))return;if(m===null||+p.price<m)m=+p.price});return m}
 function tSrc(t){return t.img?(TPRV[t.img]||'/'+String(t.img).replace(/^\//,'')):''}
 var TLOGO='<svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v62M15 4v62M45 4v62M52 4v62M15 32h30M15 38h30"/></g></svg>';
@@ -932,7 +936,7 @@ document.addEventListener('input',function(e){var t=e.target;if(!(t.dataset&&t.d
  if(k=='from'){var v=String(t.value).trim();a.from=v===''||isNaN(+v)||+v<=0?'':Math.round(+v);var o=document.querySelectorAll('.tgt[data-tid="'+a.id+'"] [data-tf=from],#dr [data-tf=from]');o.forEach(function(x){if(x!==t)x.value=a.from})}
  else{a[k]=t.value;var sh=document.querySelector('.tgt[data-tid="'+a.id+'"] [data-tshow="'+k+'"]');if(sh)sh.textContent=k=='b'&&!t.value.trim()?'Buy':t.value;if(k=='t'&&$('tdh'))$('tdh').textContent=t.value||'New tile'}
  markTop()});
-function cleanTiles(){return TLS.filter(function(t){return String(t.t).trim()||String(t.d).trim()}).map(function(t){var o={id:t.id,t:String(t.t).trim(),d:String(t.d).trim(),l:t.l,bg:t.bg,fg:t.fg,v:t.v};if(t.v=='photo'&&t.img)o.img=t.img;else o.v=t.v=='photo'?'logo':t.v;if(t.from!==''&&!isNaN(+t.from)&&+t.from>0)o.from=+t.from;if(String(t.b).trim())o.b=String(t.b).trim();if(t.subs&&t.subs.length&&['_shop','Kits','Oils','Wraps'].indexOf(t.l)<0)o.subs=t.subs;if(Array.isArray(t.menus))o.menus=t.menus.slice();return o})}
+function cleanTiles(){reTiles(TLS);return TLS.filter(function(t){return String(t.t).trim()||String(t.d).trim()}).map(function(t){var o={id:t.id,t:String(t.t).trim(),d:String(t.d).trim(),l:t.l,bg:t.bg,fg:t.fg,v:t.v};if(t.v=='photo'&&t.img)o.img=t.img;else o.v=t.v=='photo'?'logo':t.v;if(t.from!==''&&!isNaN(+t.from)&&+t.from>0)o.from=+t.from;if(String(t.b).trim())o.b=String(t.b).trim();if(t.subs&&t.subs.length&&['_shop','Kits','Oils','Wraps'].indexOf(t.l)<0)o.subs=t.subs;if(Array.isArray(t.menus))o.menus=t.menus.slice();return o})}
 function pubTiles(){$('pub').disabled=true;$('pub').textContent='Publishing…';
  var out=cleanTiles(),used=JSON.stringify(out),paths=Object.keys(TPEND).filter(function(p){return used.indexOf(p)>=0});
  paths.reduce(function(pr,p){return pr.then(function(){return gh(API+p,{method:'PUT',body:JSON.stringify({message:'Admin: tile photo',content:TPEND[p],branch:BRANCH})}).then(function(r){if(!r.ok)throw new Error('upload '+r.status);delete TPEND[p]})})},Promise.resolve())
