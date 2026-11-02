@@ -62,13 +62,14 @@ nav button.on:after{content:"";position:absolute;left:20px;right:20px;bottom:18p
 .bc.on{background:var(--ivory);color:var(--black)}
 .bc.on small{color:var(--red)}
 .bc.none{opacity:.25;pointer-events:none}
-.ob{margin:14px auto 0;max-width:1380px;padding:6px 14px 10px;border-left:2px solid var(--gold)}
+.ob{position:relative;margin:14px auto 0;max-width:1380px;padding:6px 14px 10px;border-left:2px solid var(--gold)}
 .ob.o0{background:rgba(244,241,235,.05)}.ob.o1{background:rgba(183,154,91,.10)}
 button.obh{background:none;border:0;color:inherit;display:flex;align-items:baseline;gap:12px;padding:8px 0;cursor:pointer;width:100%;text-align:left}
 button.obh b{font:500 11px var(--sans);letter-spacing:.2em;text-transform:uppercase}
 button.obh i{font:400 11px var(--sans);opacity:.6;font-style:normal}
 button.obh .ar{margin-left:auto;opacity:.7;font-size:14px}
 span.bh{cursor:default;opacity:.65}
+.ob .obt{position:absolute;right:48px;top:10px;margin:0}
 .ob .bl{font-size:21px;white-space:nowrap;text-transform:none}
 button.obh i{font-size:13px}
 .bs{border-top:1px solid rgba(244,241,235,.1)}
@@ -329,7 +330,7 @@ function catEntry(g,k){for(var i=0;i<CATS.length;i++)if(CATS[i].g==g&&CATS[i].ke
 function LAB(g,k){if(g=='gifts')return k;var e=catEntry(g,k);return (e&&e.label)||CN[k]||k}
 
 var NAV={hide:[],groups:[]},ORIGN='{"hide":[],"groups":[]}';
-function normNav(n){n=n||{};var seen={};return{hide:(n.hide||[]).filter(function(x){return x=='wishes'}),groups:(n.groups||[]).filter(function(g){return g&&g.id&&g.l&&!seen[g.id]&&(seen[g.id]=1)}).map(function(g){return{id:String(g.id),l:String(g.l)}})}}
+function normNav(n){n=n||{};var seen={};return{hide:(n.hide||[]).filter(function(x){return x=='wishes'}),groups:(n.groups||[]).filter(function(g){return g&&g.id&&g.l&&!seen[g.id]&&(seen[g.id]=1)}).map(function(g){var o={id:String(g.id),l:String(g.l)};if(g.tr&&Object.keys(g.tr).length)o.tr=g.tr;return o})}}
 function cgOf(g){return NAV.groups.filter(function(x){return x.id==g})[0]}
 function isO(g){return g=='gifts'||!!cgOf(g)}
 function gname(g){var c=cgOf(g);return c?c.l:(g=='wishes'?'Do you have wishes?':(GN[g]||g))}
@@ -356,7 +357,7 @@ function renderNav(){var cs=allKeys(),gsel=V.g=='men'||V.g=='women'||V.g=='kids'
   h+='<div class="ot"><button class="oh" data-oo>Other products <i>Admin only</i><span class="ar">'+(oo?'−':'+')+'</span></button>';
   if(oo){var bl=[{id:'gifts',n:'Gifts',cols:GIFTS,gs:1}];if(NAV.hide.indexOf('wishes')<0)bl.push({id:'wishes',n:'Do you have wishes?',cols:['Requests']});NAV.groups.forEach(function(g){bl.push({id:g.id,n:g.l,cols:['Products']})});
    bl.forEach(function(b,i){var cl=!!OBC[b.id]&&V.g!=b.id,cs=b.cols,n=b.gs?P.filter(function(p){return live(p)&&p.g=='gifts'}).length:(b.id=='wishes'?(Array.isArray(WSH)?WSH.length:0):cnt(b.id,b.id).length);
-    h+='<div class="ob o'+(i%2)+'"><button class="obh" data-ob="'+esc(b.id)+'">'+(cl?'<b>'+esc(b.n)+'</b>':'')+'<i>'+(n||0)+'</i><span class="ar">'+(cl?'+':'−')+'</span></button>';
+    h+='<div class="ob o'+(i%2)+'"><button class="obh" data-ob="'+esc(b.id)+'">'+(cl?'<b>'+esc(b.n)+'</b>':'')+'<i>'+(n||0)+'</i><span class="ar">'+(cl?'+':'−')+'</span></button>'+(b.gs||b.id=='wishes'?'':'<button class="gtb obt" data-gtr="nav|'+esc(b.id)+'" title="Translations">🌐 Translate'+(cgOf(b.id)&&cgOf(b.id).tr?' '+Object.keys(cgOf(b.id).tr).length+'/13':'')+'</button>');
     if(!cl){h+='<div class="bg" style="grid-template-columns:150px repeat('+cs.length+',minmax(88px,'+(b.gs?'1fr':'200px')+'))"><span></span>';
      cs.forEach(function(x){h+=b.gs?'<button class="bh '+(V.g=='gifts'&&V.gs==x?'on':'')+'" data-gs="'+esc(x)+'">'+esc(x)+'</button>':'<span class="bh">'+esc(x)+'</span>'});
      h+='<button class="bl '+(V.g==b.id?'on':'')+'" '+(b.gs?'data-bl="gifts"':'data-cg="'+esc(b.id)+'"')+'>'+esc(b.n)+'</button>';
@@ -1043,7 +1044,7 @@ function autoRec(p,langs,btn,only){var jobs=[];langs.forEach(function(l){TRF.for
  var n=0,orig=btn.textContent,same={};btn.disabled=true;
  jobs.reduce(function(pr,jb){return pr.then(function(){btn.textContent=(++n)+' / '+jobs.length;return mtText(jb[2],jb[0]).then(function(x){if(x.trim().toLowerCase()==String(jb[2]).trim().toLowerCase()){same[jb[0]]=1;return}p.tr=p.tr||{};p.tr[jb[0]]=p.tr[jb[0]]||{};p.tr[jb[0]][jb[1]]=x;markTop()})})},Promise.resolve())
  .then(function(){var s=Object.keys(same);toast('Translated. Please read them, then publish.'+(s.length?' Not translated by the service (type them yourself): '+s.join(', ')+'.':''),s.length?1:0)}).catch(function(e){toast('Automatic translation stopped: '+mtWhy(e)+'. What was done is kept.',1)}).then(function(){if(PTR&&$('md').className.indexOf('on')>-1)openPtr(PTR);else if(OPEN){$('dr').dataset.id='';drawer(OPEN)}})}
-function openGtr(gid){var a=gid.split('|'),e=catEntry(a[0],a[1]);GTR={g:a[0],key:a[1],label:LAB(a[0],a[1]),tr:Object.assign({},e&&e.tr||{})};
+function openGtr(gid){var a=gid.split('|'),nv=a[0]=='nav',e=nv?NAV.groups.filter(function(x){return x.id==a[1]})[0]:catEntry(a[0],a[1]);GTR={g:a[0],key:a[1],label:nv?(e?e.l:a[1]):LAB(a[0],a[1]),tr:Object.assign({},e&&e.tr||{})};
  $('md').innerHTML='<div class="mdb" style="width:min(520px,100%);max-height:90vh;overflow:auto"><h3>Translate: '+esc(GTR.label)+'</h3><small style="display:block;color:var(--taupe);margin:-10px 0 16px">Group name in each language. Empty stays English.</small><div class="fg">'+TL.map(function(x){return '<div class="fl" style="margin-bottom:12px"><label>'+x[1]+'</label><input data-gt="'+x[0]+'" value="'+esc(GTR.tr[x[0]]||'')+'"'+(x[0]=='ar'?' dir="rtl"':'')+'></div>'}).join('')+'</div><div class="df2"><button class="btn" data-mclose>Cancel</button><button class="btn" data-gtauto>Auto-translate</button><button class="btn dark" data-gtok>Save</button></div></div>';$('md').className='mdl on'}
 function gtrAuto(btn){var jobs=TL.filter(function(x){return !String(GTR.tr[x[0]]||'').trim()}),n=0,same=[];if(!jobs.length)return;btn.disabled=true;
  jobs.reduce(function(pr,x){return pr.then(function(){btn.textContent=(++n)+' / '+jobs.length;return mt1(GTR.label,x[0]).then(function(t){if(t.trim().toLowerCase()==GTR.label.trim().toLowerCase()){same.push(x[1]);return}GTR.tr[x[0]]=t;var i=document.querySelector('[data-gt="'+x[0]+'"]');if(i)i.value=t})})},Promise.resolve()).catch(function(e){toast('Automatic translation stopped: '+mtWhy(e)+'.',1)}).then(function(){btn.disabled=false;btn.textContent='Auto-translate';if(same.length)toast('The service could not translate: '+same.join(', ')+'. Please type those yourself.',1)})}
@@ -1055,7 +1056,7 @@ document.addEventListener('click',function(e){var t=e.target,b;
  if(b=t.closest('[data-trtab]')){autoRec(byId(PTR),TL.map(function(x){return x[0]}),b,[V.ptf||'name']);e.stopPropagation();return}
  if(b=t.closest('[data-gtr]')){openGtr(b.dataset.gtr);e.stopPropagation();return}
  if(b=t.closest('[data-gtauto]')){gtrAuto(b);e.stopPropagation();return}
- if(t.closest('[data-gtok]')){var en=catEntry(GTR.g,GTR.key);if(!en){en={g:GTR.g,key:GTR.key,label:GTR.label,custom:false,tr:{}};CATS.push(en)}en.tr=cleanTr(GTR.tr,1);closeModal();render();e.stopPropagation();return}
+ if(t.closest('[data-gtok]')){if(GTR.g=='nav'){var ng=NAV.groups.filter(function(x){return x.id==GTR.key})[0];if(ng){var ct=cleanTr(GTR.tr,1);if(Object.keys(ct).length)ng.tr=ct;else delete ng.tr}closeModal();render();e.stopPropagation();return}var en=catEntry(GTR.g,GTR.key);if(!en){en={g:GTR.g,key:GTR.key,label:GTR.label,custom:false,tr:{}};CATS.push(en)}en.tr=cleanTr(GTR.tr,1);closeModal();render();e.stopPropagation();return}
 },true);
 
 /* ===== renaming: refresh stale translations automatically ===== */
