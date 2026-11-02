@@ -69,6 +69,8 @@ button.obh b{font:500 11px var(--sans);letter-spacing:.2em;text-transform:upperc
 button.obh i{font:400 11px var(--sans);opacity:.6;font-style:normal}
 button.obh .ar{margin-left:auto;opacity:.7;font-size:14px}
 span.bh{cursor:default;opacity:.65}
+.ob .bl{font-size:21px;white-space:nowrap;text-transform:none}
+button.obh i{font-size:13px}
 .bs{border-top:1px solid rgba(244,241,235,.1)}
 /* main */
 main{max-width:1380px;margin:0 auto;padding:36px 24px 120px}
@@ -354,7 +356,7 @@ function renderNav(){var cs=allKeys(),gsel=V.g=='men'||V.g=='women'||V.g=='kids'
   h+='<div class="ot"><button class="oh" data-oo>Other products <i>Admin only</i><span class="ar">'+(oo?'−':'+')+'</span></button>';
   if(oo){var bl=[{id:'gifts',n:'Gifts',cols:GIFTS,gs:1}];if(NAV.hide.indexOf('wishes')<0)bl.push({id:'wishes',n:'Do you have wishes?',cols:['Requests']});NAV.groups.forEach(function(g){bl.push({id:g.id,n:g.l,cols:['Products']})});
    bl.forEach(function(b,i){var cl=!!OBC[b.id]&&V.g!=b.id,cs=b.cols,n=b.gs?P.filter(function(p){return live(p)&&p.g=='gifts'}).length:(b.id=='wishes'?(Array.isArray(WSH)?WSH.length:0):cnt(b.id,b.id).length);
-    h+='<div class="ob o'+(i%2)+'"><button class="obh" data-ob="'+esc(b.id)+'"><b>'+esc(b.n)+'</b><i>'+(n||0)+'</i><span class="ar">'+(cl?'+':'−')+'</span></button>';
+    h+='<div class="ob o'+(i%2)+'"><button class="obh" data-ob="'+esc(b.id)+'">'+(cl?'<b>'+esc(b.n)+'</b>':'')+'<i>'+(n||0)+'</i><span class="ar">'+(cl?'+':'−')+'</span></button>';
     if(!cl){h+='<div class="bg" style="grid-template-columns:150px repeat('+cs.length+',minmax(88px,'+(b.gs?'1fr':'200px')+'))"><span></span>';
      cs.forEach(function(x){h+=b.gs?'<button class="bh '+(V.g=='gifts'&&V.gs==x?'on':'')+'" data-gs="'+esc(x)+'">'+esc(x)+'</button>':'<span class="bh">'+esc(x)+'</span>'});
      h+='<button class="bl '+(V.g==b.id?'on':'')+'" '+(b.gs?'data-bl="gifts"':'data-cg="'+esc(b.id)+'"')+'>'+esc(b.n)+'</button>';
