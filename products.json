@@ -924,13 +924,14 @@
    "website": "helsiva.com",
    "name": "Helsiva A.Ş",
    "address": "Miami, Eastside, Private Area, Post code: 34065",
-   "mersis": "111111111",
-   "taxOffice": "111111111",
+   "mersis": "1111111111111111",
+   "taxOffice": "",
    "email": "info@helsiva.com",
-   "phone": "+90 532 281 02 44"
+   "phone": "+90 532 281 02 44",
+   "taxNo": "11111111111"
   },
   "docs": {},
-  "companyAt": "2026-11-01T19:35:32.768Z"
+  "companyAt": "2026-11-05T20:51:38.113Z"
  },
  "tiles": [
   {
