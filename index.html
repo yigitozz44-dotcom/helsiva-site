@@ -655,6 +655,10 @@ function walk(root){var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{a
 var OB=new MutationObserver(function(ms){if(!TRC&&PF.c=="EUR"&&(PF.u=="cm"&&!UL[LK[PF.l]]))return;ms.forEach(function(m){for(var i=0;i<m.addedNodes.length;i++){var a=m.addedNodes[i];if(a.nodeType==3)fixNode(a);else if(a.nodeType==1)walk(a)}})});
 OB.observe(document.body,{childList:true,subtree:true});
 function applyPrefs(){setL();var h=document.documentElement;h.lang=PF.l;h.dir=/^ar/.test(PF.l)?"rtl":"ltr";$("pfl").textContent=PF.l.split("-")[0].toUpperCase()+" · "+PF.c;$("fcur").textContent=PF.c;$("flang").textContent=LN[PF.l].split(" - ")[0];walk(document.body);document.title=TT.split(" - ").map(cv).join(" - ")}
+(function(){var D0={USD:RATE.USD,GBP:RATE.GBP,TRY:RATE.TRY,AED:RATE.AED};function ok(r){if(!r)return false;for(var k in D0){var v=+r[k];if(!(v>0)||v<D0[k]*.5||v>D0[k]*2)return false}return true}
+function use(r){for(var k in D0)RATE[k]=+r[k];if(PF.c!="EUR")applyPrefs()}
+try{var c=JSON.parse(localStorage.getItem("helsiva_fx")||"null");if(c&&Date.now()-c.t<216e5&&ok(c.r)){use(c.r);return}}catch(e){}
+fetch("https://helsiva-auth.yigitozz44.workers.dev/rates").then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&ok(j.rates)){use(j.rates);try{localStorage.setItem("helsiva_fx",JSON.stringify({t:Date.now(),r:j.rates}))}catch(e){}}}).catch(function(){})})();
 $("pc").innerHTML=Object.keys(CN).map(function(k){return '<option value="'+k+'">'+CN[k]+'</option>'}).join("");
 $("pl").innerHTML=LL.map(function(x){return '<option value="'+x[0]+'">'+x[4]+' '+x[1]+'</option>'}).join("");
 var PREQ=0;function prefNeed(){try{var q=JSON.parse(localStorage.getItem("helsiva_prefs")||"null");return !(q&&q.ok)}catch(e){return !window.PSH}}
