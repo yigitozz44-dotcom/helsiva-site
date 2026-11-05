@@ -917,29 +917,7 @@
    "deleted": true
   }
  ],
- "categories": [
-  {
-   "gender": "Men",
-   "key": "Oils",
-   "label": "Oils",
-   "custom": false,
-   "tr": {
-    "tr": "Yağlar",
-    "de": "Öle",
-    "fr": "Huiles",
-    "es": "Aceites",
-    "it": "Olii",
-    "nl": "Oliën",
-    "pt": "Óleos",
-    "el": "Έλαια",
-    "ru": "Масла",
-    "ar": "الزيوت",
-    "zh": "油类",
-    "ja": "油",
-    "ko": "기름"
-   }
-  }
- ],
+ "categories": [],
  "legal": {
   "company": {
    "brand": "Helsiva",
