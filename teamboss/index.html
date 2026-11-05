@@ -671,7 +671,7 @@ storefront:{key:'storefront',title:'Storefront',eyebrow:'Content',note:'Texts fo
 mail:{key:'mail',title:'E-mail',eyebrow:'Communication',groups:[
  {t:'Thank-you e-mail',f:[{k:'on',l:'Send a thank-you e-mail when someone makes a wish',t:'sel',o:['Yes','No'],w:2,d:'Yes'},{k:'replyTo',l:'Reply-to address',t:'email',w:2,h:'Where replies go. Leave empty to use the sender address.'}]},
  {t:'Wording',x:1,f:[{k:'subject',l:'Custom subject',h:'Leave empty to use the built-in subject, which is translated into 14 languages.'},{k:'message',l:'Custom message',t:'area',h:'Write it in the language chosen above, then press Translate. Each customer gets the version in the language of their request. A language without a translation gets the built-in text. You can use {ad} for the sender name and {tur} for what the wish is for.'},{k:'signature',l:'Signature',d:'Helsiva'}]},
- {t:'New wish alert for you',f:[{k:'notifyOn',l:'E-mail me when a new wish arrives',t:'sel',o:['No','Yes'],w:2,d:'No'},{k:'notifyTo',l:'Send alerts to',t:'email',w:2}]}]},
+ {t:'New wish alert for you',f:[{k:'notifyOn',l:'E-mail me when a new wish arrives',t:'sel',o:['Yes','No'],w:2,d:'Yes'},{k:'notifyTo',l:'Send alerts to',t:'email',w:2,h:'Empty = info@helsiva.com.'}]}]},
 settings:{key:'settings',title:'Store settings',eyebrow:'Settings',groups:[
  {t:'Business',f:[{k:'storeName',l:'Store name',w:2,d:'Helsiva'},{k:'legalName',l:'Legal company name',w:2},{k:'email',l:'Contact email',t:'email',w:2},{k:'phone',l:'Phone',w:2},{k:'address',l:'Business address',t:'area'},{k:'vatNo',l:'Tax / VAT number',w:2},{k:'vat',l:'VAT rate (%)',t:'num',w:2},{k:'vatIncl',l:'Shop prices include VAT',t:'sel',o:['Yes','No'],w:2}]},
  {t:'Preferences',f:[{k:'currency',l:'Store currency',t:'sel',o:['EUR'],w:2},{k:'timezone',l:'Time zone',w:2,d:'Europe/Istanbul'},{k:'orderPrefix',l:'Order number prefix',w:2,d:'HS-'},{k:'lowStock',l:'Default low-stock level',t:'num',w:2,d:5}]}]}
@@ -1438,8 +1438,8 @@ function side(){if(WSH===null&&DSTATE=='ok')wLoad();var d=V.dept&&depById(V.dept
  deptItems(d.id).forEach(function(s){h+='<button class="si'+(V.sec==s.id?' on':'')+'" data-sec="'+s.id+'"><span>'+(s.n?'<i>'+(s.n<10?'0':'')+s.n+'</i>':'')+s.l+'</span>'+((s.id=='cat'&&nDirty())||(s.id=='legal'&&legDirty())||(s.id=='content'&&tilesDirty())?'<b class="dot">•</b>':(cn[s.id]?'<b>'+cn[s.id]+'</b>':''))+'</button>'});
  var lbl=d.code;if($('hl')&&$('hl').textContent!=lbl)$('hl').textContent=lbl;
  if(side.h!==h){side.h=h;$('side').innerHTML=h}}
-function initView(){var h=(location.hash||'').replace('#','').toLowerCase();V.dept=null;V.sec='hub';
- if(ALLOW&&ALLOW.length==1){V.dept=ALLOW[0];V.sec=depById(ALLOW[0]).items[0]}else if(h&&depById(h)&&allowed(h)){V.dept=h;V.sec=depById(h).items[0]}}
+function initView(){var hp=(location.hash||'').replace('#','').toLowerCase().split('/'),h=hp[0];V.dept=null;V.sec='hub';
+ if(ALLOW&&ALLOW.length==1){V.dept=ALLOW[0];V.sec=depById(ALLOW[0]).items[0]}else if(h&&depById(h)&&allowed(h)){V.dept=h;V.sec=depById(h).items[0];if(hp[1]&&depById(h).items.indexOf(hp[1])>-1)V.sec=hp[1]}}
 initView();
 
 /* ===== ADMIN LANGUAGE (TR default / EN) ===== */
