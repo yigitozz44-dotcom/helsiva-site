@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /teamboss/
+
+Sitemap: https://helsiva.com/sitemap.xml
