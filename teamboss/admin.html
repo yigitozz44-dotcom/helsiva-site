@@ -1035,7 +1035,7 @@ function wishList(){if(WSH===null)wLoad();
   return '<section class="wcard"><button class="wx" data-wdel="'+esc(o.k)+'" title="Delete this request" aria-label="Delete">×</button><h3>'+nm+'</h3><small>'+esc(ds)+'</small><p>'+esc(o.w)+'</p>'
   +(o.im&&o.im.length?'<div class="wim">'+o.im.filter(function(u){return /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(u)}).map(function(u,i){return '<button data-wim="'+esc(o.k)+'|'+i+'" style="background-image:url('+u+')" aria-label="Photo"></button>'}).join('')+'</div>':'')
   +'<div class="wm">'+(o.f?'<span><b>For:</b> '+esc(o.f)+'</span>':'')+(o.d?'<span><b>When:</b> '+esc(o.d)+'</span>':'')+em+ph+(o.l?'<span><b>Site language:</b> '+esc(o.l)+'</span>':'')+'</div>'
-  +(mail?'<a class="ed" href="mailto:'+esc(o.e||o.c)+'?subject='+encodeURIComponent('Your wish · Helsiva')+'">Reply by e-mail</a>':'')+'</section>'
+  +(mail?'<a class="ed" href="mailto:'+esc(o.e||o.c)+'?subject='+encodeURIComponent((MAILT[String(o.l||'en').split('-')[0]]||MAILT.en)[0]+' · Helsiva')+'">Reply by e-mail</a>':'')+'</section>'
 }).join('')+'</div>'}
 function openNavAdd(){var hid=NAV.hide.indexOf('wishes')>=0;
  $('md').innerHTML='<div class="mdb"><h3>New menu item</h3><div class="fl"><label>Name</label><input id="nvn" placeholder="e.g. Private Collection"><small>It appears in the website menu next to Gifts and opens its own product page. You add its products here in the catalogue.</small></div>'+(hid?'<div class="fl"><button class="ed" data-nvrest>↺ Bring back “Do you have wishes?”</button></div>':'')+'<div class="df2"><button class="btn" data-mclose>Cancel</button><button class="btn dark" data-nvok>Add</button></div></div>';
