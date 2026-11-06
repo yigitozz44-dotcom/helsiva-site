@@ -362,7 +362,7 @@ function boot(){TOK=TOK||sessionStorage.getItem('hsv_t');if(!TOK)return showLogi
  fetch(AUTH+'/me',{headers:{Authorization:'Bearer '+TOK}}).then(function(r){if(!r.ok)throw new Error('auth');return r.json()}).then(function(u){$('who').textContent='Signed in';$('login').hidden=true;$('app').hidden=false;return load()})  .then(function(){render();return dLoad().then(render)}).catch(function(e){sessionStorage.removeItem('hsv_t');TOK=null;showLogin(e.message=='auth'?'':'Could not load the catalogue ('+e.message+').')})}
 /* categories */
 function catEntry(g,k){for(var i=0;i<CATS.length;i++)if(CATS[i].g==g&&CATS[i].key==k)return CATS[i]}
-function LAB(g,k){if(g=='gifts')return k;var e=catEntry(g,k);return (e&&e.label)||CN[k]||k}
+function LAB(g,k){if(g=='gifts')return k;var e=catEntry(g,k);if(LA=='tr'&&e&&e.tr&&e.tr.tr)return e.tr.tr;return (e&&e.label)||CN[k]||k}
 
 var NAV={hide:[],groups:[]},ORIGN='{"hide":[],"groups":[]}';
 function normNav(n){n=n||{};var seen={};return{hide:(n.hide||[]).filter(function(x){return x=='wishes'}),groups:(n.groups||[]).filter(function(g){return g&&g.id&&g.l&&!seen[g.id]&&(seen[g.id]=1)}).map(function(g){var o={id:String(g.id),l:String(g.l)};if(g.tr&&Object.keys(g.tr).length)o.tr=g.tr;return o})}}
@@ -431,7 +431,7 @@ function groupHtml(g,k,rows,filterOn){
  if(!rows.length)h+='<tr><td colspan="8"><div class="empty">'+(filterOn?'No products match.':'No products in this group yet. Use “+ Add product”.')+'</div></td></tr>';
  rows.forEach(function(p){var t=thumb(p),hasT=TXT.some(function(x){return p[x]});
   h+='<tr class="'+(dirty(p)?'dirty':'')+(p.visible?'':' off')+'" data-id="'+esc(p.id)+'"><td><div class="th" data-e="'+esc(p.id)+'" style="'+(t?'background-image:url(\''+esc(t)+'\')':'')+'">'+(t?'':'Photo')+'</div></td>'
-  +'<td class="nm"><input data-n="'+esc(p.id)+'" value="'+esc(p.name)+'"><small>'+esc(p.id)+(p.custom?' · new':'')+'</small></td>'
+  +'<td class="nm"><input data-n="'+esc(p.id)+'" value="'+esc(pname(p))+'"><small>'+esc(p.id)+(p.custom?' · new':'')+'</small></td>'
   +(k=='Wraps'?'<td class="sb cc">'+esc(SUBL[p.subgroup]||'-')+'</td>':'')
   +'<td><div class="pr">€<input data-p="'+esc(p.id)+'" type="number" min="0" step="1" placeholder="–" value="'+(p.price>0?p.price:'')+'"></div></td>'
   +'<td>'+(p.deleted?'<span class="st">Deleted</span>':'<button class="tg '+(p.visible?'on':'no')+'" data-t="'+esc(p.id)+'" title="'+(p.visible?'Online: click to hide':'Offline: click to publish')+'">'+(p.visible?'✓':'✕')+'</button>')+'</td>'
@@ -459,7 +459,7 @@ function drawer(id,keep){var p=byId(id);if(!p){closeDr();return}OPEN=id;OPENR=nu
  var isK=p.cat=='Kits',isW=p.cat=='Wraps',isG=p.g=='gifts';
  var h='<div class="dh"><div><small>'+(cgOf(p.g)?esc(gname(p.g)):(GN[p.g]||'')+' · '+esc(LAB(p.g,p.cat)))+'</small><h3>'+esc(p.name)+'</h3></div><button data-x>✕</button></div><div class="db">'
  +photoBlock(p)
- +'<div class="row2"><div class="fl"><label>Name</label><input data-f="name" value="'+esc(p.name)+'"></div><div class="fl"><label>Price (EUR)</label><input data-f="price" type="number" min="0" step="1" placeholder="–" value="'+(p.price>0?p.price:'')+'"><small>Leave empty or 0 for no price: the shop shows – and the product cannot be bought yet.</small></div></div>'
+ +'<div class="row2"><div class="fl"><label>Name</label><input data-f="name" value="'+esc(pname(p))+'"></div><div class="fl"><label>Price (EUR)</label><input data-f="price" type="number" min="0" step="1" placeholder="–" value="'+(p.price>0?p.price:'')+'"><small>Leave empty or 0 for no price: the shop shows – and the product cannot be bought yet.</small></div></div>'
  +(!isW&&tSubs(p.category).length?'<div class="fl"><label>Sub-category</label><select data-f="subgroup"><option value="">None</option>'+tSubs(p.category).map(function(x){return '<option value="'+esc(x.k)+'"'+(p.subgroup==x.k?' selected':'')+'>'+esc(x.l)+'</option>'}).join('')+'</select></div>':'')
  +(isW?'<div class="fl"><label>Type</label><select data-f="subgroup">'+Object.keys(SUBL).map(function(k){return '<option value="'+k+'"'+(p.subgroup==k?' selected':'')+'>'+SUBL[k]+'</option>'}).join('')+'</select></div>':'')
  +'<div class="fl"><label>Online</label><select data-f="visible"><option value="1"'+(p.visible?' selected':'')+'>Online: visible in the shop</option><option value="0"'+(p.visible?'':' selected')+'>Offline: hidden</option></select></div>'
@@ -482,8 +482,8 @@ function closeModal(){$('md').className='mdl'}
 /* events */
 document.addEventListener('click',function(e){var t=e.target,b;
  if(t.closest('[data-mclose]')||t.id=='md'){closeModal();return}
- if(t.closest('[data-mok]')){var g=$('ncg').value,n=fixCase($('ncn').value.trim(),'title');if(!n){$('ncn').focus();return}
-  var key='c-'+slug(n)+'-'+Date.now().toString(36);CATS.push({g:g,key:key,label:n,custom:true,tr:{}});closeModal();V.sec='cat';V.g=g;V.cat=key;V.open=true;V.f='all';V.q='';render();toast('Category added. Add products to it, then publish.');return}
+ if(t.closest('[data-mok]')){var g=$('ncg').value,n=niceCase($('ncn').value.trim());if(!n){$('ncn').focus();return}
+  var key='c-'+slug(n)+'-'+Date.now().toString(36);var ne={g:g,key:key,label:n,custom:true,tr:{}};CATS.push(ne);if(LA=='tr')setTimeout(function(){catNameFlow([ne],n)},0);closeModal();V.sec='cat';V.g=g;V.cat=key;V.open=true;V.f='all';V.q='';render();toast('Category added. Add products to it, then publish.');return}
  if(t.closest('[data-newcat]')){openNewCat();return}
  if(b=t.closest('[data-ob]')){OBC[b.dataset.ob]=!OBC[b.dataset.ob];try{localStorage.setItem('hs_obc',JSON.stringify(OBC))}catch(e){}render();return}
  if(b=t.closest('[data-oo]')){V.oopen=!V.oopen;if(V.g=='gifts'&&!V.oopen){V.g='all'}render();return}
@@ -515,12 +515,12 @@ document.addEventListener('click',function(e){var t=e.target,b;
 });
 document.addEventListener('input',function(e){var t=e.target,id,p;
  if(t.id=='q'){V.q=t.value;var pos=t.selectionStart;render();var q=$('q');q.focus();q.setSelectionRange(pos,pos);return}
- if(id=t.dataset.gl){var a=id.split('|'),e2=catEntry(a[0],a[1]);var v=t.value;if(e2)e2.label=v;else CATS.push({g:a[0],key:a[1],label:v,custom:false,tr:{}});markTop();return}
- if(id=t.dataset.n){p=byId(id);p.name=t.value;markRow(p);return}
+ if(id=t.dataset.gl){var a=id.split('|'),e2=catEntry(a[0],a[1]);var v=t.value;if(LA=='tr'){if(!e2){e2={g:a[0],key:a[1],label:LAB(a[0],a[1]),custom:false,tr:{}};CATS.push(e2)}e2.tr=e2.tr||{};e2.tr.tr=v}else if(e2)e2.label=v;else CATS.push({g:a[0],key:a[1],label:v,custom:false,tr:{}});markTop();return}
+ if(id=t.dataset.n){p=byId(id);if(LA=='tr'){p.tr=p.tr||{};p.tr.tr=p.tr.tr||{};p.tr.tr.name=t.value}else p.name=t.value;markRow(p);return}
  if(id=t.dataset.p){p=byId(id);p.price=Math.max(0,Math.round(+t.value||0));markRow(p);return}
  if(t.dataset.ptx){p=byId(PTR);var l=t.dataset.ptx,f=V.ptf||'name';p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l][f]=t.value;markTop();return}
  if(t.dataset.gt){GTR.tr[t.dataset.gt]=t.value;return}
- if(t.dataset.f&&t.closest('#dr')){p=byId(OPEN);var k=t.dataset.f,v=t.value;if(k=='price')v=Math.max(0,Math.round(+v||0));if(k=='visible')v=v=='1';p[k]=v;markTop()}});
+ if(t.dataset.f&&t.closest('#dr')){p=byId(OPEN);var k=t.dataset.f,v=t.value;if(k=='name'&&LA=='tr'){p.tr=p.tr||{};p.tr.tr=p.tr.tr||{};p.tr.tr.name=v;markTop();return}if(k=='price')v=Math.max(0,Math.round(+v||0));if(k=='visible')v=v=='1';p[k]=v;markTop()}});
 document.addEventListener('change',function(e){var t=e.target;if(t.id=='fi'&&t.files[0])pick(t.files[0]);
  if(t.dataset.f&&t.closest('#dr'))render();
  if(t.dataset.gl){var a=t.dataset.gl.split('|'),e2=catEntry(a[0],a[1]);if(e2){var fx=fixCase(e2.label,'title');if(fx!==e2.label){e2.label=fx;markTop()}}if(e2&&!e2.custom&&!e2.label.trim()){CATS=CATS.filter(function(x){return x!==e2})}render()}
@@ -1176,7 +1176,7 @@ function trHtml(p){var l=V.trl||'tr',t=(p.tr&&p.tr[l])||{};
  return h+'<small>If you change the English text later, check its translations again.</small></div>'}
 var MTLIM=0,MTBAD=/MYMEMORY WARNING|YOU USED ALL AVAILABLE FREE TRANSLATIONS|QUERY LENGTH LIMIT|INVALID (TARGET|SOURCE|LANGUAGE)|NEXT AVAILABLE IN/i;
 function mtWhy(e){var m=String(e&&e.message||e);return /limit|429|403|quota/i.test(m)?'the free daily translation limit is reached. Your text was saved in English; translate it later with the 🌐 button':m}
-function mt1(text,l){if(MTLIM&&Date.now()<MTLIM)return Promise.reject(new Error('daily limit reached'));return fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|'+(MTC[l]||l)).then(function(r){if(r.status==429||r.status==403){MTLIM=Date.now()+36e5;throw new Error('daily limit reached')}if(!r.ok)throw new Error('service '+r.status);return r.json()}).then(function(j){var t=j&&j.responseData&&j.responseData.translatedText,st=j&&+j.responseStatus;if(st==429||st==403||(t&&MTBAD.test(t))){MTLIM=Date.now()+36e5;throw new Error('daily limit reached')}if(!t||(st&&st!=200))throw new Error('service error');return t.replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&')})}
+function mt1(text,l,src){if(MTLIM&&Date.now()<MTLIM)return Promise.reject(new Error('daily limit reached'));return fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+(src||'en')+'|'+(MTC[l]||l)).then(function(r){if(r.status==429||r.status==403){MTLIM=Date.now()+36e5;throw new Error('daily limit reached')}if(!r.ok)throw new Error('service '+r.status);return r.json()}).then(function(j){var t=j&&j.responseData&&j.responseData.translatedText,st=j&&+j.responseStatus;if(st==429||st==403||(t&&MTBAD.test(t))){MTLIM=Date.now()+36e5;throw new Error('daily limit reached')}if(!t||(st&&st!=200))throw new Error('service error');return t.replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&')})}
 function mtLine(t,l){var parts=[],cur='';(t.match(/[^.!?]+[.!?]*\s*/g)||[t]).forEach(function(s){if(cur&&(cur+s).length>420){parts.push(cur.trim());cur=s}else cur+=s});if(cur.trim())parts.push(cur.trim());
  return parts.reduce(function(pr,pt){return pr.then(function(a){return mt1(pt,l).then(function(x){return a.concat(x)})})},Promise.resolve([])).then(function(a){return a.join(' ')})}
 function mtText(t,l){return String(t).split(/\n/).reduce(function(pr,ln){return pr.then(function(a){if(!ln.trim())return a;return mtLine(ln.trim(),l).then(function(x){return a.concat(x)})})},Promise.resolve([])).then(function(a){return a.join('\n')})}
@@ -1201,17 +1201,17 @@ document.addEventListener('click',function(e){var t=e.target,b;
 },true);
 
 /* ===== renaming: refresh stale translations automatically ===== */
-function bgTr(text,set,what){if(!String(text).trim())return;toast('Translating the new '+what+'…');var same=[];
- TL.reduce(function(pr,x){return pr.then(function(){return mt1(text,x[0]).then(function(t){if(t.trim().toLowerCase()==String(text).trim().toLowerCase())same.push(x[1]);else set(x[0],t)})})},Promise.resolve())
+function bgTr(text,set,what,skip){if(!String(text).trim())return;toast('Translating the new '+what+'…');var same=[];
+ TL.filter(function(x){return x[0]!=skip}).reduce(function(pr,x){return pr.then(function(){return mt1(text,x[0]).then(function(t){if(t.trim().toLowerCase()==String(text).trim().toLowerCase())same.push(x[1]);else set(x[0],t)})})},Promise.resolve())
  .then(function(){toast('The new '+what+' was translated into the other languages. Please check them with the 🌐 button.'+(same.length?' The service left these unchanged: '+same.join(', ')+'.':''),same.length?1:0)})
  .catch(function(e){toast('Automatic translation stopped: '+mtWhy(e)+'.',1)})
  .then(function(){if(OPEN){$('dr').dataset.id='';drawer(OPEN)}else render()})}
 function retransCat(g,k){var e=catEntry(g,k);if(!e)return;e.tr=e.tr||{};markTop();bgTr(LAB(g,k),function(l,x){e.tr[l]=x},'group name')}
 function retransProd(p){if(!p)return;markTop();bgTr(p.name,function(l,x){p.tr=p.tr||{};p.tr[l]=p.tr[l]||{};p.tr[l].name=x},'product name')}
-document.addEventListener('change',function(e){var t=e.target;if(t.dataset&&(t.dataset.gl||t.dataset.n||(t.dataset.f=='name'&&t.closest&&t.closest('#dr')))){var fx=fixCase(t.value,'title');if(fx!==t.value)t.value=fx}if(t.value===t.defaultValue)return;
- if(t.dataset.gl){var a=t.dataset.gl.split('|');if(String(t.value).trim())setTimeout(function(){retransCat(a[0],a[1])},0);return}
- if(t.dataset.n){var p=byId(t.dataset.n);setTimeout(function(){retransProd(p)},0);return}
- if(t.dataset.f=='name'&&t.closest('#dr')){var p2=byId(OPEN);setTimeout(function(){retransProd(p2)},0)}},true);
+document.addEventListener('change',function(e){var t=e.target;if(t.dataset&&(t.dataset.gl||t.dataset.n||(t.dataset.f=='name'&&t.closest&&t.closest('#dr')))){var fx=niceCase(t.value);if(fx!==t.value)t.value=fx}if(t.value===t.defaultValue)return;
+ if(t.dataset.gl){var a=t.dataset.gl.split('|');if(String(t.value).trim()){var gv=t.value;setTimeout(function(){catNameFlow([catEnsure(a[0],a[1])],gv)},0)}return}
+ if(t.dataset.n){var p=byId(t.dataset.n),nv=t.value;setTimeout(function(){prodNameFlow(p,nv)},0);return}
+ if(t.dataset.f=='name'&&t.closest('#dr')){var p2=byId(OPEN),nv2=t.value;setTimeout(function(){prodNameFlow(p2,nv2)},0)}},true);
 
 var PTR=null;
 function openPtr(id){var p=byId(id);if(!p)return;PTR=id;var f=V.ptf||'name',lab=TRF.filter(function(x){return x[0]==f})[0][1],src=String(p[f]||'');
@@ -1494,9 +1494,23 @@ aApply();AOB.observe(document.body,{childList:true,subtree:true,characterData:tr
 
 boot();
 
-function renCommit(i,ok){var k=i.dataset.brn;if(V.ren!=k)return;V.ren=null;var v=fixCase(String(i.value||'').trim(),'title');
- if(ok&&v&&v!==keyLabel(k)){GO.forEach(function(g){if(catsOf(g).indexOf(k)<0)return;var e=catEntry(g,k);if(e)e.label=v;else CATS.push({g:g,key:k,label:v,custom:false,tr:{}})});markTop();toast('Renamed to "'+v+'" for Men, Women and Kids. Press Publish to make it live.')}
+function renCommit(i,ok){var k=i.dataset.brn;if(V.ren!=k)return;V.ren=null;var v=niceCase(i.value);
+ if(ok&&v&&v!==keyLabel(k)){var es=GO.filter(function(g){return catsOf(g).indexOf(k)>-1}).map(function(g){return catEnsure(g,k)});catNameFlow(es,v)}
  render()}
 document.addEventListener('keydown',function(e){var t=e.target;if(!(t&&t.dataset&&t.dataset.brn!=null))return;if(e.key=='Enter'){e.preventDefault();renCommit(t,1)}else if(e.key=='Escape'){e.preventDefault();renCommit(t,0)}});
 document.addEventListener('focusout',function(e){var t=e.target;if(t&&t.dataset&&t.dataset.brn!=null&&V.ren==t.dataset.brn)renCommit(t,1)});
+
+/* ===== names are typed in the admin language; the other languages follow automatically ===== */
+function niceCase(x,loc){loc=loc||(LA=='tr'?'tr':'en');x=String(x==null?'':x).trim().replace(/\s+/g,' ');if(!x)return x;
+ var small=loc=='tr'?['ve','ile','veya','için']:['and','or','of','for','the','a','an','with','to','in','on'];
+ return x.split(' ').map(function(w,i){var lo=w.toLocaleLowerCase(loc);if(i&&small.indexOf(lo)>-1)return lo;if(w=='&')return w;return lo.charAt(0).toLocaleUpperCase(loc)+lo.slice(1)}).join(' ')}
+function pname(p){return LA=='tr'&&p.tr&&p.tr.tr&&p.tr.tr.name?p.tr.tr.name:p.name}
+function catEnsure(g,k){var e=catEntry(g,k);if(!e){e={g:g,key:k,label:LAB(g,k),custom:false,tr:{}};CATS.push(e)}e.tr=e.tr||{};return e}
+function nameFlow(v,setBase,setTr,what){markTop();
+ if(LA!='tr'){setBase(v);bgTr(v,setTr,what);return}
+ setTr('tr',v);toast('Translating the '+what+' into English…');
+ mt1(v,'en','tr').then(function(en){en=niceCase(en,'en');if(!en)throw new Error('empty');setBase(en);markTop();bgTr(en,setTr,what,'tr')})
+ .catch(function(err){toast('Saved in Turkish. The English '+what+' could not be generated ('+mtWhy(err)+'). The English shop still shows the old one: switch the admin to English and type it there.',1);render()})}
+function catNameFlow(es,v){nameFlow(v,function(x){es.forEach(function(e){e.label=x})},function(l,x){es.forEach(function(e){e.tr=e.tr||{};e.tr[l]=x})},'group name')}
+function prodNameFlow(p,v){if(!p)return;v=niceCase(v);if(!v)return;p.tr=p.tr||{};nameFlow(v,function(x){p.name=x;markRow(p)},function(l,x){p.tr[l]=p.tr[l]||{};p.tr[l].name=x},'product name')}
 </script></body></html>
