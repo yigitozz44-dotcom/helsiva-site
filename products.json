@@ -409,7 +409,57 @@
    "price": 62,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {
+    "tr": {
+     "name": "Keten Sauna Şapkası"
+    },
+    "de": {
+     "name": "Saunahut aus Leinen"
+    },
+    "fr": {
+     "name": "Chapeau de sauna en lin"
+    },
+    "es": {
+     "name": "Sombrero de sauna de lino"
+    },
+    "it": {
+     "name": "Cappello da sauna in lino"
+    },
+    "nl": {
+     "name": "Linnen saunahoed"
+    },
+    "pt": {
+     "name": "Chapéu de sauna de linho"
+    },
+    "el": {
+     "name": "Λινό καπέλο σάουνας"
+    },
+    "ru": {
+     "name": "Льняная шапка для сауны"
+    },
+    "ar": {
+     "name": "قبعة ساونا الكتان"
+    },
+    "zh": {
+     "name": "亚麻桑拿帽"
+    },
+    "ja": {
+     "name": "リネンサウナハット"
+    },
+    "ko": {
+     "name": "린넨 사우나 모자"
+    }
+   }
   },
   {
    "id": "men-classic-nordic-sauna-hat",
@@ -419,7 +469,57 @@
    "price": 62,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {
+    "tr": {
+     "name": "Klasik İskandinav Sauna Şapkası"
+    },
+    "de": {
+     "name": "Klassische nordische Saunahut"
+    },
+    "fr": {
+     "name": "Chapeau de sauna nordique classique"
+    },
+    "es": {
+     "name": "Sombrero de sauna nórdico clásico"
+    },
+    "it": {
+     "name": "Cappello da sauna nordica classico"
+    },
+    "nl": {
+     "name": "Klassieke Scandinavische saunahoed"
+    },
+    "pt": {
+     "name": "Chapéu de sauna nórdico clássico"
+    },
+    "el": {
+     "name": "Κλασικό σκανδιναβικό καπέλο σάουνας"
+    },
+    "ru": {
+     "name": "Классическая скандинавская шапка для сауны"
+    },
+    "ar": {
+     "name": "قبعة ساونا شمالية كلاسيكية"
+    },
+    "zh": {
+     "name": "经典北欧桑拿帽"
+    },
+    "ja": {
+     "name": "クラシックなノルディックサウナハット"
+    },
+    "ko": {
+     "name": "북유럽 정통 사우나 모자"
+    }
+   }
   },
   {
    "id": "men-testicular-heat-shield",
