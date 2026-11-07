@@ -1198,6 +1198,65 @@
     "ja": "ƒ{ƒfƒBƒPƒA",
     "ko": "신체의 관리"
    }
+  },
+  {
+   "gender": "Men",
+   "key": "Kits",
+   "label": "Rituals",
+   "custom": false,
+   "tr": {
+    "tr": "Ritueller",
+    "de": "Rituale",
+    "fr": "Rituels",
+    "es": "Rituales",
+    "pt": "Rituais",
+    "el": "noun",
+    "ru": "Ритуалы",
+    "ar": "الشعائر",
+    "zh": "仪式",
+    "ja": "Rituals リチュアルズ　（儀式）",
+    "ko": "의식",
+    "it": "Rituali",
+    "nl": "Rituelen"
+   }
+  },
+  {
+   "gender": "Women",
+   "key": "Kits",
+   "label": "Rituals",
+   "custom": false,
+   "tr": {
+    "tr": "Ritueller",
+    "de": "Rituale",
+    "fr": "Rituels",
+    "es": "Rituales",
+    "pt": "Rituais",
+    "el": "noun",
+    "ru": "Ритуалы",
+    "ar": "الشعائر",
+    "zh": "仪式",
+    "ja": "Rituals リチュアルズ　（儀式）",
+    "ko": "의식"
+   }
+  },
+  {
+   "gender": "Kids",
+   "key": "Kits",
+   "label": "Rituals",
+   "custom": false,
+   "tr": {
+    "tr": "Ritueller",
+    "de": "Rituale",
+    "fr": "Rituels",
+    "es": "Rituales",
+    "pt": "Rituais",
+    "el": "noun",
+    "ru": "Ритуалы",
+    "ar": "الشعائر",
+    "zh": "仪式",
+    "ja": "Rituals リチュアルズ　（儀式）",
+    "ko": "의식"
+   }
   }
  ],
  "legal": {
