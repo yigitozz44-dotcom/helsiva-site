@@ -295,31 +295,101 @@
    "id": "men-wooden-hair-comb",
    "name": "Wooden Hair Comb",
    "gender": "Men",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {
+    "tr": {
+     "name": "Ahşap Saç Tarağı"
+    },
+    "de": {
+     "name": "Holzhaarkamm"
+    },
+    "fr": {
+     "name": "Peigne à cheveux en bois"
+    },
+    "es": {
+     "name": "Peine de madera para el cabello"
+    },
+    "it": {
+     "name": "Pettine per capelli in legno"
+    },
+    "nl": {
+     "name": "Houten haarkam"
+    },
+    "pt": {
+     "name": "Pente de cabelo de madeira"
+    },
+    "el": {
+     "name": "Ξύλινη Χτένα Μαλλιών"
+    },
+    "ru": {
+     "name": "Деревянная расческа для волос"
+    },
+    "ar": {
+     "name": "مشط شعر خشبي"
+    },
+    "zh": {
+     "name": "木制梳子"
+    },
+    "ja": {
+     "name": "木製ヘアコーム"
+    },
+    "ko": {
+     "name": "나무 머리빗"
+    }
+   }
   },
   {
    "id": "men-beard-comb",
    "name": "Beard Comb",
    "gender": "Men",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {}
   },
   {
    "id": "men-scalp-comb",
    "name": "Scalp Comb",
    "gender": "Men",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {}
   },
   {
    "id": "men-premium-wool-sauna-hat",
@@ -719,31 +789,61 @@
    "id": "women-wide-tooth-wooden-hair-comb",
    "name": "Wide-Tooth Wooden Hair Comb",
    "gender": "Women",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {}
   },
   {
    "id": "women-birch-comb",
    "name": "Birch Comb",
    "gender": "Women",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {}
   },
   {
    "id": "women-scalp-comb",
    "name": "Scalp Comb",
    "gender": "Women",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {}
   },
   {
    "id": "women-premium-wool-sauna-hat",
@@ -879,11 +979,21 @@
    "id": "kids-rounded-wooden-wide-tooth-comb",
    "name": "Rounded Wooden Wide-Tooth Comb",
    "gender": "Kids",
-   "category": "Combs",
+   "category": "Hats",
    "price": 36,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "combs",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {}
   },
   {
    "id": "kids-lightweight-soft-sauna-hat",
@@ -1323,16 +1433,13 @@
    "l": "Hats",
    "bg": "#475249",
    "fg": "#F4F1EB",
-   "v": "logo"
-  },
-  {
-   "id": "combs",
-   "t": "Comb",
-   "d": "A wooden comb for after the shower.",
-   "l": "Combs",
-   "bg": "#a69d90",
-   "fg": "#242524",
-   "v": "logo"
+   "v": "logo",
+   "subs": [
+    {
+     "k": "combs",
+     "l": "Combs"
+    }
+   ]
   },
   {
    "id": "intimate",
@@ -1351,21 +1458,6 @@
    "bg": "#2b2d2b",
    "fg": "#F4F1EB",
    "v": "kit"
-  },
-  {
-   "id": "tmvyfwgxb",
-   "t": "Do you have other wishes?",
-   "d": "Please share your idea with us!                 We will do our best for you.",
-   "l": "_wishes",
-   "bg": "#E9E4D9",
-   "fg": "#242524",
-   "v": "logo",
-   "b": "Share",
-   "w": {
-    "t": "",
-    "d": "",
-    "e": ""
-   }
   }
  ]
 }
