@@ -369,7 +369,47 @@
    "images": {},
    "more": {},
    "sizes": [],
-   "tr": {}
+   "tr": {
+    "tr": {
+     "name": "1 sakal tarağı"
+    },
+    "de": {
+     "name": "Bartkamm"
+    },
+    "fr": {
+     "name": "Peigne à barbe"
+    },
+    "es": {
+     "name": "Peine para barba"
+    },
+    "it": {
+     "name": "Pettine da barba"
+    },
+    "nl": {
+     "name": "Baardkam"
+    },
+    "pt": {
+     "name": "Pente de barba"
+    },
+    "el": {
+     "name": "Χτένα γενειάδας"
+    },
+    "ru": {
+     "name": "Расческа для бороды"
+    },
+    "ar": {
+     "name": "مشط اللحية"
+    },
+    "zh": {
+     "name": "胡须梳"
+    },
+    "ja": {
+     "name": "ひげのくし"
+    },
+    "ko": {
+     "name": "수염빗"
+    }
+   }
   },
   {
    "id": "men-scalp-comb",
@@ -389,7 +429,47 @@
    "images": {},
    "more": {},
    "sizes": [],
-   "tr": {}
+   "tr": {
+    "tr": {
+     "name": "Saç Derisi Tarağı"
+    },
+    "de": {
+     "name": "Kopfhautkamm"
+    },
+    "fr": {
+     "name": "Peigne pour le cuir chevelu"
+    },
+    "es": {
+     "name": "Peine para cuero cabelludo"
+    },
+    "it": {
+     "name": "Pettine per cuoio capelluto"
+    },
+    "nl": {
+     "name": "Hoofdhuidkam"
+    },
+    "pt": {
+     "name": "Pente de couro cabeludo"
+    },
+    "el": {
+     "name": "Χτένα τριχωτού της κεφαλής"
+    },
+    "ru": {
+     "name": "Гребень для кожи головы"
+    },
+    "ar": {
+     "name": "مشط فروة الرأس"
+    },
+    "zh": {
+     "name": "头皮梳"
+    },
+    "ja": {
+     "name": "スカルプコーム"
+    },
+    "ko": {
+     "name": "두피 빗"
+    }
+   }
   },
   {
    "id": "men-premium-wool-sauna-hat",
@@ -399,7 +479,57 @@
    "price": 72,
    "visible": true,
    "description": "",
-   "image": ""
+   "image": "",
+   "subgroup": "",
+   "bullets": "",
+   "materials": "",
+   "usage": "",
+   "care": "",
+   "contents": "",
+   "images": {},
+   "more": {},
+   "sizes": [],
+   "tr": {
+    "tr": {
+     "name": "Premium Yün Sauna Şapkası"
+    },
+    "de": {
+     "name": "Premium-Saunahut aus Wolle"
+    },
+    "fr": {
+     "name": "Chapeau de sauna en laine Premium"
+    },
+    "es": {
+     "name": "Sombrero de sauna de lana de primera calidad"
+    },
+    "it": {
+     "name": "Cappello da sauna in lana premium"
+    },
+    "nl": {
+     "name": "Premium wollen saunahoed"
+    },
+    "pt": {
+     "name": "Chapéu de sauna de lã premium"
+    },
+    "el": {
+     "name": "Μάλλινο Καπέλο Σάουνας Premium"
+    },
+    "ru": {
+     "name": "Шерстяная шапка для сауны премиум"
+    },
+    "ar": {
+     "name": "قبعة ساونا من الصوف الفاخر"
+    },
+    "zh": {
+     "name": "高级羊毛桑拿帽"
+    },
+    "ja": {
+     "name": "プレミアムウールサウナハット"
+    },
+    "ko": {
+     "name": "프리미엄 울 사우나 모자"
+    }
+   }
   },
   {
    "id": "men-linen-sauna-hat",
