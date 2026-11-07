@@ -917,7 +917,289 @@
    "deleted": true
   }
  ],
- "categories": [],
+ "categories": [
+  {
+   "gender": "Men",
+   "key": "Oils",
+   "label": "Aromas",
+   "custom": false,
+   "tr": {
+    "tr": "Aromalar",
+    "de": "Aromen",
+    "fr": "Arômes",
+    "it": "Aromi",
+    "nl": "Aroma's",
+    "el": "Αρώματα",
+    "ru": "Ароматы",
+    "ar": "الروائح العطرية",
+    "zh": "香气",
+    "ja": "アロマ",
+    "ko": "아로마"
+   }
+  },
+  {
+   "gender": "Women",
+   "key": "Oils",
+   "label": "Aromas",
+   "custom": false,
+   "tr": {
+    "tr": "Aromalar",
+    "de": "Aromen",
+    "fr": "Arômes",
+    "it": "Aromi",
+    "nl": "Aroma's",
+    "el": "Αρώματα",
+    "ru": "Ароматы",
+    "ar": "الروائح العطرية",
+    "zh": "香气",
+    "ja": "アロマ",
+    "ko": "아로마"
+   }
+  },
+  {
+   "gender": "Men",
+   "key": "Wraps",
+   "label": "Textiles",
+   "custom": false,
+   "tr": {
+    "tr": "Tekstiller",
+    "de": "Textilien",
+    "fr": "Produits textiles",
+    "it": "Materie tessili",
+    "nl": "Textiel",
+    "pt": "Fios",
+    "el": "Υφάνσιμες ύλες",
+    "ru": "Текстиль",
+    "ar": "المنسوجات",
+    "zh": "纺织品",
+    "ja": "テキスタイル（Textiles）",
+    "ko": "직물"
+   }
+  },
+  {
+   "gender": "Women",
+   "key": "Wraps",
+   "label": "Textiles",
+   "custom": false,
+   "tr": {
+    "tr": "Tekstiller",
+    "de": "Textilien",
+    "fr": "Produits textiles",
+    "it": "Materie tessili",
+    "nl": "Textiel",
+    "pt": "Fios",
+    "el": "Υφάνσιμες ύλες",
+    "ru": "Текстиль",
+    "ar": "المنسوجات",
+    "zh": "纺织品",
+    "ja": "テキスタイル（Textiles）",
+    "ko": "직물"
+   }
+  },
+  {
+   "gender": "Kids",
+   "key": "Wraps",
+   "label": "Textiles",
+   "custom": false,
+   "tr": {
+    "tr": "Tekstiller",
+    "de": "Textilien",
+    "fr": "Produits textiles",
+    "it": "Materie tessili",
+    "nl": "Textiel",
+    "pt": "Fios",
+    "el": "Υφάνσιμες ύλες",
+    "ru": "Текстиль",
+    "ar": "المنسوجات",
+    "zh": "纺织品",
+    "ja": "テキスタイル（Textiles）",
+    "ko": "직물"
+   }
+  },
+  {
+   "gender": "Men",
+   "key": "Masks",
+   "label": "Regeneration",
+   "custom": false,
+   "tr": {
+    "tr": "Yenilenme",
+    "fr": "Régénération",
+    "es": "Regeneración",
+    "it": "Taglio preparatorio (alberi)",
+    "pt": "Regeneração",
+    "el": "Αναγέννηση",
+    "ru": "Регенерация",
+    "ar": "تأثير التجديد",
+    "zh": "再生",
+    "ja": "予備伐",
+    "ko": "갱신"
+   }
+  },
+  {
+   "gender": "Women",
+   "key": "Masks",
+   "label": "Regeneration",
+   "custom": false,
+   "tr": {
+    "tr": "Yenilenme",
+    "fr": "Régénération",
+    "es": "Regeneración",
+    "it": "Taglio preparatorio (alberi)",
+    "pt": "Regeneração",
+    "el": "Αναγέννηση",
+    "ru": "Регенерация",
+    "ar": "تأثير التجديد",
+    "zh": "再生",
+    "ja": "予備伐",
+    "ko": "갱신"
+   }
+  },
+  {
+   "gender": "Kids",
+   "key": "Masks",
+   "label": "Regeneration",
+   "custom": false,
+   "tr": {
+    "tr": "Yenilenme",
+    "fr": "Régénération",
+    "es": "Regeneración",
+    "it": "Taglio preparatorio (alberi)",
+    "pt": "Regeneração",
+    "el": "Αναγέννηση",
+    "ru": "Регенерация",
+    "ar": "تأثير التجديد",
+    "zh": "再生",
+    "ja": "予備伐",
+    "ko": "갱신"
+   }
+  },
+  {
+   "gender": "Men",
+   "key": "Hats",
+   "label": "Accessories",
+   "custom": false,
+   "tr": {
+    "tr": "Aksesuarlar",
+    "de": "Zubehör",
+    "fr": "Accessoires",
+    "es": "Accesorios",
+    "it": "Accessori",
+    "nl": "Accessoires",
+    "pt": "Acessórios",
+    "el": "Αξεσουάρ",
+    "ru": "Аксессуары",
+    "ar": "الملحقات",
+    "zh": "配饰",
+    "ja": "アクセサリ",
+    "ko": "액세서리"
+   }
+  },
+  {
+   "gender": "Women",
+   "key": "Hats",
+   "label": "Accessories",
+   "custom": false,
+   "tr": {
+    "tr": "Aksesuarlar",
+    "de": "Zubehör",
+    "fr": "Accessoires",
+    "es": "Accesorios",
+    "it": "Accessori",
+    "nl": "Accessoires",
+    "pt": "Acessórios",
+    "el": "Αξεσουάρ",
+    "ru": "Аксессуары",
+    "ar": "الملحقات",
+    "zh": "配饰",
+    "ja": "アクセサリ",
+    "ko": "액세서리"
+   }
+  },
+  {
+   "gender": "Kids",
+   "key": "Hats",
+   "label": "Accessories",
+   "custom": false,
+   "tr": {
+    "tr": "Aksesuarlar",
+    "de": "Zubehör",
+    "fr": "Accessoires",
+    "es": "Accesorios",
+    "it": "Accessori",
+    "nl": "Accessoires",
+    "pt": "Acessórios",
+    "el": "Αξεσουάρ",
+    "ru": "Аксессуары",
+    "ar": "الملحقات",
+    "zh": "配饰",
+    "ja": "アクセサリ",
+    "ko": "액세서리"
+   }
+  },
+  {
+   "gender": "Men",
+   "key": "Soaps",
+   "label": "Body Care",
+   "custom": false,
+   "tr": {
+    "tr": "Vücut Bakımı",
+    "de": "Körperpflege",
+    "fr": "Soins Corps",
+    "es": "Cuidado del cuerpo",
+    "it": "Cura del corpo",
+    "nl": "Lichaamsverzorging",
+    "pt": "Cuidados Corporais",
+    "el": "περιποίηση σώματος",
+    "ru": "уход за телом",
+    "ar": "العناية بالجسم",
+    "zh": "身体护理",
+    "ja": "ƒ{ƒfƒBƒPƒA",
+    "ko": "신체의 관리"
+   }
+  },
+  {
+   "gender": "Women",
+   "key": "Soaps",
+   "label": "Body Care",
+   "custom": false,
+   "tr": {
+    "tr": "Vücut Bakımı",
+    "de": "Körperpflege",
+    "fr": "Soins Corps",
+    "es": "Cuidado del cuerpo",
+    "it": "Cura del corpo",
+    "nl": "Lichaamsverzorging",
+    "pt": "Cuidados Corporais",
+    "el": "περιποίηση σώματος",
+    "ru": "уход за телом",
+    "ar": "العناية بالجسم",
+    "zh": "身体护理",
+    "ja": "ƒ{ƒfƒBƒPƒA",
+    "ko": "신체의 관리"
+   }
+  },
+  {
+   "gender": "Kids",
+   "key": "Soaps",
+   "label": "Body Care",
+   "custom": false,
+   "tr": {
+    "tr": "Vücut Bakımı",
+    "de": "Körperpflege",
+    "fr": "Soins Corps",
+    "es": "Cuidado del cuerpo",
+    "it": "Cura del corpo",
+    "nl": "Lichaamsverzorging",
+    "pt": "Cuidados Corporais",
+    "el": "περιποίηση σώματος",
+    "ru": "уход за телом",
+    "ar": "العناية بالجسم",
+    "zh": "身体护理",
+    "ja": "ƒ{ƒfƒBƒPƒA",
+    "ko": "신체의 관리"
+   }
+  }
+ ],
  "legal": {
   "company": {
    "brand": "Helsiva",
